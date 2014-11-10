@@ -31,7 +31,19 @@
             position: myLatlng,
             map: map,
             draggable: true
+        })
+
+        var distanceRadius = new google.maps.Circle({
+          map: map,
+          strokeWeight: 1,
+          strokeColor: "#ff0000",
+          fillOpacity: 0.35,
+          fillColor: "#ff0000",
+          strokeColor: "#ff0000",
+          radius: 100
         });
+          distanceRadius.bindTo('center', marker, 'position');
+
       }
 
       google.maps.event.addDomListener(window, 'load', initialize);
