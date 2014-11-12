@@ -72,11 +72,11 @@ d3.json("all.json", function(data) {
           .attr("cy", padding);
 
       // Add a label.
-      marker.append("svg:text")
-          .attr("x", padding + 7)
-          .attr("y", padding)
-          .attr("dy", ".31em")
-          .text(function(d) { return d.key; });
+      // marker.append("svg:text")
+      //     .attr("x", padding + 7)
+      //     .attr("y", padding)
+      //     .attr("dy", ".31em")
+      //     .text(function(d) { return d.key; });
 
       function transform(d) {
         console.log(d);
