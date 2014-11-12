@@ -37,6 +37,10 @@
   </head>
   <body>
     <div id="map"></div>
+                <div id="kills" class="slider-range"></div>
+
+            <input type="text" id="killamount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+
     <script type="text/javascript">
 
 // Create the Google Map…
@@ -114,6 +118,21 @@ d3.json("all.json", function(data) {
   // Bind our overlay to the map…
   overlay.setMap(map);
 });
+
+  $(function() {
+    $( "#kills" ).slider({
+      range: true,
+      min:  0,
+      max: maxKills,
+      values: [ 0, maxKills ],
+      slide: function( event, ui ) {
+        $( "#killamount" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+        filterData("kills", ui.values);
+      }
+    });
+    $( "#killamount" ).val( $( "#kills" ).slider( "values", 0 ) +
+      " - " + $( "#kills" ).slider( "values", 1 ) );
+  });
 
 
     </script>
