@@ -1,0 +1,23 @@
+#map {
+  width: 400px;
+  height: 200px;
+  margin: 0;
+  padding: 0;
+}
+
+.stations, .stations svg {
+  position: absolute;
+}
+
+.stations svg {
+  width: 60px;
+  height: 20px;
+  padding-right: 100px;
+  font: 10px sans-serif;
+}
+
+.stations circle {
+  fill: #F76574;
+  stroke: black;
+  stroke-width: 1.5px;
+}
