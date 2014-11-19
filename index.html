@@ -8,36 +8,48 @@
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
     <style type="text/css">
+      #map {
+        width: 400px;
+        height: 200px;
+        margin: 0;
+        padding: 0;
+      }
 
-#map {
-  width: 400px;
-  height: 200px;
-  margin: 0;
-  padding: 0;
-}
+      .stations, .stations svg {
+        position: absolute;
+      }
 
-.stations, .stations svg {
-  position: absolute;
-}
+      .stations svg {
+        width: 60px;
+        height: 20px;
+        padding-right: 100px;
+        font: 10px sans-serif;
+      }
 
-.stations svg {
-  width: 60px;
-  height: 20px;
-  padding-right: 100px;
-  font: 10px sans-serif;
-}
-
-.stations circle {
-  fill: #F76574;
-  stroke: black;
-  stroke-width: 1.5px;
-}
-
+      .stations circle {
+        fill: #F76574;
+        stroke: black;
+        stroke-width: 1.5px;
+      }
     </style>
   </head>
   <body>
-    <div id="map"></div>
-    <script type="text/javascript" src="script.js"></script>
-
+    <table>
+      <tr>
+        <td>
+          <div id="map"></div>
+          <script type="text/javascript" src="script.js"></script>
+        </td>
+        <td>
+          <!-- Add filters -->
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <!-- Search results -->
+        </td>
+        <td>
+          <!-- Visualization space -->
+        </td>
   </body>
 </html>
