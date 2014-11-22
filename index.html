@@ -44,12 +44,20 @@
           <!-- Add filters -->
           <!-- Search for business -->
           <input type="text" name="Search">
+
+          
           <!-- Business category dropdown -->
           <select>
-            <option value="volvo">Volvo</option
+            <option value="restaurant">Restaurant</option>
           </select>
+
           <!-- Radius slider -->
-          <input type="range" name="miles" id="radiusSlider" value="20" min="0" max="40">
+          <!-- CB added Show All TextBox --> 
+            <div><b>Distance from Marker</b></div>
+            <div id="distanceString"></div>
+            <label><input type="checkbox" checked name="checkbox" id="useDistanceCheckbox">Show All</label><br>
+          <div id="radiusSlider" ></div>
+
         </td>
       </tr>
       <tr>

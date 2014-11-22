@@ -1,3 +1,5 @@
+//GOOGLE MAPS ELEMENTS 
+
 var center = new google.maps.LatLng(43.1035763, -89.3439745);
 var map = new google.maps.Map(d3.select("#map").node(), {
   zoom: 12,
@@ -11,20 +13,23 @@ var marker = new google.maps.Marker({
   draggable:true
 });
 
-        var radius = new google.maps.Circle({
-          map: map,
-          strokeWeight: 1,
-          strokeColor: "#ff0000",
-          fillOpacity: 0.1,
-          fillColor: "#ff0000",
-          strokeColor: "#ff0000",
-          radius: 1500
+//RADIUS OF THE MAP 
+var radius = new google.maps.Circle({
+  map: map,
+  strokeWeight: 1,
+  strokeColor: "#ff0000",
+  fillOpacity: 0.1,
+  fillColor: "#ff0000",
+  strokeColor: "#ff0000",
+  radius: 1500
         });
-          radius.bindTo('center', marker, 'position');
+  radius.bindTo('center', marker, 'position');
 
+var data; // exposed data
 
 // Load the station data. When the data comes back, create an overlay.
-d3.json("all.json", function(data) {
+d3.json("all.json", function(d) {
+  data = d
   var overlay = new google.maps.OverlayView();
 
   // Add the container when the overlay is added to the map.
@@ -59,7 +64,7 @@ d3.json("all.json", function(data) {
       //     .text(function(d) { return d.key; });
 
       function transform(d) {
-        console.log(d);
+        // console.log(d);
         d = new google.maps.LatLng(d.value[0], d.value[1]);
         d = projection.fromLatLngToDivPixel(d);
         return d3.select(this)
@@ -73,17 +78,70 @@ d3.json("all.json", function(data) {
   overlay.setMap(map);
 });
 
+// Data Variables
+var categories = []
+// In the future, this could probably be dynamically computed.
+//var otherCategories = ["Other offenses", "Family offenses", "Embezzlement", "Prostitution", "Runaway", "Sex offenses, non forcible", "Stolen property", "Loitering", "Liquor laws", "Suicide", "Forgery/counterfeiting", "Disorderly conduct",  "Arson", "Suspicious occ" ]
+var resolutions = []
+//var minLat = 90, minLon = 180, maxLat = -90, maxLon = -180;
+
+    //CB changed radiusSlider to be one-sided 
   $(function() {
-    $( "#kills" ).slider({
-      range: true,
+    $( "#radiusSlider" ).slider({
+      //range: true,
       min:  0,
-      max: maxKills,
-      values: [ 0, maxKills ],
+      max: 50,
+      value: 5,
       slide: function( event, ui ) {
-        $( "#killamount" ).val( ui.values[ 0 ] + " - " + ui.values[ 1 ] );
-        filterData("kills", ui.values);
+        distanceThreshold = ui.value;
+        $("#useDistanceCheckbox").prop("checked", false)
+        updateFilter()
       }
     });
-    $( "#killamount" ).val( $( "#kills" ).slider( "values", 0 ) +
-      " - " + $( "#kills" ).slider( "values", 1 ) );
   });
+
+
+
+
+// Filter Functions and Variables
+var MILES_TO_METERS = 1609.34
+var resolutionVal; // what does this do 
+var checkedCategories;
+var markerPos;
+var useDistance;
+var distanceThreshold = 5;
+var distanceThresholdMeters;
+
+
+function filter(d) {  
+  if (useDistance && google.maps.geometry.spherical.computeDistanceBetween(markerPos, new google.maps.LatLng(d.value[0], d.value[1])) > distanceThresholdMeters) {
+    return "none"
+  }
+  return "initial";
+}
+
+function updateFilter() {
+  var incidents = d3.select('.stations').selectAll("svg").data(d3.entries(data))
+
+  markerPos = marker.getPosition()
+  distanceThresholdMeters = MILES_TO_METERS * distanceThreshold;
+  useDistance = ! $("#useDistanceCheckbox").prop("checked")
+
+  $("#distanceString").text((useDistance ? distanceThreshold : "--") + " Miles")
+  // Update Distance Radius
+  radius.setVisible(useDistance)
+  radius.setRadius(distanceThresholdMeters)
+  // Perform Filter
+  incidents.style("display", filter)
+}
+
+google.maps.event.addListener(marker, 'drag', updateFilter);
+
+// Initialize
+updateFilter()
+
+
+
+
+
+
