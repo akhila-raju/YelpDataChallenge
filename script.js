@@ -28,7 +28,7 @@ var radius = new google.maps.Circle({
 var data; // exposed data
 
 // Load the station data. When the data comes back, create an overlay.
-d3.json("all.json", function(d) {
+d3.json("bizMadison.json", function(d) {
   data = d
   var overlay = new google.maps.OverlayView();
 
@@ -64,12 +64,14 @@ d3.json("all.json", function(d) {
       //     .text(function(d) { return d.key; });
 
       function transform(d) {
-        // console.log(d);
-        d = new google.maps.LatLng(d.value[0], d.value[1]);
-        d = projection.fromLatLngToDivPixel(d);
-        return d3.select(this)
-            .style("left", (d.x - padding) + "px")
-            .style("top", (d.y - padding) + "px");
+        if (d.key == '0'){
+          console.log(d);
+        }
+         d = new google.maps.LatLng(d.value['latitude'], d.value['longitude']);
+         d = projection.fromLatLngToDivPixel(d);
+         return d3.select(this)
+             .style("left", (d.x - padding) + "px")
+             .style("top", (d.y - padding) + "px");
       }
     };
   };
@@ -114,7 +116,7 @@ var distanceThresholdMeters;
 
 
 function filter(d) {  
-  if (useDistance && google.maps.geometry.spherical.computeDistanceBetween(markerPos, new google.maps.LatLng(d.value[0], d.value[1])) > distanceThresholdMeters) {
+  if (useDistance && google.maps.geometry.spherical.computeDistanceBetween(markerPos, new google.maps.LatLng(d.value['latitude'], d.value['longitude'])) > distanceThresholdMeters) {
     return "none"
   }
   return "initial";
