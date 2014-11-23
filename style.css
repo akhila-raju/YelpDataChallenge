@@ -21,3 +21,15 @@
   stroke: black;
   stroke-width: 1.5px;
 }
+
+#searchbox {
+  float: left;
+}
+
+#category {
+  float: left;
+}
+
+#distance {
+  float: right;
+}

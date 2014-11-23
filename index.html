@@ -31,6 +31,21 @@
         stroke: black;
         stroke-width: 1.5px;
       }
+
+      #searchbox {
+        float: left;
+        margin: 10px;
+      }
+
+      #category {
+        float: left;
+        margin: 10px;
+      }
+
+      #distance {
+        float: right;
+        margin: 10px;
+      }
     </style>
   </head>
   <body>
@@ -43,20 +58,26 @@
         <td>
           <!-- Add filters -->
           <!-- Search for business -->
-          <input type="text" name="Search">
+          <div id="searchbox">
+            <input type="text" name="Search">
+          </div>
 
           
           <!-- Business category dropdown -->
-          <br><select>
-            <option value="restaurant">Restaurant</option>
-          </select>
+          <div id="category">
+            <select>
+              <option value="restaurant">Restaurant</option>
+            </select>
+          </div>
 
           <!-- Radius slider -->
           <!-- CB added Show All TextBox --> 
-            <div><b>Distance from Marker</b></div>
-            <div id="distanceString"></div>
-            <label><input type="checkbox" checked name="checkbox" id="useDistanceCheckbox">Show All</label><br>
-          <div id="radiusSlider" ></div>
+          <div id="distance">
+            <b>Distance from Marker</b>
+            <div id="distanceString">-- Miles</div>
+            <br><label><input type="checkbox" checked name="checkbox" id="useDistanceCheckbox">Show all businesses</label>
+            <br><br><div id="radiusSlider"></div>
+          </div>
 
         </td>
       </tr>
@@ -66,7 +87,7 @@
         </td>
         <td>
           <!-- Visualization space -->
-          
+
         </td>
   </body>
 </html>
