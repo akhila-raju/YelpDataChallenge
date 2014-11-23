@@ -91,9 +91,10 @@ var resolutions = []
   $(function() {
     $( "#radiusSlider" ).slider({
       //range: true,
-      min:  0,
+      min:  0.5,
       max: 12,
       value: 12,
+      step: .5, //steps every 0.5 miles
       slide: function( event, ui ) {
         distanceThreshold = ui.value;
         $("#useDistanceCheckbox").prop("checked", false)
@@ -108,7 +109,6 @@ var resolutions = []
 // Filter Functions and Variables
 var MILES_TO_METERS = 1609.34
 var resolutionVal; // what does this do 
-var checkedCategories;
 var markerPos;
 var useDistance;
 var distanceThreshold = 12;
@@ -138,6 +138,8 @@ function updateFilter() {
 }
 
 google.maps.event.addListener(marker, 'drag', updateFilter);
+$('body').on("click", "input[type=checkbox]", updateFilter);
+
 
 // Initialize
 updateFilter()
