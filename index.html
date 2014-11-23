@@ -43,8 +43,12 @@
       }
 
       #distance {
-        float: right;
+        float: left;
         margin: 10px;
+      }
+
+      #searchresults {
+        margin-top: 10px;
       }
     </style>
   </head>
@@ -56,7 +60,17 @@
           <script type="text/javascript" src="script.js"></script>
         </td>
         <td>
-          <!-- Add filters -->
+
+          <!-- Radius slider -->
+          <div id="distance">
+            <b>Search by Distance from Marker</b>
+            <br>Drag marker to move.
+            <br><br><label><input type="checkbox" checked name="checkbox" id="useDistanceCheckbox">Show All Businesses</label>
+            <br><br><div id="distanceString">12 Miles</div>
+            <div id="radiusSlider"></div>
+          </div>          
+
+
           <!-- Search for business -->
           <div id="searchbox">
             <b>Search by Keyword</b>
@@ -72,20 +86,14 @@
             </select>
           </div>
 
-          <!-- Radius slider -->
-          <!-- CB added Show All TextBox --> 
-          <div id="distance">
-            <b>Search by Distance from Marker</b>
-            <div id="distanceString">12 Miles</div>
-            <br><br><label><input type="checkbox" checked name="checkbox" id="useDistanceCheckbox">Show All Businesses</label>
-            <br><br><div id="radiusSlider"></div>
-          </div>
-
         </td>
       </tr>
       <tr>
         <td>
+          <div id="searchresults">
           <!-- Search results -->
+            <b>Search Results</b>
+          </div>
         </td>
         <td>
           <!-- Visualization space -->
