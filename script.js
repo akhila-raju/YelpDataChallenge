@@ -2,7 +2,7 @@
 
 var center = new google.maps.LatLng(43.1035763, -89.3439745);
 var map = new google.maps.Map(d3.select("#map").node(), {
-  zoom: 12,
+  zoom: 11,
   center: center,
   mapTypeId: google.maps.MapTypeId.TERRAIN
 });
@@ -92,8 +92,8 @@ var resolutions = []
     $( "#radiusSlider" ).slider({
       //range: true,
       min:  0,
-      max: 50,
-      value: 5,
+      max: 12,
+      value: 12,
       slide: function( event, ui ) {
         distanceThreshold = ui.value;
         $("#useDistanceCheckbox").prop("checked", false)
@@ -111,7 +111,7 @@ var resolutionVal; // what does this do
 var checkedCategories;
 var markerPos;
 var useDistance;
-var distanceThreshold = 5;
+var distanceThreshold = 12;
 var distanceThresholdMeters;
 
 
