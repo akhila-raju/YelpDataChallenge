@@ -103,7 +103,15 @@ var resolutions = []
     });
   });
 
+  $(function() {
+    $( "category" ).
+  })
 
+  for (var key in data) {
+    if (data.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
+        alert(key+': '+data[key]); // this will show each key with it's value
+    }
+  }
 
 
 // Filter Functions and Variables
