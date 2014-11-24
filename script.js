@@ -2,7 +2,7 @@
 
 var center = new google.maps.LatLng(43.1035763, -89.3439745);
 var map = new google.maps.Map(d3.select("#map").node(), {
-  zoom: 11,
+  zoom: 10,
   center: center,
   mapTypeId: google.maps.MapTypeId.TERRAIN
 });
@@ -80,6 +80,15 @@ d3.json("bizMadison.json", function(d) {
   overlay.setMap(map);
 });
 
+d3.json("smallReview.json", function(d) {
+  mainvisdata = d
+  var stars = mainvisdata["vcNAWiLM4dR7D2nwwJ7nCA"][0]["stars"]
+  var time = mainvisdata["vcNAWiLM4dR7D2nwwJ7nCA"][0]["time"]
+  console.log(stars)
+  console.log(time)
+});
+
+
 // Data Variables
 var categories = []
 // In the future, this could probably be dynamically computed.
@@ -102,16 +111,6 @@ var resolutions = []
       }
     });
   });
-
-  $(function() {
-    $( "category" ).
-  })
-
-  for (var key in data) {
-    if (data.hasOwnProperty(key)) { // this will check if key is owned by data object and not by any of it's ancestors
-        alert(key+': '+data[key]); // this will show each key with it's value
-    }
-  }
 
 
 // Filter Functions and Variables
