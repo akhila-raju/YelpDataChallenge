@@ -32,58 +32,81 @@
         stroke-width: 1.5px;
       }
 
+      #searchfilters {
+        margin-left: 10px;
+      }
+
       #searchbox {
         float: left;
         margin: 10px;
+        margin-left: 50px;
       }
 
       #category {
         float: left;
         margin: 10px;
+        margin-left: 50px;
       }
 
       #distance {
         float: left;
         margin: 10px;
+        margin-left: 50px;
       }
 
       #searchresults {
         margin-top: 10px;
       }
+
     </style>
   </head>
   <body>
     <table>
       <tr>
+
         <td>
+
           <div id="map"></div>
+
           <script type="text/javascript" src="script.js"></script>
+
         </td>
+
         <td>
 
-          <!-- Radius slider -->
-          <div id="distance">
-            <b>Search by Distance from Marker</b>
-            <br>Drag marker to move.
-            <br><br><label><input type="checkbox" checked name="checkbox" id="useDistanceCheckbox">Show All Businesses</label>
-            <br><br><div id="distanceString">12 Miles</div>
-            <div id="radiusSlider"></div>
-          </div>          
+          <div id="searchfilters">
+
+            <div><b><i>Search by...</i></b>
+            </div>
+
+            <div id="search">
+
+              <!-- Radius slider -->
+              <div id="distance">
+                <b>Distance from Marker</b>
+                <br>Drag marker to move.
+                <br><br><label><input type="checkbox" checked name="checkbox" id="useDistanceCheckbox">Show All Businesses</label>
+                <br><br><div id="distanceString">12 Miles</div>
+                <div id="radiusSlider"></div>
+              </div>          
 
 
-          <!-- Search for business -->
-          <div id="searchbox">
-            <b>Search by Keyword</b>
-            <br><input type="text" name="Search">
-          </div>
+              <!-- Search for business -->
+              <div id="searchbox">
+                <b>Keyword</b>
+                <br><input type="text" name="Search">
+              </div>
 
-          
-          <!-- Business category dropdown -->
-          <div id="category">
-            <b>Search by Business Category</b>
-            <br><select>
-              <option value="restaurant">Restaurant</option>
-            </select>
+              
+              <!-- Business category dropdown -->
+              <div id="category">
+                <b>Business Category</b>
+                <br><select>
+                  <option value="restaurant">Restaurant</option>
+                </select>
+              </div>
+
+            </div>
           </div>
 
         </td>
