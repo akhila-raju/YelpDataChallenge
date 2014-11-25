@@ -17,7 +17,7 @@
 // var minDate = getDate(mainvisdata["vcNAWiLM4dR7D2nwwJ7nCA"][0]["date"])
 // var maxDate = getDate(mainvisdata["vcNAWiLM4dR7D2nwwJ7nCA"][data.length-1]["date"])
    
-    var data = [{"date":"2012-03-20","total":3},{"date":"2012-03-21","total":8},{"date":"2012-03-22","total":2},{"date":"2012-03-23","total":10},{"date":"2012-03-24","total":3},{"date":"2012-03-25","total":20},{"date":"2012-03-26","total":12}];
+var data = [{"date":"2012-03-20","total":3},{"date":"2012-03-21","total":2},{"date":"2012-03-22","total":4},{"date":"2012-03-23","total":5},{"date":"2012-03-24","total":3},{"date":"2012-03-25","total":4},{"date":"2012-03-26","total":1}];
 
 var margin = {top: 40, right: 40, bottom: 40, left:40},
     width = 600,
@@ -28,14 +28,14 @@ var x = d3.time.scale()
     .rangeRound([0, width - margin.left - margin.right]);
 
 var y = d3.scale.linear()
-    .domain([0, d3.max(data, function(d) { return d.total; })])
+    .domain([0, 5])
     .range([height - margin.top - margin.bottom, 0]);
 
 var xAxis = d3.svg.axis()
     .scale(x)
     .orient('bottom')
     .ticks(d3.time.days, 1)
-    .tickFormat(d3.time.format('%a %d'))
+    .tickFormat(d3.time.format('%b %e %Y'))
     .tickSize(0)
     .tickPadding(8);
 
