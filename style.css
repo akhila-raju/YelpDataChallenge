@@ -1,35 +1,60 @@
-#map {
-  width: 400px;
-  height: 200px;
-  margin: 0;
-  padding: 0;
-}
+      #map {
+        width: 400px;
+        height: 200px;
+        margin: 0;
+        padding: 0;
+      }
 
-.stations, .stations svg {
-  position: absolute;
-}
+      .stations, .stations svg {
+        position: absolute;
+      }
 
-.stations svg {
-  width: 60px;
-  height: 20px;
-  padding-right: 100px;
-  font: 10px sans-serif;
-}
+      .stations svg {
+        width: 60px;
+        height: 20px;
+        padding-right: 100px;
+        font: 10px sans-serif;
+      }
 
-.stations circle {
-  fill: #F76574;
-  stroke: black;
-  stroke-width: 1.5px;
-}
+      .stations circle {
+        fill: #F76574;
+        stroke: black;
+        stroke-width: 1.5px;
+      }
 
-#searchbox {
-  float: left;
-}
+      #searchfilters {
+        margin-left: 10px;
+      }
 
-#category {
-  float: left;
-}
+      #searchbox {
+        float: left;
+        margin: 10px;
+        margin-left: 50px;
+      }
 
-#distance {
-  float: right;
-}
+      #category {
+        float: left;
+        margin: 10px;
+        margin-left: 50px;
+      }
+
+      #distance {
+        float: left;
+        margin: 10px;
+        margin-left: 50px;
+      }
+
+      #searchresults {
+        margin-top: 10px;
+      }
+
+  .chart {
+    font-family: Arial, sans-serif;
+    font-size: 10px;
+  }
+
+  .axis path, .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
