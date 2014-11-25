@@ -31,7 +31,7 @@ var radius = new google.maps.Circle({
 radius.bindTo('center', marker, 'position');
 
 var data;
-
+var myCat = false;
 var MILES_TO_METERS = 1609.34;
 var resolutionVal; // what does this do 
 var markerPos;
@@ -46,6 +46,7 @@ d3.json("bizMadison.json", function(d) {
  	//d here is the entire list of businesses
  	//bind it to the global variable...
  	data = d;
+  var radData = data;
  	var overlay = new google.maps.OverlayView();
  	 // Add the container when the overlay is added to the map.
   	overlay.onAdd = function() {
@@ -100,12 +101,37 @@ $(function() {
 
 function updateMap(){
   distanceThresholdMeters = MILES_TO_METERS * distanceThreshold;
-  useDistance = ! $("#useDistanceCheckbox").prop("checked")
-  vizData = data.filter(function (d){return useDistance && google.maps.geometry.spherical.computeDistanceBetween(center, new google.maps.LatLng(d['latitude'], d['longitude'])) <= distanceThresholdMeters});
-  console.log(vizData.length);
+  useDistance = ! $("#useDistanceCheckbox").prop("checked");
+  //filter data by radius 
+  radData = data.filter(function (d){return useDistance && google.maps.geometry.spherical.computeDistanceBetween(center, new google.maps.LatLng(d['latitude'], d['longitude'])) <= distanceThresholdMeters});
+  radius.setVisible(useDistance);
+  radius.setRadius(distanceThresholdMeters);
+  //console.log(vizData.length);
   $("#distanceString").text((useDistance ? distanceThreshold : "--") + " Miles")
   // Update Distance Radius
+  var circles = layer.selectAll("svg")
+                //bind radius data - how to maintain category?
+                .data(d3.entries(radData))
+                .each(transform);
 
+  circles.exit().remove();
+      // Add a circle.
+  circles.enter().append("svg:svg")
+        .each(transform)
+        .append("svg:circle")
+          .attr("r", 4.5)
+          .attr("cx", padding)
+          .attr("cy", padding);
+  updateCategory(myCat);
+}
+
+function updateCategory(cat){
+  myCat = cat;
+  if (cat == false){
+    vizData = radData;
+  } else{
+  vizData = radData.filter(function (d){return d['categories'].indexOf(cat) != -1})
+}
   var circles = layer.selectAll("svg")
                 .data(d3.entries(vizData))
                 .each(transform);
@@ -113,14 +139,11 @@ function updateMap(){
   circles.exit().remove();
       // Add a circle.
   circles.enter().append("svg:svg")
-  		  .each(transform)
-  		  .append("svg:circle")
+        .each(transform)
+        .append("svg:circle")
           .attr("r", 4.5)
           .attr("cx", padding)
           .attr("cy", padding);
-
-  radius.setVisible(useDistance)
-  radius.setRadius(distanceThresholdMeters)
 }
 
 

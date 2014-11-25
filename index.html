@@ -102,8 +102,9 @@
               <!-- Business category dropdown -->
               <div id="category">
                 <b>Business Category</b>
-                <br><select>
-                  <option value="restaurant">Restaurant</option>
+                <br><select name='Category' onchange='updateCategory(this.value);'>
+                  <option value="Food">Food</option>
+                  <option value="Shopping">Shopping</option>
                 </select>
               </div>
 
