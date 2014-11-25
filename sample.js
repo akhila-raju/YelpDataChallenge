@@ -16,7 +16,7 @@
 //get max and min dates -
 // var minDate = getDate(mainvisdata["vcNAWiLM4dR7D2nwwJ7nCA"][0]["date"])
 // var maxDate = getDate(mainvisdata["vcNAWiLM4dR7D2nwwJ7nCA"][data.length-1]["date"])
-   
+
 var data = [{"date":"2012-03-20","total":3},{"date":"2012-03-21","total":2},{"date":"2012-03-22","total":4},{"date":"2012-03-23","total":5},{"date":"2012-03-24","total":3},{"date":"2012-03-25","total":4},{"date":"2012-03-26","total":1}];
 
 var margin = {top: 40, right: 40, bottom: 40, left:40},
@@ -45,6 +45,7 @@ var yAxis = d3.svg.axis()
     .tickPadding(8)
     .ticks(5);
 
+//Add svg canvas
 var svg = d3.select('body').append('svg')
     .attr('class', 'chart')
     .attr('width', width)
@@ -52,20 +53,21 @@ var svg = d3.select('body').append('svg')
   .append('g')
     .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 
-svg.selectAll('.chart')
+//Add the scatterplot
+svg.selectAll("dot")
     .data(data)
-  .enter().append('rect')
-    .attr('class', 'bar')
-    .attr('x', function(d) { return x(new Date(d.date)); })
-    .attr('y', function(d) { return height - margin.top - margin.bottom - (height - margin.top - margin.bottom - y(d.total)) })
-    .attr('width', 10)
-    .attr('height', function(d) { return height - margin.top - margin.bottom - y(d.total) });
+  .enter().append("circle")
+    .attr("r", 3.5)
+    .attr("cx", function(d) { return x(d.date); })
+    .attr("cy", function(d) { return y(d.total); });
 
+//Add the X axis
 svg.append('g')
     .attr('class', 'x axis')
     .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
     .call(xAxis);
 
+//Add the Y axis
 svg.append('g')
   .attr('class', 'y axis')
   .call(yAxis);
