@@ -53,12 +53,15 @@ var svg = d3.select('body').append('svg')
   .append('g')
     .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 
+//Parse data
+var parseDate = d3.time.format("%Y-%m-%d").parse;
+
 //Add the scatterplot
 svg.selectAll("dot")
     .data(data)
   .enter().append("circle")
     .attr("r", 3.5)
-    .attr("cx", function(d) { return x(d.date); })
+    .attr("cx", function(d) { return x(parseDate(d.date)); })
     .attr("cy", function(d) { return y(d.total); });
 
 //Add the X axis
