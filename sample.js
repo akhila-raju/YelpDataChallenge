@@ -65,6 +65,12 @@ d3.json("smallReview.json", function(d) {
   console.log(time)
 });
 
+function sortByDate(reviews){
+  return reviews.sort(function(a,b){
+      return new Date(a.date) - new Date(b.date);
+  });
+}
+
 //Add the scatterplot
 svg.selectAll("dot")
     .data(data)
