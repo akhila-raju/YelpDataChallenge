@@ -14,8 +14,8 @@
 // }
 
 //get max and min dates -
-var minDate = getDate(mainvisdata["vcNAWiLM4dR7D2nwwJ7nCA"][0]["date"])
-var maxDate = getDate(mainvisdata["vcNAWiLM4dR7D2nwwJ7nCA"][data.length-1]["date"])
+// var minDate = getDate(mainvisdata["vcNAWiLM4dR7D2nwwJ7nCA"][0]["date"])
+// var maxDate = getDate(mainvisdata["vcNAWiLM4dR7D2nwwJ7nCA"][data.length-1]["date"])
    
     var data = [{"date":"2012-03-20","total":3},{"date":"2012-03-21","total":8},{"date":"2012-03-22","total":2},{"date":"2012-03-23","total":10},{"date":"2012-03-24","total":3},{"date":"2012-03-25","total":20},{"date":"2012-03-26","total":12}];
 
