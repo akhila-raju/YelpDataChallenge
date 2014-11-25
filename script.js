@@ -127,7 +127,7 @@ function updateMap(){
 
 function updateCategory(cat){
   myCat = cat;
-  if (cat == false){
+  if (cat == "all" || cat == false){
     vizData = radData;
   } else{
   vizData = radData.filter(function (d){return d['categories'].indexOf(cat) != -1})
