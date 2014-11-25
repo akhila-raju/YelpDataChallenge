@@ -42,7 +42,8 @@ var xAxis = d3.svg.axis()
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient('left')
-    .tickPadding(8);
+    .tickPadding(8)
+    .ticks(5);
 
 var svg = d3.select('body').append('svg')
     .attr('class', 'chart')
