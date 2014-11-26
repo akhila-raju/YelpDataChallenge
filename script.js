@@ -46,6 +46,15 @@ d3.json("bizMadison.json", function(d) {
  	//d here is the entire list of businesses
  	//bind it to the global variable...
  	data = d;
+
+  $(function() {
+    var availableTags = [data[0].name];
+    $( "#tags" ).autocomplete({
+      source: availableTags
+    });
+  });
+
+
   var radData = data;
  	var overlay = new google.maps.OverlayView();
  	 // Add the container when the overlay is added to the map.

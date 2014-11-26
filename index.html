@@ -5,7 +5,9 @@
     <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
     <script type="text/javascript" src="http://mbostock.github.com/d3/d3.js?1.29.1"></script>
 
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+
     <script src="//code.jquery.com/jquery-1.10.2.js"></script>
     <script src="//code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css">
@@ -42,11 +44,10 @@
 
 
               <!-- Search for business -->
-              <div id="searchbox">
-                <b>Keyword</b>
-                <br><input type="text" name="Search">
+              <div class="ui-widget" id="searchbox">
+                <b>Name of Business</b>
+                <br><input id="tags">
               </div>
-
               
               <!-- Business category dropdown -->
               <div id="category">
