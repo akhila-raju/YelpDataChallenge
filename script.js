@@ -66,14 +66,15 @@ d3.json("bizMadison.json", function(d) {
   $(function() {
     availableTags = [];
     for (var i=0; i < data.length; i++) {
-    availableTags.push(data[i].name);
+    if ($.inArray(data[i].name, availableTags) == -1){
+          availableTags.push(data[i].name);
+        }
     }
     $( "#tags" ).autocomplete({
       source: availableTags
     });
-    //console.log($.inArray("Full Compass Systems", availableTags));
-    //console.log(data[0].categories[0]);
 
+    //autocomplete for categories 
     $(function() {
     categoryList = [];
     for (var i=0; i < data.length; i++) {
@@ -85,9 +86,9 @@ d3.json("bizMadison.json", function(d) {
     }
     $( "#categoryTags" ).autocomplete({
       source: categoryList
-    });
-  });
-});
+    });// end autocomplete categories 
+  });// end autocomplete business 
+});// end D3 data load 
 
 
   
