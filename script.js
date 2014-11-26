@@ -61,11 +61,15 @@ d3.json("bizMadison.json", function(d) {
  	data = d;
 
   $(function() {
-    var availableTags = [data[0].name];
+    var availableTags = [];
+    for (var i=0; i < data.length; i++) {
+    availableTags.push(data[i].name);
+    }
     $( "#tags" ).autocomplete({
       source: availableTags
     });
   });
+  
 
 
   radData = data;
