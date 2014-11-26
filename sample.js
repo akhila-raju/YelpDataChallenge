@@ -62,8 +62,10 @@ var svg = d3.select('body').append('svg')
       .data(data)
     .enter().append("circle")
       .attr("r", 3.5)
-      .attr("cx", function(d) { return x(parseDate(sortedData[0]["date"])); })
+      .attr("cx", function(d) { return x(parseDate(mainvisdata.date)); })
       .attr("cy", function(d) { return y(sortedData[0]["stars"]); });
+
+// {"oJUAJ6uqMbFYJjtPjanjRg":[{"votes":{"funny":0,"useful":0,"cool":0},"user_id":"rXiiwnbL7bbmrLpLwL4RtA","review_id":"uM8S9jEymn5M3IPfgksF5g","text":"I visit this Walgreens often since I work in the neighborhood. The employees are always very polite and helpful especially the 2 gentlemen and young woman who work the registers during the evening hours.  (I wish I could remember their names).  Get signed up for their rewards program....there are great deals to be had!","business_id":"oJUAJ6uqMbFYJjtPjanjRg","stars":4,"date":"2013-05-14","type":"review"},{"
 
   //Add the X axis
   svg.append('g')
