@@ -37,6 +37,7 @@ var xAxis = d3.svg.axis()
     .orient('bottom')
     .ticks(d3.time.days, 1)
     .tickFormat(d3.time.format('%b %e %Y'))
+    .tickValues(x.domain())
     .tickSize(0)
     .tickPadding(8);
 var yAxis = d3.svg.axis()
