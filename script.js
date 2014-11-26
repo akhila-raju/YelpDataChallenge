@@ -103,7 +103,7 @@ function updateMap(){
   distanceThresholdMeters = MILES_TO_METERS * distanceThreshold;
   useDistance = ! $("#useDistanceCheckbox").prop("checked");
   //filter data by radius 
-  radData = data.filter(function (d){return useDistance && google.maps.geometry.spherical.computeDistanceBetween(center, new google.maps.LatLng(d['latitude'], d['longitude'])) <= distanceThresholdMeters});
+  radData = data.filter(function (d){return useDistance && google.maps.geometry.spherical.computeDistanceBetween(marker.getPosition(), new google.maps.LatLng(d['latitude'], d['longitude'])) <= distanceThresholdMeters});
   radius.setVisible(useDistance);
   radius.setRadius(distanceThresholdMeters);
   //console.log(vizData.length);
