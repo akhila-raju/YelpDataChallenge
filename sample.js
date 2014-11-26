@@ -19,7 +19,6 @@ var sortedData = sortByDate(mainvisdata["vcNAWiLM4dR7D2nwwJ7nCA"]);
   var maxDate = sortedData[sortedData.length-1]["date"]
   console.log(minDate);
   console.log(maxDate);
-  console.log(parseDate(sortedData[0]["date"]));
   console.log(sortedData[0].stars);
 
 
