@@ -17,13 +17,16 @@ var marker = new google.maps.Marker({
   draggable:true
 });
 
-google.maps.event.addListener(marker, 'dragend', function (event) {
-    var myLat = event.latLng.lat();
-    var myLong = event.latLng.lng();
-    center = marker.getPosition();
-    map.setCenter(center);
-    updateMap();
-});
+// Event Listeners
+google.maps.event.addListener(marker, 'drag', updateMap);
+
+// google.maps.event.addListener(marker, 'dragend', function (event) {
+//     var myLat = event.latLng.lat();
+//     var myLong = event.latLng.lng();
+//     center = marker.getPosition();
+//     map.setCenter(center);
+//     updateMap();
+// });
 
 //initialize radius
 var radius = new google.maps.Circle({
