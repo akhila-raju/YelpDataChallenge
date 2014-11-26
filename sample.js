@@ -6,7 +6,6 @@ function sortByDate(reviews){
 
 // var data = [{"date":"2012-03-20","total":3},{"date":"2012-03-21","total":2},{"date":"2012-03-22","total":4},{"date":"2012-03-23","total":5},{"date":"2012-03-24","total":3},{"date":"2012-03-25","total":4},{"date":"2012-03-26","total":1}];
 
-
 d3.json("smallReview.json", function(d) {
   mainvisdata = d
 
@@ -15,12 +14,8 @@ var parseDate = d3.time.format("%Y-%m-%d").parse;
 
 var sortedData = sortByDate(mainvisdata["vcNAWiLM4dR7D2nwwJ7nCA"]);
 
-  var minDate = sortedData[0]["date"]
-  var maxDate = sortedData[sortedData.length-1]["date"]
-  console.log(minDate);
-  console.log(maxDate);
-  console.log(sortedData[0].stars);
-
+  var minDate = parseDate(sortedData[0]["date"]);
+  var maxDate = parseDate(sortedData[sortedData.length-1]["date"]);
 
   //Set dimensions of canvas and graph
 var margin = {top: 40, right: 40, bottom: 40, left:40},
@@ -31,6 +26,7 @@ var margin = {top: 40, right: 40, bottom: 40, left:40},
 var x = d3.time.scale()
     .domain([minDate, d3.time.day.offset(maxDate, 1)])
     .rangeRound([0, width - margin.left - margin.right]);
+
 var y = d3.scale.linear()
     .domain([0, 5])
     .range([height - margin.top - margin.bottom, 0]);
@@ -59,11 +55,11 @@ var svg = d3.select('body').append('svg')
 
   //Add the scatterplot
   svg.selectAll("dot")
-      .data(data)
+      .data(sortedData)
     .enter().append("circle")
       .attr("r", 3.5)
-      .attr("cx", function(d) { return x(parseDate(mainvisdata.date)); })
-      .attr("cy", function(d) { return y(sortedData[0]["stars"]); });
+      .attr("cx", function(d) { return x(parseDate(d.date)); })
+      .attr("cy", function(d) { return y(d.stars); });
 
 // {"oJUAJ6uqMbFYJjtPjanjRg":[{"votes":{"funny":0,"useful":0,"cool":0},"user_id":"rXiiwnbL7bbmrLpLwL4RtA","review_id":"uM8S9jEymn5M3IPfgksF5g","text":"I visit this Walgreens often since I work in the neighborhood. The employees are always very polite and helpful especially the 2 gentlemen and young woman who work the registers during the evening hours.  (I wish I could remember their names).  Get signed up for their rewards program....there are great deals to be had!","business_id":"oJUAJ6uqMbFYJjtPjanjRg","stars":4,"date":"2013-05-14","type":"review"},{"
 
