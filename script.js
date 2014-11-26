@@ -57,7 +57,8 @@ var radData;
 var categoryList; 
 var availableTags;
 var nameWithAddress = ""; 
-
+var duplicates; 
+var seenSoFar; 
 d3.json("bizMadison.json", function(d) {
  	//d here is the entire list of businesses
  	//bind it to the global variable...
@@ -66,13 +67,26 @@ d3.json("bizMadison.json", function(d) {
   //autocomplete for business names 
   $(function() {
     availableTags = [];
+    seenSoFar = []; 
+    duplicates = []; 
     for (var i=0; i < data.length; i++) {
-    //if ($.inArray(data[i].name, availableTags) == -1){
-          nameWithAddress = data[i].name + ": " + data[i].full_address; 
-          console.log(nameWithAddress);
-          availableTags.push(nameWithAddress);
+      // go through each element and add to seenSoFar . if it hasn't been seen, add it . 
+      //if it has been seen, add name to duplicates
+      if($.inArray(data[i].name, seenSoFar) == -1){
+          seenSoFar.push(data[i].name);
+      }else{
+        nameWithAddress = data[i].name + ": " + data[i].full_address;
+        duplicates.push(data[i].name);
+        availableTags.push(nameWithAddress);
+      }
     }
-    //}
+
+    for (var i=0; i < data.length; i++) {
+      if($.inArray(data[i].name, duplicates) == -1){
+        availableTags.push(data[i].name);
+      }
+    }
+
     $( "#tags" ).autocomplete({
       source: availableTags
     });
