@@ -1,3 +1,5 @@
+var data = [{"date":"2012-03-20","total":3},{"date":"2012-03-21","total":2},{"date":"2012-03-22","total":4},{"date":"2012-03-23","total":5},{"date":"2012-03-24","total":3},{"date":"2012-03-25","total":4},{"date":"2012-03-26","total":1}];
+
 //Set dimensions of canvas and graph
 var margin = {top: 40, right: 40, bottom: 40, left:40},
     width = 600,

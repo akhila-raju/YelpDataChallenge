@@ -1,32 +1,36 @@
-// d3.json("smallReview.json", function(d) {
-//   mainvisdata = d
-//   // var stars = mainvisdata["vcNAWiLM4dR7D2nwwJ7nCA"][0]["stars"]
-//   // var time = mainvisdata["vcNAWiLM4dR7D2nwwJ7nCA"][0]["date"]
-//   // console.log(stars)
-//   // console.log(date)
-//   //plot by date -- sorting algorithm required? 
-//   //format: year-month-day (2013-05-14)
-// });
+function sortByDate(reviews){
+  return reviews.sort(function(a,b){
+      return new Date(a.date) - new Date(b.date);
+  });
+};
 
-// //date helper function
-// function getDate(d) {
-// 	return new Date(d.jsonDate);
-// }
+// var data = [{"date":"2012-03-20","total":3},{"date":"2012-03-21","total":2},{"date":"2012-03-22","total":4},{"date":"2012-03-23","total":5},{"date":"2012-03-24","total":3},{"date":"2012-03-25","total":4},{"date":"2012-03-26","total":1}];
 
-//get max and min dates -
-// var minDate = getDate(mainvisdata["vcNAWiLM4dR7D2nwwJ7nCA"][0]["date"])
-// var maxDate = getDate(mainvisdata["vcNAWiLM4dR7D2nwwJ7nCA"][data.length-1]["date"])
 
-var data = [{"date":"2012-03-20","total":3},{"date":"2012-03-21","total":2},{"date":"2012-03-22","total":4},{"date":"2012-03-23","total":5},{"date":"2012-03-24","total":3},{"date":"2012-03-25","total":4},{"date":"2012-03-26","total":1}];
+d3.json("smallReview.json", function(d) {
+  mainvisdata = d
 
-//Set dimensions of canvas and graph
+//Parse the date
+var parseDate = d3.time.format("%Y-%m-%d").parse;
+
+var sortedData = sortByDate(mainvisdata["vcNAWiLM4dR7D2nwwJ7nCA"]);
+
+  var minDate = sortedData[0]["date"]
+  var maxDate = sortedData[sortedData.length-1]["date"]
+  console.log(minDate);
+  console.log(maxDate);
+  console.log(parseDate(sortedData[0]["date"]));
+  console.log(sortedData[0].stars);
+
+
+  //Set dimensions of canvas and graph
 var margin = {top: 40, right: 40, bottom: 40, left:40},
     width = 600,
     height = 500;
 
 //Set ranges
 var x = d3.time.scale()
-    .domain([new Date(data[0].date), d3.time.day.offset(new Date(data[data.length - 1].date), 1)])
+    .domain([minDate, d3.time.day.offset(maxDate, 1)])
     .rangeRound([0, width - margin.left - margin.right]);
 var y = d3.scale.linear()
     .domain([0, 5])
@@ -54,38 +58,23 @@ var svg = d3.select('body').append('svg')
   .append('g')
     .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 
-//Parse the date
-var parseDate = d3.time.format("%Y-%m-%d").parse;
+  //Add the scatterplot
+  svg.selectAll("dot")
+      .data(data)
+    .enter().append("circle")
+      .attr("r", 3.5)
+      .attr("cx", function(d) { return x(parseDate(sortedData[0]["date"])); })
+      .attr("cy", function(d) { return y(sortedData[0]["stars"]); });
 
-d3.json("smallReview.json", function(d) {
-  mainvisdata = d
-  var stars = mainvisdata["oJUAJ6uqMbFYJjtPjanjRg"][0]["stars"]
-  var time = mainvisdata["oJUAJ6uqMbFYJjtPjanjRg"][0]["date"]
-  console.log(stars)
-  console.log(time)
+  //Add the X axis
+  svg.append('g')
+      .attr('class', 'x axis')
+      .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
+      .call(xAxis);
+
+  //Add the Y axis
+  svg.append('g')
+    .attr('class', 'y axis')
+    .call(yAxis);
 });
 
-function sortByDate(reviews){
-  return reviews.sort(function(a,b){
-      return new Date(a.date) - new Date(b.date);
-  });
-}
-
-//Add the scatterplot
-svg.selectAll("dot")
-    .data(data)
-  .enter().append("circle")
-    .attr("r", 3.5)
-    .attr("cx", function(d) { return x(parseDate(d.date)); })
-    .attr("cy", function(d) { return y(d.total); });
-
-//Add the X axis
-svg.append('g')
-    .attr('class', 'x axis')
-    .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
-    .call(xAxis);
-
-//Add the Y axis
-svg.append('g')
-  .attr('class', 'y axis')
-  .call(yAxis);
