@@ -54,21 +54,42 @@ var layer;
 var padding;
 var projection;
 var radData;
+var categoryList; 
+var availableTags;
 
 d3.json("bizMadison.json", function(d) {
  	//d here is the entire list of businesses
  	//bind it to the global variable...
  	data = d;
 
+  //autocomplete for business names 
   $(function() {
-    var availableTags = [];
+    availableTags = [];
     for (var i=0; i < data.length; i++) {
     availableTags.push(data[i].name);
     }
     $( "#tags" ).autocomplete({
       source: availableTags
     });
+    //console.log($.inArray("Full Compass Systems", availableTags));
+    //console.log(data[0].categories[0]);
+
+    $(function() {
+    categoryList = [];
+    for (var i=0; i < data.length; i++) {
+      for (var j=0; j < data[i].categories.length; j++) {
+        if ($.inArray(data[i].categories[j], categoryList) == -1){
+          categoryList.push(data[i].categories[j]);
+        }
+      }
+    }
+    $( "#categoryTags" ).autocomplete({
+      source: categoryList
+    });
   });
+});
+
+
   
 
 
