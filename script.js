@@ -56,6 +56,7 @@ var projection;
 var radData;
 var categoryList; 
 var availableTags;
+var nameWithAddress = ""; 
 
 d3.json("bizMadison.json", function(d) {
  	//d here is the entire list of businesses
@@ -66,10 +67,12 @@ d3.json("bizMadison.json", function(d) {
   $(function() {
     availableTags = [];
     for (var i=0; i < data.length; i++) {
-    if ($.inArray(data[i].name, availableTags) == -1){
-          availableTags.push(data[i].name);
-        }
+    //if ($.inArray(data[i].name, availableTags) == -1){
+          nameWithAddress = data[i].name + ": " + data[i].full_address; 
+          console.log(nameWithAddress);
+          availableTags.push(nameWithAddress);
     }
+    //}
     $( "#tags" ).autocomplete({
       source: availableTags
     });
