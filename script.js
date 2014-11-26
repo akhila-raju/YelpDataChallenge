@@ -31,7 +31,7 @@ var radius = new google.maps.Circle({
 radius.bindTo('center', marker, 'position');
 
 var data;
-var myCat = false;
+var myCat = 'all';
 var MILES_TO_METERS = 1609.34;
 var resolutionVal; // what does this do 
 var markerPos;
@@ -41,6 +41,7 @@ var distanceThresholdMeters;
 var layer;
 var padding;
 var projection;
+var radData;
 
 d3.json("bizMadison.json", function(d) {
  	//d here is the entire list of businesses
@@ -55,7 +56,7 @@ d3.json("bizMadison.json", function(d) {
   });
 
 
-  var radData = data;
+  radData = data;
  	var overlay = new google.maps.OverlayView();
  	 // Add the container when the overlay is added to the map.
   	overlay.onAdd = function() {
@@ -136,10 +137,10 @@ function updateMap(){
 
 function updateCategory(cat){
   myCat = cat;
-  if (cat == "all" || cat == false){
+  if (cat == 'all'){
     vizData = radData;
   } else{
-  vizData = radData.filter(function (d){return d['categories'].indexOf(cat) != -1})
+   vizData = radData.filter(function (d){return d['categories'].indexOf(cat) != -1})
 }
   var circles = layer.selectAll("svg")
                 .data(d3.entries(vizData))
