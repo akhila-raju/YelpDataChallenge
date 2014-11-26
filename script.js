@@ -19,8 +19,7 @@ var marker = new google.maps.Marker({
 
 // Event Listeners
 google.maps.event.addListener(marker, 'drag', updateMap);
-$('body').on("click", "input[type=checkbox]", updateFilter);
-
+$('body').on("click", "input[type=checkbox]", updateMap);
 
 // google.maps.event.addListener(marker, 'dragend', function (event) {
 //     var myLat = event.latLng.lat();
