@@ -1,14 +1,29 @@
-var data = [{"date":"2012-03-20","total":3},{"date":"2012-03-21","total":2},{"date":"2012-03-22","total":4},{"date":"2012-03-23","total":5},{"date":"2012-03-24","total":3},{"date":"2012-03-25","total":4},{"date":"2012-03-26","total":1}];
+function sortByUseful(reviews){
+  return reviews.sort(function(a,b){
+      return a.votes.useful - b.votes.useful;
+  });
+};
 
-//Set dimensions of canvas and graph
+
+d3.json("smallReview.json", function(d) {
+  mainvisdata = d
+
+
+var sortedData = sortByUseful(mainvisdata["vcNAWiLM4dR7D2nwwJ7nCA"]);
+
+var minUseful = sortedData[0].votes.useful;
+var maxUseful = sortedData[sortedData.length-1].votes.useful;
+
+  //Set dimensions of canvas and graph
 var margin = {top: 40, right: 40, bottom: 40, left:40},
     width = 600,
     height = 500;
 
 //Set ranges
 var x = d3.time.scale()
-    .domain([new Date(data[0].date), d3.time.day.offset(new Date(data[data.length - 1].date), 1)])
+    .domain([minUseful, maxUseful])
     .rangeRound([0, width - margin.left - margin.right]);
+
 var y = d3.scale.linear()
     .domain([0, 5])
     .range([height - margin.top - margin.bottom, 0]);
@@ -17,10 +32,6 @@ var y = d3.scale.linear()
 var xAxis = d3.svg.axis()
     .scale(x)
     .orient('bottom')
-    .ticks(d3.time.days, 1)
-    .tickFormat(d3.time.format('%b %e %Y'))
-    .tickSize(0)
-    .tickPadding(8);
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient('left')
@@ -35,32 +46,24 @@ var svg = d3.select('body').append('svg')
   .append('g')
     .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 
-//Parse the date
-var parseDate = d3.time.format("%Y-%m-%d").parse;
+  //Add the scatterplot
+  svg.selectAll("dot")
+      .data(sortedData)
+    .enter().append("circle")
+      .attr("r", 3.5)
+      .attr("cx", function(d) { return x(d.votes.useful); })
+      .attr("cy", function(d) { return y(d.stars); });
 
-d3.json("smallReview.json", function(d) {
-  mainvisdata = d
-  var stars = mainvisdata["oJUAJ6uqMbFYJjtPjanjRg"][0]["stars"]
-  var time = mainvisdata["oJUAJ6uqMbFYJjtPjanjRg"][0]["date"]
-  console.log(stars)
-  console.log(time)
+
+  //Add the X axis
+  svg.append('g')
+      .attr('class', 'x axis')
+      .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
+      .call(xAxis);
+
+  //Add the Y axis
+  svg.append('g')
+    .attr('class', 'y axis')
+    .call(yAxis);
 });
 
-//Add the scatterplot
-svg.selectAll("dot")
-    .data(data)
-  .enter().append("circle")
-    .attr("r", 3.5)
-    .attr("cx", function(d) { return x(parseDate(d.date)); })
-    .attr("cy", function(d) { return y(d.total); });
-
-//Add the X axis
-svg.append('g')
-    .attr('class', 'x axis')
-    .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
-    .call(xAxis);
-
-//Add the Y axis
-svg.append('g')
-  .attr('class', 'y axis')
-  .call(yAxis);
