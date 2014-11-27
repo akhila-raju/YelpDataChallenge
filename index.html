@@ -59,9 +59,11 @@
                <div class="ui-widget" id="searchbox">
                 <b>Category Type</b>
                 <!-- move marker and pull up graphs for this business -->
-                <br><form action="">
-                  <input id="categoryTags">
-                  <input type="submit">
+                <br><form action = "">
+                  <input type = "text" id="categoryTags">
+                  <!-- get this to submit the form data to the update function -->
+                  <button type="button" onclick="updateCategory(this.categoryTags);">Filter</button>
+
                 </form>
 
               </div>

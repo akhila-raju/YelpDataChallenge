@@ -205,6 +205,7 @@ function update(data){
           .attr("cy", padding);
 }
 
+  radius.setVisible(useDistance);
 function updateCategory(cat){
   myCat = cat;
   if (cat == 'all'){
