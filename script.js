@@ -18,16 +18,11 @@ var marker = new google.maps.Marker({
 });
 
 // Event Listeners
-google.maps.event.addListener(marker, 'drag', updateMap);
-$('body').on("click", "input[type=checkbox]", updateMap);
+google.maps.event.addListener(marker, 'drag', updateRadius);
+google.maps.event.addListener(map, 'zoom_changed', updateRadius);
+$('body').on("click", "input[type=checkbox]", updateRadius);
 
-// google.maps.event.addListener(marker, 'dragend', function (event) {
-//     var myLat = event.latLng.lat();
-//     var myLong = event.latLng.lng();
-//     center = marker.getPosition();
-//     map.setCenter(center);
-//     updateMap();
-// });
+
 
 //initialize radius
 var radius = new google.maps.Circle({
@@ -59,12 +54,21 @@ var availableTags;
 var nameWithAddress = ""; 
 var duplicates; 
 var seenSoFar; 
+
+
 d3.json("bizMadison.json", function(d) {
  	//d here is the entire list of businesses
  	//bind it to the global variable...
  	data = d;
+  radData = d;
+  initAutoComplete();
+ 	initOverlay();
+  initSlider();
+});
 
-  //autocomplete for business names 
+// INIT FUNCTIONS FOR MAP
+function initAutoComplete(){
+   //autocomplete for business names 
   $(function() {
     availableTags = [];
     seenSoFar = []; 
@@ -103,84 +107,92 @@ d3.json("bizMadison.json", function(d) {
     }
     $( "#categoryTags" ).autocomplete({
       source: categoryList
-    });// end autocomplete categories 
-  });// end autocomplete business 
-});// end D3 data load 
-
-
-  
-
-
-  radData = data;
- 	var overlay = new google.maps.OverlayView();
- 	 // Add the container when the overlay is added to the map.
-  	overlay.onAdd = function() {
-    layer = d3.select(this.getPanes().overlayLayer).append("div")
-        .attr("class", "stations");
-   
-    // Draw each marker as a separate SVG element.
-    // We could use a single SVG, but what size would it have?
-    overlay.draw = function() {
-      projection = this.getProjection(),
-          padding = 10;
-
-      var marker = layer.selectAll("svg")
-          .data(d3.entries(data))
-          .each(transform) // update existing markers
-        .enter().append("svg:svg")
-          .each(transform)
-          .attr("class", "marker");
-
-      // Add a circle.
-      marker.append("svg:circle")
-          .attr("r", 4.5)
-          .attr("cx", padding)
-          .attr("cy", padding);
-      }
- };
- 	overlay.setMap(map);
- });
-
-function transform(d) {
-        d = new google.maps.LatLng(d.value['latitude'], d.value['longitude']);
-        d = projection.fromLatLngToDivPixel(d);
-        return d3.select(this)
-            .style("left", (d.x - padding) + "px")
-            .style("top", (d.y - padding) + "px");
+     });// end autocomplete categories 
+    });// end autocomplete business 
+  });// end D3 data load 
 }
 
-$(function() {
-    $( "#radiusSlider" ).slider({
-      //range: true,
-      min:  0.5,
-      max: 12,
-      value: 12,
-      step: .5, //steps every 0.5 miles
-      slide: function( event, ui ) {
-        distanceThreshold = ui.value;
-        $("#useDistanceCheckbox").prop("checked", false)
-        updateMap()
-      }
-    });
+function initOverlay(){
+  var overlay = new google.maps.OverlayView();
+   // Add the container when the overlay is added to the map.
+  overlay.onAdd = function() {
+  layer = d3.select(this.getPanes().overlayLayer).append("div")
+      .attr("class", "stations");
+ 
+  // Draw each marker as a separate SVG element.
+  // We could use a single SVG, but what size would it have?
+  overlay.draw = function() {
+    projection = this.getProjection(),
+        padding = 10;
+
+    var marker = layer.selectAll("svg")
+        .data(d3.entries(data))
+        .each(transform) // update existing markers
+      .enter().append("svg:svg")
+        .each(transform)
+        .attr("class", "marker");
+
+    // Add a circle.
+    marker.append("svg:circle")
+        .attr("r", 4.5)
+        .attr("cx", padding)
+        .attr("cy", padding);
+    }
+};
+  overlay.setMap(map);
+}
+
+function transform(d) {
+    d = new google.maps.LatLng(d.value['latitude'], d.value['longitude']);
+    d = projection.fromLatLngToDivPixel(d);
+    return d3.select(this)
+        .style("left", (d.x - padding) + "px")
+        .style("top", (d.y - padding) + "px");
+}
+
+function initSlider(){
+
+  $(function() {
+      $( "#radiusSlider" ).slider({
+        //range: true,
+        min:  0.5,
+        max: 12,
+        value: 12,
+        step: .5, //steps every 0.5 miles
+        slide: function( event, ui ) {
+          distanceThreshold = ui.value;
+          $("#useDistanceCheckbox").prop("checked", false)
+          updateRadius()
+        }
+      });
   });
+}
+
 
 function toggleAll(){
+  //just testing
   console.log("hi");
 }
 
-function updateMap(){
+function updateRadius(){
   distanceThresholdMeters = MILES_TO_METERS * distanceThreshold;
   useDistance = ! $("#useDistanceCheckbox").prop("checked");
-  //filter data by radius 
-  radData = data.filter(function (d){return useDistance && google.maps.geometry.spherical.computeDistanceBetween(marker.getPosition(), new google.maps.LatLng(d['latitude'], d['longitude'])) <= distanceThresholdMeters});
   radius.setVisible(useDistance);
   radius.setRadius(distanceThresholdMeters);
+  //filter data by radius 
+  radData = data.filter(function (d){return useDistance && google.maps.geometry.spherical.computeDistanceBetween(marker.getPosition(), new google.maps.LatLng(d['latitude'], d['longitude'])) <= distanceThresholdMeters});
   //console.log(vizData.length);
   $("#distanceString").text((useDistance ? distanceThreshold : "--") + " Miles")
   // Update Distance Radius
+  update(radData);
+  updateCategory(myCat); //this needs fixing
+}
+
+function update(data){
+  //updates circles on map to match data argument
   var circles = layer.selectAll("svg")
                 //bind radius data - how to maintain category?
-                .data(d3.entries(radData))
+                .data(d3.entries(data))
                 .each(transform);
 
   circles.exit().remove();
@@ -191,7 +203,6 @@ function updateMap(){
           .attr("r", 4.5)
           .attr("cx", padding)
           .attr("cy", padding);
-  updateCategory(myCat);
 }
 
 function updateCategory(cat){
@@ -201,18 +212,7 @@ function updateCategory(cat){
   } else{
    vizData = radData.filter(function (d){return d['categories'].indexOf(cat) != -1})
 }
-  var circles = layer.selectAll("svg")
-                .data(d3.entries(vizData))
-                .each(transform);
-
-  circles.exit().remove();
-      // Add a circle.
-  circles.enter().append("svg:svg")
-        .each(transform)
-        .append("svg:circle")
-          .attr("r", 4.5)
-          .attr("cx", padding)
-          .attr("cy", padding);
+  update(vizData)
 }
 
 
