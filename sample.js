@@ -4,6 +4,8 @@ function sortByDate(reviews){
   });
 };
 
+// var data = [{"date":"2012-03-20","total":3},{"date":"2012-03-21","total":2},{"date":"2012-03-22","total":4},{"date":"2012-03-23","total":5},{"date":"2012-03-24","total":3},{"date":"2012-03-25","total":4},{"date":"2012-03-26","total":1}];
+
 d3.json("smallReview.json", function(d) {
   mainvisdata = d
 
@@ -59,6 +61,8 @@ var svg = d3.select('body').append('svg')
       .attr("r", 3.5)
       .attr("cx", function(d) { return x(parseDate(d.date)); })
       .attr("cy", function(d) { return y(d.stars); });
+
+// {"oJUAJ6uqMbFYJjtPjanjRg":[{"votes":{"funny":0,"useful":0,"cool":0},"user_id":"rXiiwnbL7bbmrLpLwL4RtA","review_id":"uM8S9jEymn5M3IPfgksF5g","text":"I visit this Walgreens often since I work in the neighborhood. The employees are always very polite and helpful especially the 2 gentlemen and young woman who work the registers during the evening hours.  (I wish I could remember their names).  Get signed up for their rewards program....there are great deals to be had!","business_id":"oJUAJ6uqMbFYJjtPjanjRg","stars":4,"date":"2013-05-14","type":"review"},{"
 
   //Add the X axis
   svg.append('g')

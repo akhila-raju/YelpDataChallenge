@@ -20,7 +20,7 @@ var margin = {top: 40, right: 40, bottom: 40, left:40},
     height = 500;
 
 //Set ranges
-var x = d3.scale.linear()
+var x = d3.time.scale()
     .domain([minUseful, maxUseful])
     .rangeRound([0, width - margin.left - margin.right]);
 
@@ -32,10 +32,10 @@ var y = d3.scale.linear()
 var xAxis = d3.svg.axis()
     .scale(x)
     .orient('bottom')
-    .ticks(maxUseful);
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient('left')
+    .tickPadding(8)
     .ticks(5);
 
 //Add the svg canvas
