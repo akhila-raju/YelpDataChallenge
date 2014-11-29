@@ -22,8 +22,6 @@ google.maps.event.addListener(marker, 'drag', updateRadius);
 google.maps.event.addListener(map, 'zoom_changed', updateRadius);
 $('body').on("click", "input[type=checkbox]", updateRadius);
 
-
-
 //initialize radius
 var radius = new google.maps.Circle({
   map: map,
@@ -143,11 +141,11 @@ function initOverlay(){
 }
 
 function transform(d) {
-    d = new google.maps.LatLng(d.value['latitude'], d.value['longitude']);
-    d = projection.fromLatLngToDivPixel(d);
-    return d3.select(this)
-        .style("left", (d.x - padding) + "px")
-        .style("top", (d.y - padding) + "px");
+  d = new google.maps.LatLng(d.value['latitude'], d.value['longitude']);
+  d = projection.fromLatLngToDivPixel(d);
+  return d3.select(this)
+    .style("left", (d.x - padding) + "px")
+    .style("top", (d.y - padding) + "px");
 }
 
 function initSlider(){
@@ -205,15 +203,14 @@ function update(data){
           .attr("cy", padding);
 }
 
-  radius.setVisible(useDistance);
-function updateCategory(cat){
-  myCat = cat;
-  if (cat == 'all'){
+  radius.setVisible(useDistance); // is this line supposed to be here? - Akhila
+
+function updateCategory(category){
+  myCat = category;
+  if (myCat == 'all'){
     vizData = radData;
   } else{
-   vizData = radData.filter(function (d){return d['categories'].indexOf(cat) != -1})
+   vizData = radData.filter(function (d){return d['categories'].indexOf(myCat) != -1})
 }
   update(vizData)
 }
-
-
