@@ -26,7 +26,13 @@
         margin-left: 10px;
       }
 
-      #searchbox {
+      #businessSearch {
+        float: left;
+        margin: 10px;
+        margin-left: 50px;
+      }
+
+      #categorySearch {
         float: left;
         margin: 10px;
         margin-left: 50px;
