@@ -23,15 +23,6 @@ google.maps.event.addListener(map, 'zoom_changed', updateRadius);
 $('body').on("click", "input[type=checkbox]", updateRadius);
 
 
-$('#businessSearchbox').click(updateMarker());
-
-function updateMarker(){
-  console.log("this function was called!");
-  // var newCenter = new google.maps.LatLng(d.value['latitude'], d.value['longitude']);
-  // marker.position = newCenter; 
-}
-
-
 
 //initialize radius
 var radius = new google.maps.Circle({
@@ -195,11 +186,6 @@ function updateRadius(){
   // Update Distance Radius
   update(radData);
   updateCategory(myCat); //this needs fixing
-}
-
-//updates position of marker 
-function updateMarker(){
-
 }
 
 function update(data){
