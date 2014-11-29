@@ -33,7 +33,6 @@ var xAxis = d3.svg.axis()
     .scale(x)
     .orient('bottom')
     .ticks(maxUseful);
-
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient('left')
@@ -46,8 +45,6 @@ var svg = d3.select('body').append('svg')
     .attr('height', height)
   .append('g')
     .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
-
-
 
   //Add the scatterplot
   svg.selectAll("dot")
@@ -68,23 +65,5 @@ var svg = d3.select('body').append('svg')
   svg.append('g')
     .attr('class', 'y axis')
     .call(yAxis);
-
-    // Add an x-axis label.
-svg.append("text")
-    .attr("class", "x label")
-    .attr("text-anchor", "end")
-    .attr("x", width)
-    .attr("y", height - 6)
-    .text("Number of Useful Reviews");
-
-// Add a y-axis label.
-svg.append("text")
-    .attr("class", "y label")
-    .attr("text-anchor", "end")
-    .attr("y", 6)
-    .attr("dy", ".75em")
-    .attr("transform", "rotate(-90)")
-    .text("Number of Stars");
-
 });
 
