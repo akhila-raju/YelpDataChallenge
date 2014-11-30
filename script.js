@@ -65,6 +65,14 @@ d3.json("bizMadison.json", function(d) {
   initSlider();
 });
 
+count = function(ary, classifier) {
+    return ary.reduce(function(counter, item) {
+        var p = (classifier || String)(item);
+        counter[p] = counter.hasOwnProperty(p) ? counter[p] + 1 : 1;
+        return counter;
+    }, {})
+}
+
 // INIT FUNCTIONS FOR MAP
 function initAutoComplete(){
    //autocomplete for business names 
