@@ -48,7 +48,7 @@
                 <b>Name of Business</b>
                 <!-- move marker and pull up graphs for this business -->
                 <br><form action="">
-                  <input id="businessTags">
+                  <input type="text" id="businessTags">
                   <button type="button" onclick="updateMarker();">Search</button>
                 </form>
 
@@ -58,7 +58,7 @@
                <div class="ui-widget" id="categorySearch">
                 <b>Category Type</b>
                 <br><form action = "">
-                  <input type = "text" id="categoryTags">
+                  <input type = "text" id="categoryTags" value="All">
                   <!-- get this to submit the form data to the update function -->
                   <button type="button" onclick="updateCategory();">Filter</button>
 

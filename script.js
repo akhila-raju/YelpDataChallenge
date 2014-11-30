@@ -47,6 +47,7 @@ var layer;
 var padding;
 var projection;
 var radData;
+var markerData;
 var categoryList; 
 var availableTags;
 var nameWithAddress = ""; 
@@ -59,6 +60,7 @@ d3.json("bizMadison.json", function(d) {
  	//bind it to the global variable...
  	data = d;
   radData = d;
+  markerData = d;
   initAutoComplete();
  	initOverlay();
   initSlider();
@@ -211,7 +213,7 @@ function update(d){
 //this doesn't filter - Akhila
 function updateCategory(){
   myCat = document.getElementById("categoryTags").value;
-  if (myCat == 'all'){
+  if (myCat == 'All'){
     vizData = radData;
   } else{
    vizData = radData.filter(function (d){return d['categories'].indexOf(myCat) != -1})
@@ -223,11 +225,13 @@ function updateCategory(){
 function updateMarker() {
   myBus = document.getElementById("businessTags").value;
   console.log(myBus)
-  latitude = data.filter(function(d){return d.name == myBus}).latitude
-  longitude = data.filter(function(d){return d.name == myBus}).longtitude
+  latitude = markerData.filter(function(d){return d.name == myBus})[0]['latitude']
+  longitude = markerData.filter(function(d){return d.name == myBus})[0]['longitude']
   console.log (latitude, longitude)
   latlng = new google.maps.LatLng(latitude, longitude);
   marker.setPosition(latlng);
+  update(markerData)
+  updateRadius()
 }
 
 
