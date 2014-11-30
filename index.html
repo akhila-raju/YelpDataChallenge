@@ -49,20 +49,18 @@
                 <!-- move marker and pull up graphs for this business -->
                 <br><form action="">
                   <input id="businessTags">
-                  <button type="button" onclick="updateCategory(this.businessTags);">Filter</button>
+                  <button type="button" onclick="updateMarker();">Search</button>
                 </form>
 
               </div>
               
-              <!-- Business category dropdown -->
-
+              <!-- Filter by business category -->
                <div class="ui-widget" id="categorySearch">
                 <b>Category Type</b>
-                <!-- move marker and pull up graphs for this business -->
                 <br><form action = "">
                   <input type = "text" id="categoryTags">
                   <!-- get this to submit the form data to the update function -->
-                  <button type="button" onclick="updateCategory(this.categoryTags);">Filter</button>
+                  <button type="button" onclick="updateCategory();">Filter</button>
 
                 </form>
 

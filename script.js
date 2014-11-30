@@ -39,7 +39,7 @@ var data;
 var myCat = 'all';
 var MILES_TO_METERS = 1609.34;
 var resolutionVal; // what does this do 
-var markerPos;
+var markerPos; // this isn't used anywhere
 var useDistance;
 var distanceThreshold = 12;
 var distanceThresholdMeters;
@@ -208,8 +208,9 @@ function update(d){
 
   radius.setVisible(useDistance); // is this line supposed to be here? - Akhila
 
-function updateCategory(category){
-  myCat = category;
+//this doesn't filter - Akhila
+function updateCategory(){
+  myCat = document.getElementById("categoryTags").value;
   if (myCat == 'all'){
     vizData = radData;
   } else{
@@ -217,6 +218,18 @@ function updateCategory(category){
 }
   update(vizData)
 }
+
+
+function updateMarker() {
+  myBus = document.getElementById("businessTags").value);
+  console.log(myBus)
+  latitude = data.filter(function(d){return d.name == myBus}).latitude
+  longitude = data.filter(function(d){return d.name == myBus}).longtitude
+  console.log (latitude, longitude)
+  latlng = new google.maps.LatLng(latitude, longitude);
+  marker.setPosition(latlng);
+}
+
 
 function viz(cat){
   bizData = data.filter(function(d){return d['categories'].indexOf(cat) != -1})
