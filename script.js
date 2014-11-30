@@ -30,7 +30,6 @@ var radius = new google.maps.Circle({
   fillOpacity: 0.1,
   fillColor: "#ff0000",
   strokeColor: "#ff0000",
-  radius: 1500
  });
 
 radius.bindTo('center', marker, 'position');
