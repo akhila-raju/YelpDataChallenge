@@ -221,7 +221,7 @@ function updateCategory(){
 
 
 function updateMarker() {
-  myBus = document.getElementById("businessTags").value);
+  myBus = document.getElementById("businessTags").value;
   console.log(myBus)
   latitude = data.filter(function(d){return d.name == myBus}).latitude
   longitude = data.filter(function(d){return d.name == myBus}).longtitude
