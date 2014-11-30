@@ -218,6 +218,10 @@ function updateCategory(category){
   update(vizData)
 }
 
+function jitter(d){
+  return d + (Math.random() * (0.25 - 0) + 0.25);
+}
+
 function viz(cat){
   bizData = data.filter(function(d){return d['categories'].indexOf(cat) != -1})
 
@@ -267,7 +271,7 @@ var svg = d3.select('body').append('svg')
     .enter().append("circle")
       .attr("r", 2.5)
       .attr("cx", function(d) { return x(d.review_count); })
-      .attr("cy", function(d) { return y(d.stars); });
+      .attr("cy", function(d) { return y(jitter(d.stars)); });
 
   //Add the X axis
   svg.append('g')
