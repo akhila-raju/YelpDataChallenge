@@ -132,7 +132,7 @@ function initOverlay(){
 
     // Add a circle.
     marker.append("svg:circle")
-        .attr("r", 4.5)
+        .attr("r", 2)
         .attr("cx", padding)
         .attr("cy", padding);
     }
@@ -201,7 +201,7 @@ function update(d){
   circles.enter().append("svg:svg")
         .each(transform)
         .append("svg:circle")
-          .attr("r", 4.5)
+          .attr("r", 2)
           .attr("cx", padding)
           .attr("cy", padding);
 }
