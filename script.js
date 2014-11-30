@@ -89,7 +89,7 @@ function initAutoComplete(){
       }
     }
 
-    $( "#tags" ).autocomplete({
+    $( "#businessTags" ).autocomplete({
       source: availableTags
     });
 
