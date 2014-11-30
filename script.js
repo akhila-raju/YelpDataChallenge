@@ -220,10 +220,13 @@ function updateCategory(){
   update(vizData)
 }
 
-
+// updates marker position after searching for business - Akhila
 function updateMarker() {
   myBus = document.getElementById("businessTags").value;
   console.log(myBus)
+  if (! (myBus.indexOf(':') === -1)) { // handles duplicates
+    myBus = myBus.substring(0, myBus.indexOf(":"));
+  }
   latitude = markerData.filter(function(d){return d.name == myBus})[0]['latitude']
   longitude = markerData.filter(function(d){return d.name == myBus})[0]['longitude']
   console.log (latitude, longitude)
