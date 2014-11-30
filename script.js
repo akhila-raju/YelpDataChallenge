@@ -182,7 +182,7 @@ function updateRadius(){
   //filter data by radius 
   radData = data.filter(function (d){return useDistance && google.maps.geometry.spherical.computeDistanceBetween(marker.getPosition(), new google.maps.LatLng(d['latitude'], d['longitude'])) <= distanceThresholdMeters});
   //console.log(vizData.length);
-  $("#distanceString").text((useDistance ? distanceThreshold : "--") + " Miles")
+  $("#distanceString").text((useDistance ? distanceThreshold : "12") + " Miles")
   // Update Distance Radius
   update(radData);
   updateCategory(myCat); //this needs fixing
@@ -232,6 +232,7 @@ function updateMarker() {
   marker.setPosition(latlng);
   update(markerData)
   updateRadius()
+  update(radData);
 }
 
 
