@@ -186,11 +186,14 @@ function updateRadius(){
   updateCategory(myCat); //this needs fixing
 }
 
-function update(data){
+function update(d){
+  if (d == false){
+    d = data;
+  }
   //updates circles on map to match data argument
   var circles = layer.selectAll("svg")
                 //bind radius data - how to maintain category?
-                .data(d3.entries(data))
+                .data(d3.entries(d))
                 .each(transform);
 
   circles.exit().remove();
