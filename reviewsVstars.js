@@ -5,7 +5,7 @@ function sortByDate(reviews){
 };
 
 d3.json("bizMadison.json", function(d) {
-  bizData = d.filter(function(d){return d['categories'].indexOf("Pizza") != -1})
+  bizData = d.filter(function(d){return d['categories'].indexOf("Bars") != -1})
 
   bizData = bizData.sort(function(a,b){return a.review_count-b.review_count});
 
