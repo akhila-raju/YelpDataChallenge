@@ -64,3 +64,44 @@
     stroke: #000;
     shape-rendering: crispEdges;
   }
+
+  body {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.dot {
+  stroke: #000;
+  stroke-opacity: .7;
+  fill-opacity: .7;
+}
+
+#controls {
+  font-size: 14px;
+  position: absolute;
+  top: 120px;
+  left: 810px;
+}
+
+input {
+  margin: 4px 4px 0;
+}
+
+      div.tooltip { 
+        position: absolute;     
+        text-align: center;     
+        width: 50px;          
+        height: 12px;         
+        padding: 2px;       
+        font: 9px sans-serif;   
+        background: lightsteelblue; 
+        border: 0px;    
+        border-radius: 8px;     
+        pointer-events: none;     
+    }

@@ -253,11 +253,16 @@ function viz(cat){
 
   var min = bizData[0].review_count;
   var max = bizData[bizData.length-1].review_count;
+  var xVar = "review_count",
+      yVar = "stars";
 
   //Set dimensions of canvas and graph
   var margin = {top: 40, right: 40, bottom: 40, left:40},
       width = 400,
-      height = 400;
+      height = 400,
+      padding = 1, // separation between nodes
+    radius = 4;
+
 
 //Set ranges
 var x = d3.scale.linear()
@@ -281,6 +286,12 @@ var yAxis = d3.svg.axis()
     .tickPadding(8)
     .ticks(5);
 
+      // Define the div for the tooltip
+      var div = d3.select("body").append("div") 
+          .attr("class", "tooltip")       
+          .style("opacity", 0);
+
+
 //Add the svg canvas
 var svg = d3.select('body').append('svg')
     .attr('class', 'chart')
@@ -289,13 +300,34 @@ var svg = d3.select('body').append('svg')
   .append('g')
     .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 
-  //Add the scatterplot
-  svg.selectAll("dot")
-      .data(bizData)
-    .enter().append("circle")
-      .attr("r", 2.5)
-      .attr("cx", function(d) { return x(d.review_count); })
-      .attr("cy", function(d) { return y(d.stars); });
+var controls = d3.select("body").append("label")
+    .attr("id", "controls");
+var checkbox = controls.append("input")
+    .attr("id", "collisiondetection")
+    .attr("type", "checkbox");
+controls.append("span")
+    .text("Collision detection");
+
+
+
+  var force = d3.layout.force()
+    .nodes(bizData)
+    .size([width, height])
+    .on("tick", tick)
+    .charge(-1)
+    .gravity(0);
+    // .chargeDistance(1); throwing an error
+
+  x.domain(d3.extent(bizData, function(d) { return d[xVar]; })).nice();
+  y.domain(d3.extent(bizData, function(d) { return d[yVar]; })).nice();
+
+  // Set initial positions
+  bizData.forEach(function(d) {
+    d.x = x(d[xVar]);
+    d.y = y(d[yVar]);
+    // d.color = color(d.species);
+    d.radius = radius;
+  });
 
   //Add the X axis
   svg.append('g')
@@ -308,20 +340,94 @@ var svg = d3.select('body').append('svg')
     .attr('class', 'y axis')
     .call(yAxis);
 
-// Add an x-axis label.
-svg.append("text")
-    .attr("class", "x label")
-    .attr("text-anchor", "end")
-    .attr("x", width)
-    .attr("y", height - 6)
-    .text("Number of Reviews");
+  var node = svg.selectAll(".dot")
+      .data(bizData)
+    .enter().append("circle")
+      .attr("class", "dot")
+      .attr("r", radius)
+      .attr("cx", function(d) { return x(d[xVar]); })
+      .attr("cy", function(d) { return y(d[yVar]); })
+      .on("mouseover", function(d) {   
+                        div.transition()    
+                            .duration(200)    
+                            .style("opacity", .9);    
+                        div .html("[" + d[0] + ", "  + d[1] + "]")  // tool tip message 
+                            .style("left", (d3.event.pageX) + "px")   
+                            .style("top", (d3.event.pageY - 28) + "px");  
+                        })          
+                    .on("mouseout", function(d) {   
+                        div.transition()    
+                            .duration(500)    
+                            .style("opacity", 0); 
+                    });
 
-// Add a y-axis label.
-svg.append("text")
-    .attr("class", "y label")
-    .attr("text-anchor", "end")
-    .attr("y", 6)
-    .attr("dy", ".75em")
-    .attr("transform", "rotate(-90)")
-    .text("Average Rating (Stars)");
+  // var legend = svg.selectAll(".legend")
+  //     .data(color.domain())
+  //   .enter().append("g")
+  //     .attr("class", "legend")
+  //     .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  // legend.append("rect")
+  //     .attr("x", width - 18)
+  //     .attr("width", 18)
+  //     .attr("height", 18)
+  //     .style("fill", color);
+
+  // legend.append("text")
+  //     .attr("x", width - 24)
+  //     .attr("y", 9)
+  //     .attr("dy", ".35em")
+  //     .style("text-anchor", "end")
+  //     .text(function(d) { return d; });
+
+  d3.select("#collisiondetection").on("change", function() {
+    force.resume();
+  });
+
+    force.start();
+
+  function tick(e) {
+    node.each(moveTowardDataPosition(e.alpha));
+
+    if (checkbox.node().checked) node.each(collide(e.alpha));
+
+    node.attr("cx", function(d) { return d.x; })
+        .attr("cy", function(d) { return d.y; });
+  }
+
+  function moveTowardDataPosition(alpha) {
+    return function(d) {
+      d.x += (x(d[xVar]) - d.x) * 0.1 * alpha;
+      d.y += (y(d[yVar]) - d.y) * 0.1 * alpha;
+    };
+  }
+
+  // Resolve collisions between nodes.
+  function collide(alpha) {
+    var quadtree = d3.geom.quadtree(bizData);
+    return function(d) {
+      var r = d.radius + radius + padding,
+          nx1 = d.x - r,
+          nx2 = d.x + r,
+          ny1 = d.y - r,
+          ny2 = d.y + r;
+      quadtree.visit(function(quad, x1, y1, x2, y2) {
+        if (quad.point && (quad.point !== d)) {
+          var x = d.x - quad.point.x,
+              y = d.y - quad.point.y,
+              l = Math.sqrt(x * x + y * y);
+              // r = d.radius + quad.point.radius + (d.color !== quad.point.color) * padding;
+          if (l < r) {
+            l = (l - r) / l * alpha;
+            d.x -= x *= l;
+            d.y -= y *= l;
+            quad.point.x += x;
+            quad.point.y += y;
+          }
+        }
+        return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+      });
+    };
+  }
+
 }
