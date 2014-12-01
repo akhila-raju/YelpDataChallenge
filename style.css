@@ -50,7 +50,7 @@
         margin-left: 50px;
       }
 
-      #searchresults {
+      #visualizationspace {
         margin-top: 10px;
       }
 
@@ -65,7 +65,10 @@
     shape-rendering: crispEdges;
   }
 
-  body {
+
+# CSS FOR VISUALIZATION - Akhila
+
+body {
   font: 10px sans-serif;
 }
 

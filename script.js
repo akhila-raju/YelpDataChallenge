@@ -119,6 +119,7 @@ function initAutoComplete(){
   });// end D3 data load 
 }
 
+// Overlay used for adding circles on google map element
 function initOverlay(){
   var overlay = new google.maps.OverlayView();
    // Add the container when the overlay is added to the map.
@@ -181,6 +182,7 @@ function toggleAll(){
   console.log("hi");
 }
 
+// shows circles in radius defined by user
 function updateRadius(){
   distanceThresholdMeters = MILES_TO_METERS * distanceThreshold;
   useDistance = ! $("#useDistanceCheckbox").prop("checked");
@@ -245,7 +247,7 @@ function updateMarker() {
   update(radData);
 }
 
-
+// added from force.html -- Akhila
 function viz(cat){
   bizData = data.filter(function(d){return d['categories'].indexOf(cat) != -1})
 
@@ -308,6 +310,7 @@ var checkbox = controls.append("input")
 controls.append("span")
     .text("Collision detection");
 
+  // Force for dots
   var force = d3.layout.force()
     .nodes(bizData)
     .size([width, height])
@@ -338,6 +341,7 @@ controls.append("span")
     .attr('class', 'y axis')
     .call(yAxis);
 
+  // Add dots
   var node = svg.selectAll(".dot")
       .data(bizData)
     .enter().append("circle")
