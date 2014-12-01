@@ -308,13 +308,11 @@ var checkbox = controls.append("input")
 controls.append("span")
     .text("Collision detection");
 
-
-
   var force = d3.layout.force()
     .nodes(bizData)
     .size([width, height])
     .on("tick", tick)
-    .charge(-1)
+    .charge(-0.01)
     .gravity(0);
     // .chargeDistance(1); throwing an error
 
@@ -360,25 +358,6 @@ controls.append("span")
                             .duration(500)    
                             .style("opacity", 0); 
                     });
-
-  // var legend = svg.selectAll(".legend")
-  //     .data(color.domain())
-  //   .enter().append("g")
-  //     .attr("class", "legend")
-  //     .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-
-  // legend.append("rect")
-  //     .attr("x", width - 18)
-  //     .attr("width", 18)
-  //     .attr("height", 18)
-  //     .style("fill", color);
-
-  // legend.append("text")
-  //     .attr("x", width - 24)
-  //     .attr("y", 9)
-  //     .attr("dy", ".35em")
-  //     .style("text-anchor", "end")
-  //     .text(function(d) { return d; });
 
   d3.select("#collisiondetection").on("change", function() {
     force.resume();
