@@ -217,7 +217,7 @@ function update(d){
 
   radius.setVisible(useDistance); // is this line supposed to be here? - Akhila
 
-//this doesn't filter - Akhila
+//this doesn't filter - Akhila - fixed
 function updateCategory(){
   myCat = document.getElementById("categoryTags").value;
   if (myCat == 'All'){
