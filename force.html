@@ -123,7 +123,7 @@ controls.append("span")
     .on("tick", tick)
     .charge(-1)
     .gravity(0)
-    .chargeDistance(20);
+    .chargeDistance(1);
 
   x.domain(d3.extent(bizData, function(d) { return d[xVar]; })).nice();
   y.domain(d3.extent(bizData, function(d) { return d[yVar]; })).nice();
