@@ -337,7 +337,7 @@ controls.append("span")
                         div.transition()    
                             .duration(200)    
                             .style("opacity", .9);    
-                        div .html("[" + d[0] + ", "  + d[1] + "]")  // tool tip message 
+                        div .html(d.name)  // tool tip message 
                             .style("left", (d3.event.pageX) + "px")   
                             .style("top", (d3.event.pageY - 28) + "px");  
                         })          
