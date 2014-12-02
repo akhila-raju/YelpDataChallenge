@@ -47,7 +47,7 @@ var padding;
 var projection;
 var radData;
 var markerData;
-var categoryList; 
+var categoryList = []; 
 var availableTags = [];
 var nameWithAddress = ""; 
 var duplicates = []; 
@@ -93,21 +93,17 @@ function initAutoComplete(){
   $( "#businessTags" ).autocomplete({
       source: availableTags
     });
-    
-    //autocomplete for categories 
-  $(function() {
-    categoryList = [];
-    for (var i=0; i < data.length; i++) {
-      for (var j=0; j < data[i].categories.length; j++) {
-        if ($.inArray(data[i].categories[j], categoryList) == -1){
+  //autocomplete for categories
+  for (var i=0; i < data.length; i++) {
+    for (var j=0; j < data[i].categories.length; j++) {
+      if ($.inArray(data[i].categories[j], categoryList) == -1){
           categoryList.push(data[i].categories[j]);
         }
       }
     }
-    $( "#categoryTags" ).autocomplete({
+  $( "#categoryTags" ).autocomplete({
       source: categoryList
-     });// end autocomplete categories 
-    });// end autocomplete business
+    });// end autocomplete categories 
 }
 
 // Overlay used for adding circles on google map element
