@@ -99,13 +99,11 @@ input {
 
       div.tooltip { 
         position: absolute;     
-        text-align: center;     
-        width: 50px;          
+        text-align: left;     
+        width: 150px;          
         height: 12px;         
-        padding: 2px;       
+        padding: 1px;       
         font: 9px sans-serif;   
-        /*background: lightsteelblue; */
-        border: 0px;    
-        border-radius: 8px;     
+        background: lightsteelblue; 
         pointer-events: none;     
     }
