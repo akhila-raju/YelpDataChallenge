@@ -65,6 +65,8 @@ body {
 
 #sidebar {
   font: 12px sans-serif;
+  float: left;
+  height:100vh;
 }
 
 #searchbytext {
@@ -129,4 +131,10 @@ margin-right: auto !important;
 
 #mapdragtext {
   text-align: right;
+}
+
+#vizspace {
+  display: block;
+  float:left;
+  height:100vh;
 }
