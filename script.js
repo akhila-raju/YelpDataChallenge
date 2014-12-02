@@ -272,10 +272,10 @@ var yAxis = d3.svg.axis()
     .tickPadding(8)
     .ticks(5);
 
-      // Define the div for the tooltip
-      var div = d3.select("body").append("div") 
-          .attr("class", "tooltip")       
-          .style("opacity", 0);
+// Define the div for the tooltip
+var div = d3.select("body").append("div") 
+    .attr("class", "tooltip")       
+    .style("opacity", 0);
 
 
 //Add the svg canvas
