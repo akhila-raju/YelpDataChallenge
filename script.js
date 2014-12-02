@@ -65,6 +65,7 @@ d3.json("bizMadison.json", function(d) {
   initAutoComplete();
  	initOverlay();
   initSlider();
+  smallMultiples();
 });
 
 count = function(ary, classifier) {
@@ -408,6 +409,7 @@ var intersection = function(array1, array2){
 
 function smallMultiples(){
   myBus = document.getElementById("businessTags").value;
+  myBus = "Chaser's Bar and Grille" //testing - Jimmy
   if (! (myBus.indexOf(':') === -1)) { // handles duplicates
     myBus = myBus.substring(0, myBus.indexOf(":"));
   }
@@ -463,7 +465,9 @@ function smallMultiples(){
       .enter().append("circle")
         .attr("r", 2.5)
         .attr("cx", function(d) { return x(d[xVar]); })
-        .attr("cy", function(d) { return y(d[yVar]); });
+        .attr("cy", function(d) { return y(d[yVar]); })
+        .style("fill", function(d) {return d.business_id==myData.business_id?"red":"steelblue";})
+        .style("opacity", function(d) {return d.business_id==myData.business_id?1:0.5;});
 
     //Add the X axis
     svg.append('g')
@@ -479,3 +483,4 @@ function smallMultiples(){
   });
 
 }
+
