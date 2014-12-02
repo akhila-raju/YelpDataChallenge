@@ -48,11 +48,11 @@ var projection;
 var radData;
 var markerData;
 var categoryList; 
-var availableTags;
+var availableTags = [];
 var nameWithAddress = ""; 
-var duplicates; 
+var duplicates = []; 
 var seenSoFar; 
-
+var nameCounts;
 
 d3.json("bizMadison.json", function(d) {
  	//d here is the entire list of businesses
@@ -76,34 +76,26 @@ count = function(ary, classifier) {
 // INIT FUNCTIONS FOR MAP
 function initAutoComplete(){
    //autocomplete for business names 
-  $(function() {
-    availableTags = [];
-    seenSoFar = []; 
-    duplicates = []; 
-    for (var i=0; i < data.length; i++) {
-      // go through each element and add to seenSoFar . if it hasn't been seen, add it . 
-      //if it has been seen, add name to duplicates
-      if($.inArray(data[i].name, seenSoFar) == -1){
-          seenSoFar.push(data[i].name);
-      }else{
-        nameWithAddress = data[i].name + ": " + data[i].full_address;
-        duplicates.push(data[i].name);
-        availableTags.push(nameWithAddress);
-      }
+  nameCounts = count(data, function(d){return d.name});
+  uniqueNames = Object.keys(nameCounts);
+  for (name in uniqueNames){
+    if (nameCounts[uniqueNames[name]] > 1){
+      duplicates.push(uniqueNames[name]);
     }
-
-    for (var i=0; i < data.length; i++) {
-      if($.inArray(data[i].name, duplicates) == -1){
-        availableTags.push(data[i].name);
-      }
+  }
+  for (i in data){
+    if (duplicates.indexOf(data[i].name) != -1){
+      availableTags.push(data[i].name + ": " + data[i].full_address);
+    } else{
+      availableTags.push(data[i].name)
     }
-
-    $( "#businessTags" ).autocomplete({
+  }
+  $( "#businessTags" ).autocomplete({
       source: availableTags
     });
-
+    
     //autocomplete for categories 
-    $(function() {
+  $(function() {
     categoryList = [];
     for (var i=0; i < data.length; i++) {
       for (var j=0; j < data[i].categories.length; j++) {
@@ -115,8 +107,7 @@ function initAutoComplete(){
     $( "#categoryTags" ).autocomplete({
       source: categoryList
      });// end autocomplete categories 
-    });// end autocomplete business 
-  });// end D3 data load 
+    });// end autocomplete business
 }
 
 // Overlay used for adding circles on google map element
@@ -257,6 +248,7 @@ function viz(cat){
   var max = bizData[bizData.length-1].review_count;
   var xVar = "review_count",
       yVar = "stars";
+
 
   //Set dimensions of canvas and graph
   var margin = {top: 40, right: 40, bottom: 40, left:40},
