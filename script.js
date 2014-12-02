@@ -232,10 +232,9 @@ function updateMarker() {
 }
 
 // added from force.html -- Akhila
-function viz(cat){
-  updateCategory(cat);
-  bizData = vizData.filter(function(d){return d['categories'].indexOf(cat) != -1})
-  bizData = bizData.sort(function(a,b){return a.review_count-b.review_count});
+function viz(){
+  updateCategory();
+  bizData = vizData.sort(function(a,b){return a.review_count-b.review_count});
 
   var min = bizData[0].review_count;
   var max = bizData[bizData.length-1].review_count;
