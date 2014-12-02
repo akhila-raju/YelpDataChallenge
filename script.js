@@ -60,6 +60,7 @@ d3.json("bizMadison.json", function(d) {
  	//bind it to the global variable...
  	data = d;
   radData = d;
+  vizData = d;
   markerData = d;
   initAutoComplete();
  	initOverlay();
@@ -173,12 +174,12 @@ function updateRadius(){
   radius.setVisible(useDistance);
   radius.setRadius(distanceThresholdMeters);
   //filter data by radius 
-  radData = data.filter(function (d){return useDistance && google.maps.geometry.spherical.computeDistanceBetween(marker.getPosition(), new google.maps.LatLng(d['latitude'], d['longitude'])) <= distanceThresholdMeters});
+  radData = data.filter(function (d){return google.maps.geometry.spherical.computeDistanceBetween(marker.getPosition(), new google.maps.LatLng(d['latitude'], d['longitude'])) <= distanceThresholdMeters});
   //console.log(vizData.length);
   $("#distanceString").text((useDistance ? distanceThreshold : "12") + " Miles")
   // Update Distance Radius
   update(radData);
-  updateCategory(myCat); //this needs fixing
+  updateCategory(); //this needs fixing
 }
 
 function update(d){
@@ -201,7 +202,7 @@ function update(d){
           .attr("cy", padding);
 }
 
-  radius.setVisible(useDistance); // is this line supposed to be here? - Akhila
+  //radius.setVisible(useDistance); // is this line supposed to be here? - Akhila
 
 //this doesn't filter - Akhila - fixed
 function updateCategory(){
@@ -226,8 +227,7 @@ function updateMarker() {
   console.log (latitude, longitude)
   latlng = new google.maps.LatLng(latitude, longitude);
   marker.setPosition(latlng);
-  update(markerData)
-  updateRadius()
+  updateRadius();
   update(radData);
 }
 
