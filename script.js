@@ -326,7 +326,7 @@ controls.append("span")
     .attr('class', 'y axis')
     .call(yAxis);
 
-  // Add dots
+  // Add dots -
   var node = svg.selectAll(".dot")
       .data(bizData)
     .enter().append("circle")
@@ -405,23 +405,27 @@ var intersection = function(array1, array2){
   });
 }
 
-//adapted from viz() - makes a graph for each category that a business is in
+
+
 function smallMultiples(){
-  myBus = document.getElementById("businessTags").value; 
+  myBus = document.getElementById("businessTags").value;
   myBus = "Chaser's Bar and Grille" //testing - Jimmy
   if (! (myBus.indexOf(':') === -1)) { // handles duplicates
     myBus = myBus.substring(0, myBus.indexOf(":"));
   }
   myData = data.filter(function(d){return d.name == myBus})[0]
   myCats = myData.categories;
-  allData = data.filter(function(d){return intersection(myCats, d.categories).length > 0}); //check to see if there are common elements
+  allData = data.filter(function(d){return intersection(myCats, d.categories).length > 0});
 
-  myCats.forEach(function(cat){ //for each category, make a graph
+//loopw
+  myCats.forEach(function(cat){
     catData = allData.filter(function(d){return d.categories.indexOf(cat) != -1});
     var min = catData[0].review_count;
     var max = catData[catData.length-1].review_count;
     var xVar = "review_count",
         yVar = "stars";
+
+    //set dimensions of canvas and graph
     var margin = {top: 40, right: 40, bottom: 40, left:40},
                   width = 400,
                   height = 400,
@@ -437,7 +441,6 @@ function smallMultiples(){
         .range([height - margin.top - margin.bottom, 0]);
 
     //Define the axes
-    //axes are buggy
     var xAxis = d3.svg.axis()
         .scale(x)
         .orient('bottom')
@@ -450,9 +453,13 @@ function smallMultiples(){
         .tickPadding(8)
         .ticks(5);
 
-    x.domain(d3.extent(catData, function(d) { return d[xVar]; })).nice();
-    y.domain(d3.extent(catData, function(d) { return d[yVar]; })).nice();
+// Define the div for the tooltip
+var div = d3.select("body").append("div") 
+    .attr("class", "tooltip")       
+    .style("opacity", 0);
 
+
+    //add the svg canvas 
     var svg = d3.select('body').append('svg')
                 .attr('class', 'chart')
                 .attr('width', width)
@@ -460,14 +467,33 @@ function smallMultiples(){
               .append('g')
                 .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 
-    svg.selectAll("dot")
-        .data(catData) //bind to this category's data
-      .enter().append("circle")
-        .attr("r", 2.5)
-        .attr("cx", function(d) { return x(d[xVar]); })
-        .attr("cy", function(d) { return y(d[yVar]); })
-        .style("fill", function(d) {return d.business_id==myData.business_id?"red":"steelblue";}) //if it's the business of interest, turn red
-        .style("opacity", function(d) {return d.business_id==myData.business_id?1:0.5;}); //making red one stand out
+    // CECILE - add collision checkbox 
+    var controls = d3.select("body").append("label")
+        .attr("id", "controls");
+    var checkbox = controls.append("input")
+        .attr("id", "collisiondetection")
+        .attr("type", "checkbox");
+    controls.append("span")
+        .text("Collision detection");
+
+      // CECILE Force for dots
+  var force = d3.layout.force()
+    .nodes(catData)
+    .size([width, height])
+    .on("tick", tick)
+    .charge(-0.01)
+    .gravity(0);
+
+    x.domain(d3.extent(catData, function(d) { return d[xVar]; })).nice();
+    y.domain(d3.extent(catData, function(d) { return d[yVar]; })).nice();
+
+    // cecile Set initial positions
+  catData.forEach(function(d) {
+    d.x = x(d[xVar]);
+    d.y = y(d[yVar]);
+    // d.color = color(d.species);
+    d.radius = radius;
+  });
 
     //Add the X axis
     svg.append('g')
@@ -479,6 +505,79 @@ function smallMultiples(){
     svg.append('g')
       .attr('class', 'y axis')
       .call(yAxis);
+
+   var node =  svg.selectAll("dot")
+        .data(catData)
+      .enter().append("circle")
+        .attr("r", 2.5)
+        .attr("cx", function(d) { return x(d[xVar]); })
+        .attr("cy", function(d) { return y(d[yVar]); })
+        .style("fill", function(d) {return d.business_id==myData.business_id?"red":"steelblue";})
+        .style("opacity", function(d) {return d.business_id==myData.business_id?1:0.5;})
+              .on("mouseover", function(d) {   
+          div.transition()    
+              .duration(200)    
+              .style("opacity", .9);    
+          div.html(d.name)  // tool tip message 
+              .style("left", (d3.event.pageX) + "px")   
+              .style("top", (d3.event.pageY - 28) + "px");  
+        })          
+      .on("mouseout", function(d) {   
+          div.transition()    
+              .duration(500)    
+              .style("opacity", 0); 
+      });
+
+
+d3.select("#collisiondetection").on("change", function() {
+    force.resume();
+  });
+
+    force.start();
+
+  function tick(e) {
+    node.each(moveTowardDataPosition(e.alpha));
+
+    if (checkbox.node().checked) node.each(collide(e.alpha));
+
+    node.attr("cx", function(d) { return d.x; })
+        .attr("cy", function(d) { return d.y; });
+  }
+
+  function moveTowardDataPosition(alpha) {
+    return function(d) {
+      d.x += (x(d[xVar]) - d.x) * 0.1 * alpha;
+      d.y += (y(d[yVar]) - d.y) * 0.1 * alpha;
+    };
+  }
+
+  // Resolve collisions between nodes.
+  function collide(alpha) {
+    var quadtree = d3.geom.quadtree(catData);
+    return function(d) {
+      var r = d.radius + radius + padding,
+          nx1 = d.x - r,
+          nx2 = d.x + r,
+          ny1 = d.y - r,
+          ny2 = d.y + r;
+      quadtree.visit(function(quad, x1, y1, x2, y2) {
+        if (quad.point && (quad.point !== d)) {
+          var x = d.x - quad.point.x,
+              y = d.y - quad.point.y,
+              l = Math.sqrt(x * x + y * y);
+              // r = d.radius + quad.point.radius + (d.color !== quad.point.color) * padding;
+          if (l < r) {
+            l = (l - r) / l * alpha;
+            d.x -= x *= l;
+            d.y -= y *= l;
+            quad.point.x += x;
+            quad.point.y += y;
+          }
+        }
+        return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+      });
+    };
+  }
 
   });
 
