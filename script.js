@@ -6,6 +6,7 @@ var center = new google.maps.LatLng(43.1035763, -89.3439745);
 //Create the map
 var map = new google.maps.Map(d3.select("#map").node(), {
   zoom: 10,
+  zoomControl: false,
   center: center,
   mapTypeId: google.maps.MapTypeId.TERRAIN
 });
@@ -334,18 +335,18 @@ controls.append("span")
       .attr("cx", function(d) { return x(d[xVar]); })
       .attr("cy", function(d) { return y(d[yVar]); })
       .on("mouseover", function(d) {   
-                        div.transition()    
-                            .duration(200)    
-                            .style("opacity", .9);    
-                        div .html(d.name)  // tool tip message 
-                            .style("left", (d3.event.pageX) + "px")   
-                            .style("top", (d3.event.pageY - 28) + "px");  
-                        })          
-                    .on("mouseout", function(d) {   
-                        div.transition()    
-                            .duration(500)    
-                            .style("opacity", 0); 
-                    });
+          div.transition()    
+              .duration(200)    
+              .style("opacity", .9);    
+          div .html(d.name)  // tool tip message 
+              .style("left", (d3.event.pageX) + "px")   
+              .style("top", (d3.event.pageY - 28) + "px");  
+        })          
+      .on("mouseout", function(d) {   
+          div.transition()    
+              .duration(500)    
+              .style("opacity", 0); 
+      });
 
   d3.select("#collisiondetection").on("change", function() {
     force.resume();
