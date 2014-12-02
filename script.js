@@ -232,8 +232,8 @@ function updateMarker() {
 
 // added from force.html -- Akhila
 function viz(cat){
-  bizData = data.filter(function(d){return d['categories'].indexOf(cat) != -1})
-
+  updateCategory(cat);
+  bizData = vizData.filter(function(d){return d['categories'].indexOf(cat) != -1})
   bizData = bizData.sort(function(a,b){return a.review_count-b.review_count});
 
   var min = bizData[0].review_count;
@@ -396,5 +396,4 @@ controls.append("span")
       });
     };
   }
-
 }
