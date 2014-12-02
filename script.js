@@ -405,19 +405,18 @@ var intersection = function(array1, array2){
   });
 }
 
-
-
+//adapted from viz() - makes a graph for each category that a business is in
 function smallMultiples(){
-  myBus = document.getElementById("businessTags").value;
+  myBus = document.getElementById("businessTags").value; 
   myBus = "Chaser's Bar and Grille" //testing - Jimmy
   if (! (myBus.indexOf(':') === -1)) { // handles duplicates
     myBus = myBus.substring(0, myBus.indexOf(":"));
   }
   myData = data.filter(function(d){return d.name == myBus})[0]
   myCats = myData.categories;
-  allData = data.filter(function(d){return intersection(myCats, d.categories).length > 0});
+  allData = data.filter(function(d){return intersection(myCats, d.categories).length > 0}); //check to see if there are common elements
 
-  myCats.forEach(function(cat){
+  myCats.forEach(function(cat){ //for each category, make a graph
     catData = allData.filter(function(d){return d.categories.indexOf(cat) != -1});
     var min = catData[0].review_count;
     var max = catData[catData.length-1].review_count;
@@ -438,6 +437,7 @@ function smallMultiples(){
         .range([height - margin.top - margin.bottom, 0]);
 
     //Define the axes
+    //axes are buggy
     var xAxis = d3.svg.axis()
         .scale(x)
         .orient('bottom')
@@ -461,13 +461,13 @@ function smallMultiples(){
                 .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 
     svg.selectAll("dot")
-        .data(catData)
+        .data(catData) //bind to this category's data
       .enter().append("circle")
         .attr("r", 2.5)
         .attr("cx", function(d) { return x(d[xVar]); })
         .attr("cy", function(d) { return y(d[yVar]); })
-        .style("fill", function(d) {return d.business_id==myData.business_id?"red":"steelblue";})
-        .style("opacity", function(d) {return d.business_id==myData.business_id?1:0.5;});
+        .style("fill", function(d) {return d.business_id==myData.business_id?"red":"steelblue";}) //if it's the business of interest, turn red
+        .style("opacity", function(d) {return d.business_id==myData.business_id?1:0.5;}); //making red one stand out
 
     //Add the X axis
     svg.append('g')
