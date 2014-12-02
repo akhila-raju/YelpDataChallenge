@@ -146,20 +146,16 @@ function transform(d) {
 }
 
 function initSlider(){
-
-  $(function() {
-      $( "#radiusSlider" ).slider({
-        //range: true,
-        min:  0.5,
-        max: 12,
-        value: 12,
-        step: .5, //steps every 0.5 miles
-        slide: function( event, ui ) {
-          distanceThreshold = ui.value;
-          $("#useDistanceCheckbox").prop("checked", false)
-          updateRadius()
-        }
-      });
+  $( "#radiusSlider" ).slider({
+      min:  0.5,
+      max: 12,
+      value: 12,
+      step: .5, //steps every 0.5 miles
+      slide: function( event, ui ) {
+        distanceThreshold = ui.value;
+        $("#useDistanceCheckbox").prop("checked", false)
+        updateRadius()
+      }
   });
 }
 
