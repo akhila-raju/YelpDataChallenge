@@ -23,20 +23,24 @@
       }
 
       #searchfilters {
-        margin-left: 10px;
+        margin: 0;
       }
 
       #businessSearch {
-        float: left;
-        margin: 10px;
-        margin-left: 50px;
+        margin: 0;
+        margin-left: 0;
       }
 
       #categorySearch {
-        float: left;
-        margin: 10px;
-        margin-left: 50px;
+        margin:;
+        margin-left: 0;
       }
+
+      #visualizationspace {
+        margin: 0;
+        margin-bottom: 200px; 
+      }
+
 
       #category {
         float: left;
