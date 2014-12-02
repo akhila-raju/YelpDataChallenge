@@ -183,7 +183,7 @@ function updateRadius(){
 }
 
 function update(d){
-  if (d == false){
+  if (!useDistance){
     d = data;
   }
   //updates circles on map to match data argument
