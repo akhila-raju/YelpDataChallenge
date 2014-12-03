@@ -541,8 +541,8 @@ function starDistribution(ID){
   starArray = d3.entries(starCounts);
 
   var margin = {top: 30, right: 40, bottom: 40, left: 40},
-    width = 500, //- margin.left - margin.right,
-    height = 500;// - margin.top - margin.bottom;
+    width = 420, //- margin.left - margin.right,
+    height = 430;// - margin.top - margin.bottom;
 
   var xScale = d3.scale.ordinal()
                   .rangeRoundBands([0, width], .5);
