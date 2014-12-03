@@ -368,6 +368,8 @@ var svg = d3.select('body').append('svg')
       .attr("r", radius - .75)
       .attr("cx", function(d) { return x(d[xVar]); })
       .attr("cy", function(d) { return y(d[yVar]); })
+      .style("fill", function(d) {return d.business_id==myData.business_id?"red":"steelblue";})
+      .style("opacity", function(d) {return d.business_id==myData.business_id?1:0.7;})
       .on("mouseover", function(d) {   
           div.transition()    
               .duration(200)    
