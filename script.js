@@ -282,7 +282,7 @@ function viz(){
     .attr("id", "collisiondetection")
     .attr("type", "checkbox");
   controls.append("span")
-    .text("Show all dots");
+    .text("Collision detection");
   }
   d3.select("#vizSpace")
     .remove();
@@ -368,18 +368,23 @@ var svg = d3.select('#charts').append('svg')
       .attr('class', 'x axis')
       .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
       .call(xAxis)
-  .append("text")
-  .attr("transform", "rotate(-90)")
-  .attr("y", -33)
-  .attr("x", 350)
-  .attr("dy", ".1em")
-  //.style("text-anchor", "end")
-  .text("Average Rating");
+    .append("text")
+      .attr("class", "label")
+      .attr("x", 150)
+      .attr("y", 20)
+      //.style("text-anchor", "end")
+      .text("Number Of Ratings");
 
   //Add the Y axis
   svg.append('g')
     .attr('class', 'y axis')
-    .call(yAxis);
+    .call(yAxis)
+    .append("text")
+  .attr("transform", "rotate(-90)")
+  .attr("y", -40)
+  .attr("dy", ".7em")
+  .style("text-anchor", "end")
+  .text("Frequency");
 
   // Add dots
   var node = svg.selectAll(".dot")
