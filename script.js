@@ -53,7 +53,6 @@ var duplicates = [];
 var seenSoFar; 
 var nameCounts;
 var myTitle; 
-var myName; 
 d3.json("bizMadison.json", function(d) {
  	//d here is the entire list of businesses
  	//bind it to the global variable...
@@ -220,6 +219,7 @@ var menuNames;
 // updates marker position after searching for business - Akhila
 function updateMarker() {
   show("no");
+  showcheckbox("no");
   myBus = document.getElementById("businessTags").value;
   console.log(myBus)
   if (! (myBus.indexOf(':') === -1)) { // handles duplicates
@@ -291,12 +291,21 @@ function show(yesorno) {
   d3.select("#comparisonbuttons").style("opacity", newOpacity);
 }
 
+function showcheckbox(yesorno) {
+  if (yesorno == "yes") {
+    var newOpacity = 1;
+  } else {
+    var newOpacity = 0;
+  }
+  d3.select("#collisionbox").style("opacity", newOpacity);
+}
+
 var first = true;
 function vizCat(cat){
   myTitle = cat; 
   if (cat == "Visualize My Business"){
-    d3.select("#collisionbox")
-      .remove();
+    // d3.select("#collisionbox")
+    //   .remove();
     var active = false;
     starDistribution(myData.business_id);
   } else {
@@ -429,12 +438,10 @@ svg.append("text")
   .attr("x", width / 2)
   .attr("y", -10)
     .style("text-anchor", "middle")
-    .text(myName + " Compared to Businesses in "+ myTitle)
+    .text("" + myTitle)
     .attr({ "font-size": 16, "font-family": "'Open Sans', sans-serif"});
 
-    //console.log(myTitle)
-
-    
+    console.log(myTitle)
 
 
 
@@ -584,18 +591,12 @@ function starDistribution(ID){
   xScale.domain([1,2,3,4,5]);
   yScale.domain([0, d3.max(starArray, function(d){return d.value;})]);
 
-
- myName = document.getElementById('businessTags').value;
-   if (! (myName.indexOf(':') === -1)) { // handles duplicates
-       myName = myName.substring(0, myBus.indexOf(":"));
-      }
-
 svg.append("text")
   .attr("x", width / 2)
   //changed y to fit text
   .attr("y", -5)
     .style("text-anchor", "middle")
-    .text(myName)
+    .text("Number of Stars over Number of Reviews")
     .attr({ "font-size": 16, "font-family": "'Open Sans', sans-serif"});
 
 
