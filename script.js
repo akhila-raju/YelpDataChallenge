@@ -448,7 +448,7 @@ svg.append("text")
   .attr("y", -10)
     .style("text-anchor", "middle")
     .text(myName + " and Businesses in "+ myTitle)
-    .attr({ "font-size": 16, "font-family": "'Open Sans', sans-serif"});
+    .attr({ "font-size": 12, "font-family": "'Open Sans', sans-serif"});
 
     console.log(myTitle)
 
