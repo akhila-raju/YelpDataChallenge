@@ -156,7 +156,7 @@ function updateRadius(){
   if (document.getElementById('vizradius').value.length != 0) {
     distanceThreshold = document.getElementById('vizradius').value;
     console.log(distanceThreshold);
-    if (distanceThreshold == 20) {
+    if (distanceThreshold >= 20) {
       useDistance = false;
     } else {
       useDistance = true;
