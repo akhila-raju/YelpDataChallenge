@@ -433,3 +433,15 @@ var svg = d3.select('body').append('svg')
     };
   }
 }
+
+
+function starDistribution(){
+  // var thisBiz = data.filter(function(d){return d.business_id == ID});
+  // bizReviews = reviews[ID]; // need to load reviews
+  // justStars = bizReviews.map(function(d){return d.stars;});
+  justStars = [1,1,2,2,3,3,3,3,3,3,4,4,4,4,4,5];
+  starCounts = count(justStars);
+  min = Math.min.apply(null, d3.entries(starCounts).map(function(d){return d.value}));
+  max = Math.max.apply(null, d3.entries(starCounts).map(function(d){return d.value}));
+  starArray = d3.entries(justStars);
+}
