@@ -478,7 +478,8 @@ function starDistribution(ID){
       .orient("bottom");
   var yAxis = d3.svg.axis()
       .scale(yScale)
-      .orient("left");
+      .orient("left")
+      .ticks(max);
 
   var svg = d3.select("#charts").append("svg")
     .attr("id", "vizSpace")
