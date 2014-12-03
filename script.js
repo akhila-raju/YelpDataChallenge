@@ -52,7 +52,7 @@ var nameWithAddress = "";
 var duplicates = []; 
 var seenSoFar; 
 var nameCounts;
-
+var myTitle; 
 d3.json("bizMadison.json", function(d) {
  	//d here is the entire list of businesses
  	//bind it to the global variable...
@@ -290,6 +290,7 @@ function show(yesorno) {
 
 var first = true;
 function vizCat(cat){
+  myTitle = cat; 
   if (cat == "Visualize My Business"){
     // d3.select("#collisionbox")
     //   .remove();
@@ -425,8 +426,10 @@ svg.append("text")
   .attr("x", width / 2)
   .attr("y", -10)
     .style("text-anchor", "middle")
-    .text("Average Rating Over Number of Ratings")
+    .text("" + myTitle)
     .attr({ "font-size": 16, "font-family": "'Open Sans', sans-serif"});
+
+    console.log(myTitle)
 
 
 
@@ -475,7 +478,7 @@ svg.append("text")
           div.transition()    
               .duration(200)    
               .style("opacity", 1);    
-          div .html(d.name + ": " + d[xVar] + "reviews")  // tool tip message 
+          div .html(d.name + ": " + d[xVar] + " reviews")  // tool tip message 
               .style("left", (d3.event.pageX) + "px")   
               .style("top", (d3.event.pageY - 28) + "px");  
         })          
