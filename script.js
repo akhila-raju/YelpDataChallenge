@@ -21,7 +21,6 @@ var marker = new google.maps.Marker({
 // Event Listeners
 google.maps.event.addListener(marker, 'drag', updateRadius);
 google.maps.event.addListener(map, 'zoom_changed', updateRadius);
-$('body').on("click", "input[type=checkbox]", updateRadius);
 
 //initialize radius
 var radius = new google.maps.Circle({
