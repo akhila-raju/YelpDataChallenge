@@ -294,14 +294,16 @@ function showcheckbox(yesorno) {
 var first = true;
 function vizCat(cat){
   myTitle = cat; 
-  if (cat == "Visualize My Business"){
+  if (cat == "Distribution"){
     // d3.select("#collisionbox")
     //   .remove();
     var active = false;
     starDistribution(myData.business_id);
   } else if (cat == "Useful"){
     usefulVstars(myData.business_id);
-  } else {
+  } else if (cat == "Time"){
+    reviewsVtime(myData.business_id);
+  }else {
     var active = true;
     updateCategory(cat);
     d3.select("#vizSpace")
@@ -775,7 +777,7 @@ svg.append("text")
           div.transition()    
               .duration(200)    
               .style("opacity", 1);    
-          div .html(d.name + ": " + d[xVar] + " reviews")  // tool tip message 
+          div .html("Useful Votes: " + d.votes.useful.toString())  // tool tip message 
               .style("left", (d3.event.pageX) + "px")   
               .style("top", (d3.event.pageY - 28) + "px");  
         })          
@@ -835,6 +837,12 @@ svg.append("text")
   }
 
 }
+
+function sortByDate(reviews){
+  return reviews.sort(function(a,b){
+      return new Date(a.date) - new Date(b.date);
+  });
+};
 
 function reviewsVtime(ID){
   if (first){
