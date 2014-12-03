@@ -360,7 +360,7 @@ function viz(){
 
 
   var myPg = 100 - pg; 
-
+  d3.select("#statistics").selectAll("label").remove();
   textbox = d3.select("#statistics").append("label")
     .append("span")
     .text("This business has an average rating of " + myData.stars + " stars. " + myPg.toString() + " % of businesses in this category have an equal or lower rating. " )
