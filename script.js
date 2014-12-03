@@ -363,6 +363,13 @@ var svg = d3.select('#charts').append('svg')
     d.radius = radius;
   });
 
+svg.append("text")
+  .attr("x", width / 2)
+  .attr("y", -10)
+    .style("text-anchor", "middle")
+    .text("Title of Diagram");
+
+
   //Add the X axis
   svg.append('g')
       .attr('class', 'x axis')
@@ -506,6 +513,12 @@ function starDistribution(ID){
 
   xScale.domain([1,2,3,4,5]);
   yScale.domain([0, d3.max(starArray, function(d){return d.value;})]);
+
+svg.append("text")
+  .attr("x", width / 2)
+  .attr("y", -10)
+    .style("text-anchor", "middle")
+    .text("Title of Diagram");
 
 svg.append("g")
   .attr("class", "x axis")
