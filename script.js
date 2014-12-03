@@ -339,11 +339,6 @@ var svg = d3.select('body').append('svg')
     .gravity(0);
 
   x.domain(d3.extent(bizData, function(d) { return d[xVar]; })).nice();
-<<<<<<< HEAD
-  //y.domain(d3.extent(bizData, function(d) { return d[yVar]; })).nice();
-=======
-  // y.domain(d3.extent(bizData, function(d) { return d[yVar]; })).nice();
->>>>>>> FETCH_HEAD
 
   // Set initial positions
   bizData.forEach(function(d) {
@@ -371,12 +366,9 @@ var svg = d3.select('body').append('svg')
       .attr("r", radius - .75)
       .attr("cx", function(d) { return x(d[xVar]); })
       .attr("cy", function(d) { return y(d[yVar]); })
-<<<<<<< HEAD
       .style("fill", function(d) {return d.business_id==myData.business_id?"red":"steelblue";})
       .style("opacity", function(d) {return d.business_id==myData.business_id?1:0.7;})
       .on("click", function(d){starDistribution(d.business_id)}) //make a graph
-=======
->>>>>>> FETCH_HEAD
       .on("mouseover", function(d) {   
           div.transition()    
               .duration(200)    
