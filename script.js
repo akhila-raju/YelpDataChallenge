@@ -464,9 +464,12 @@ function starDistribution(ID){
       .scale(xScale)
       .orient("bottom");
 
+
   var yAxis = d3.svg.axis()
       .scale(yScale)
-      .orient("left");
+      .orient("left")
+      .ticks(max);
+
   var svg = d3.select("body").append("svg")
     .attr("id", "vizSpace")
     .attr("width", width + margin.left + margin.right)
@@ -493,7 +496,7 @@ svg.append("g")
   .call(yAxis)
 .append("text")
   .attr("transform", "rotate(-90)")
-  .attr("y", -40)
+  .attr("y", -30)
   .attr("dy", ".7em")
   .style("text-anchor", "end")
   .text("Frequency");
