@@ -103,6 +103,7 @@ div.tooltip {
   text-align: center;
   background-color: #FAF5F5; 
   font-family: 'Open Sans', sans-serif;
+  display: block;
 }
 
 .sidebar {
@@ -116,4 +117,17 @@ div.tooltip {
 #vizspace {
   margin-left: 30px;
   float:left;
+  display: block;
+  width: 500px;
+}
+
+#statistics {
+  float: right;
+  display: block;
+  display: inline-block;
+}
+
+
+#comparisonbuttons, #individual {
+  height: 15px;
 }
