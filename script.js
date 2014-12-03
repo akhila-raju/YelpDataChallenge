@@ -21,7 +21,6 @@ var marker = new google.maps.Marker({
 // Event Listeners
 google.maps.event.addListener(marker, 'drag', updateRadius);
 google.maps.event.addListener(map, 'zoom_changed', updateRadius);
-$('body').on("click", "#useDistanceCheckbox", updateRadius);
 //initialize radius
 var radius = new google.maps.Circle({
   map: map,
@@ -240,7 +239,9 @@ function updateMarker() {
       .attr("type","button")
       .attr("class","button")
       .attr("value", function (d){return d;})
-      .on("click", function(d){vizCat(d);});
+      .on("click", function(d){
+        vizCat(d); 
+      });
   buttons.exit().remove(); 
   d3.select("#vizSpace")
           .remove();
@@ -250,13 +251,20 @@ function updateMarker() {
 var first = true;
 function vizCat(cat){
   if (cat == "Ratings Distribution"){
+    // d3.select("#collisionbox")
+    //   .remove();
+    var active = false;
     starDistribution(myData.business_id);
   } else {
+    var active = true;
     updateCategory(cat);
     d3.select("#vizSpace")
       .remove();
     viz();
   }
+  // checkbox
+  var newOpacity = active ? 1 : 0;
+  d3.select("#collisionbox").style("opacity", newOpacity);
 }
 
 var x;
