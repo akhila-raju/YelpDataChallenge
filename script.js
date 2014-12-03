@@ -243,6 +243,8 @@ function updateMarker() {
       .attr("value", function (d){return d;})
       .on("click", function(d){vizCat(d);});
   buttons.exit().remove(); 
+  d3.select("#vizSpace")
+          .remove();
 }
 
 var first = true;
@@ -259,10 +261,22 @@ function vizCat(cat){
 
 var x;
 var y;
+var controls;
+var checkbox;
 
 // added from force.html -- Akhila
 function viz(){
+  if (first){
   first = false;
+  controls = d3.select("body").append("label")
+    .attr("id", "controls");
+  checkbox = controls.append("input")
+    .attr("id", "collisiondetection")
+    .attr("type", "checkbox");
+  controls.append("span")
+    .text("Collision detection");
+  }
+  
   bizData = vizData.slice(0);
   bizData = bizData.sort(function(a,b){return a.review_count-b.review_count});
 
@@ -316,14 +330,6 @@ var svg = d3.select('body').append('svg')
     .attr('height', height)
   .append('g')
     .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
-
-var controls = d3.select("body").append("label")
-    .attr("id", "controls");
-var checkbox = controls.append("input")
-    .attr("id", "collisiondetection")
-    .attr("type", "checkbox");
-controls.append("span")
-    .text("Collision detection");
 
   // Force for dots
   var force = d3.layout.force()
