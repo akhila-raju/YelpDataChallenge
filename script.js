@@ -231,6 +231,9 @@ function updateMarker() {
   updateRadius();
   update(radData);
   buttonNames = myData.categories;
+  if (buttonNames.indexOf("Ratings Distribution") == -1){
+    buttonNames.push("Ratings Distribution")
+  }
   buttons = d3.select("#buttons").selectAll(".button")
       .data(buttonNames, function(d){return d;})    
   buttons.enter().append("input")
@@ -476,21 +479,27 @@ function starDistribution(ID){
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  xScale.domain(starArray.map(function(d){return +d.key;}));
+  xScale.domain([1,2,3,4,5]);
   yScale.domain([0, d3.max(starArray, function(d){return d.value;})]);
 
 svg.append("g")
   .attr("class", "x axis")
   .attr("transform", "translate(0," + height + ")")
-  .call(xAxis);
+  .call(xAxis)
+.append("text")
+      .attr("class", "label")
+      .attr("x", width)
+      .attr("y", 12)
+      .style("text-anchor", "end")
+      .text("Stars");
 
 svg.append("g")
   .attr("class", "y axis")
   .call(yAxis)
 .append("text")
   .attr("transform", "rotate(-90)")
-  .attr("y", 6)
-  .attr("dy", ".71em")
+  .attr("y", -35)
+  .attr("dy", ".7em")
   .style("text-anchor", "end")
   .text("Frequency");
 
