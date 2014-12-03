@@ -134,6 +134,8 @@ margin-right: auto !important;
 }
 
 #vizspace {
+  margin-left: 30px;
+  margin-top: 20px;
   display: block;
   float:left;
 }
