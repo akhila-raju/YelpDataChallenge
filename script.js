@@ -289,7 +289,6 @@ var margin = {top: 40, right: 40, bottom: 40, left:40},
     padding = 1, // separation between nodes
   radius = 4;
 
-
 //Set ranges
 x = d3.scale.linear()
     .domain([min, max])
@@ -311,6 +310,13 @@ var yAxis = d3.svg.axis()
     .scale(y)
     .orient('left')
     .tickPadding(8);
+
+// setup fill color
+var cValue = function(d) { return d[yVar];};
+var color = d3.scale.ordinal()
+      .domain(["5", "4.5", "4", "3.5", "3", "2.5", "2", "1.5", "1"])
+      .range(["#080226", "#120440", "#090161", "#074187" , "#056ba0", "#0495b8", "#02c0d1", "#01eaea", "#00fff7"]);
+
 
 // Define the div for the tooltip
 var div = d3.select("body").append("div") 
@@ -362,13 +368,14 @@ var svg = d3.select('body').append('svg')
       .attr("r", radius - .75)
       .attr("cx", function(d) { return x(d[xVar]); })
       .attr("cy", function(d) { return y(d[yVar]); })
-      .style("fill", function(d) {return d.business_id==myData.business_id?"red":"steelblue";})
-      .style("opacity", function(d) {return d.business_id==myData.business_id?1:0.7;})
+      .style("fill", function(d) { return color(cValue(d));}) 
+      // .style("fill", function(d) {return d.business_id==myData.business_id?"red":"steelblue";})
+      // .style("opacity", function(d) {return d.business_id==myData.business_id?1:0.7;})
       .on("click", function(d){starDistribution(d.business_id)}) //make a graph
       .on("mouseover", function(d) {   
           div.transition()    
               .duration(200)    
-              .style("opacity", .9);    
+              .style("opacity", 1);    
           div .html(d.name)  // tool tip message 
               .style("left", (d3.event.pageX) + "px")   
               .style("top", (d3.event.pageY - 28) + "px");  
