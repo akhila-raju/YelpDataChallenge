@@ -241,6 +241,7 @@ function updateMarker() {
   buttons.exit().remove(); 
   d3.select("#vizSpace")
           .remove();
+  starDistribution(myData.business_id);
 }
 
 var first = true;
