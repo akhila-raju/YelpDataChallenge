@@ -465,7 +465,8 @@ function starDistribution(ID){
                   .range([height, 0]);
   var xAxis = d3.svg.axis()
       .scale(xScale)
-      .orient("bottom");
+      .orient("bottom")
+      .ticks(5);
 
 
   var yAxis = d3.svg.axis()
@@ -480,7 +481,7 @@ function starDistribution(ID){
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  xScale.domain(starArray.map(function(d){return +d.key;}));
+  xScale.domain([1,2,3,4,5]);
   yScale.domain([0, d3.max(starArray, function(d){return d.value;})]);
 
 svg.append("g")
