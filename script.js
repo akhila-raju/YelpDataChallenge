@@ -563,9 +563,8 @@ svg.append("text")
 
 
 function starDistribution(ID){
-    d3.select("#vizSpace")
-          .remove();
-
+  d3.select("#statistics").selectAll("label").remove();
+  d3.select("#vizSpace").remove();
   var thisBiz = data.filter(function(d){return d.business_id == ID});
   bizReviews = reviews[ID]; // need to load reviews
   justStars = bizReviews.map(function(d){return d.stars;});
@@ -653,6 +652,7 @@ function sortByUseful(reviews){
 };
 
 function usefulVstars(ID){
+  d3.select("#statistics").selectAll("label").remove();
   if (first){
   first = false;
   controls = d3.select("#collisionbox").append("label")
@@ -861,6 +861,7 @@ function sortByDate(reviews){
 };
 
 function reviewsVtime(ID){
+  d3.select("#statistics").selectAll("label").remove();
   if (first){
   first = false;
   controls = d3.select("#collisionbox").append("label")
