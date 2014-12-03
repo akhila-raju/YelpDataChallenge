@@ -297,11 +297,13 @@ function vizCat(cat){
   if (cat == "Distribution"){
     // d3.select("#collisionbox")
     //   .remove();
-    var active = false;
+    showcheckbox("no");    
     starDistribution(myData.business_id);
   } else if (cat == "Useful"){
+    showcheckbox("yes");
     usefulVstars(myData.business_id);
   } else if (cat == "Time"){
+    showcheckbox("yes");
     reviewsVtime(myData.business_id);
   }else {
     var active = true;
@@ -311,8 +313,8 @@ function vizCat(cat){
     viz();
   }
   // checkbox
-  var newOpacity = active ? 1 : 0;
-  d3.select("#collisionbox").style("opacity", newOpacity);
+  // var newOpacity = active ? 1 : 0;
+  // d3.select("#collisionbox").style("opacity", newOpacity);
 }
 
 var x;
