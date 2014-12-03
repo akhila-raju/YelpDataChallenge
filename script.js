@@ -53,6 +53,7 @@ var duplicates = [];
 var seenSoFar; 
 var nameCounts;
 var myTitle; 
+var myName; 
 d3.json("bizMadison.json", function(d) {
  	//d here is the entire list of businesses
  	//bind it to the global variable...
@@ -431,7 +432,7 @@ svg.append("text")
     .text("" + myTitle)
     .attr({ "font-size": 16, "font-family": "'Open Sans', sans-serif"});
 
-    console.log(myTitle)
+    //console.log(myTitle)
 
 
 
@@ -581,12 +582,14 @@ function starDistribution(ID){
   xScale.domain([1,2,3,4,5]);
   yScale.domain([0, d3.max(starArray, function(d){return d.value;})]);
 
+ myName = document.getElementById('businessTags').value
+
 svg.append("text")
   .attr("x", width / 2)
   //changed y to fit text
   .attr("y", -5)
     .style("text-anchor", "middle")
-    .text("Number of Stars over Number of Reviews")
+    .text(myName)
     .attr({ "font-size": 16, "font-family": "'Open Sans', sans-serif"});
 
 
