@@ -439,12 +439,15 @@ var svg = d3.select('#charts').append('svg')
     d.y = y(d[yVar]);
     d.radius = radius;
   });
-
+myName = document.getElementById('businessTags').value;
+if (! (myName.indexOf(':') === -1)) { // handles duplicates
+       myName = myName.substring(0, myBus.indexOf(":"));
+      }
 svg.append("text")
   .attr("x", width / 2)
   .attr("y", -10)
     .style("text-anchor", "middle")
-    .text("" + myTitle)
+    .text(myName + " and Businesses in "+ myTitle)
     .attr({ "font-size": 16, "font-family": "'Open Sans', sans-serif"});
 
     console.log(myTitle)
