@@ -367,7 +367,14 @@ var svg = d3.select('#charts').append('svg')
   svg.append('g')
       .attr('class', 'x axis')
       .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
-      .call(xAxis);
+      .call(xAxis)
+  .append("text")
+  .attr("transform", "rotate(-90)")
+  .attr("y", -33)
+  .attr("x", 350)
+  .attr("dy", ".1em")
+  //.style("text-anchor", "end")
+  .text("Average Rating");
 
   //Add the Y axis
   svg.append('g')
