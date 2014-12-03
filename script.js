@@ -178,8 +178,9 @@ function updateRadius(){
   //console.log(vizData.length);
   $("#distanceString").text((useDistance ? distanceThreshold : "12") + " Miles")
   // Update Distance Radius
+  updateCategory(myCat);
   update(radData);
-  updateCategory(); //this needs fixing
+   //this needs fixing
 }
 
 function update(d){
@@ -205,8 +206,9 @@ function update(d){
   //radius.setVisible(useDistance); // is this line supposed to be here? - Akhila
 
 //this doesn't filter - Akhila - fixed
-function updateCategory(){
-  myCat = document.getElementById("categoryTags").value;
+function updateCategory(cat){
+  //myCat = document.getElementById("categoryTags").value;
+  myCat = cat;
   if (myCat == 'All'){
     vizData = radData;
   } else{
@@ -217,6 +219,7 @@ function updateCategory(){
 
 var buttonNames;
 var buttons;
+
 // updates marker position after searching for business - Akhila
 function updateMarker() {
   myBus = document.getElementById("businessTags").value;
@@ -239,13 +242,16 @@ function updateMarker() {
       .attr("type","button")
       .attr("class","button")
       .attr("value", function (d){return d;})
-      .on("click", doSomething);
+      .on("click", function(d){vizCat(d);});
   buttons.exit().remove(); 
 }
 
+function vizCat(cat){
+  updateCategory(cat);
+  viz();
+}
 // added from force.html -- Akhila
 function viz(){
-  updateCategory();
   bizData = vizData.slice(0);
   bizData = bizData.sort(function(a,b){return a.review_count-b.review_count});
 
