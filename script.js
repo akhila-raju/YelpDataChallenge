@@ -490,11 +490,11 @@ svg.append("text")
       .style("fill", function(d) {return d.business_id==myData.business_id?"red": color(cValue(d));})
       // .style("fill", function(d) { return color(cValue(d));}) 
       // .style("opacity", function(d) {return d.business_id==myData.business_id?1:0.7;})
-      .on("click", function(d){starDistribution(d.business_id);
-        var active = false;
-        var newOpacity = active ? 1 : 0;
-        d3.select("#collisionbox").style("opacity", newOpacity);
-      }) //make a graph
+      // .on("click", function(d){starDistribution(d.business_id);
+      //   var active = false;
+      //   var newOpacity = active ? 1 : 0;
+      //   d3.select("#collisionbox").style("opacity", newOpacity);
+      // }) //make a graph
       .on("mouseover", function(d) {   
           div.transition()    
               .duration(200)    
