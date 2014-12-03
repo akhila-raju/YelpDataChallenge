@@ -212,7 +212,9 @@ function updateCategory(cat){
 }
 
 var buttonNames;
-var buttons;
+var categorybuttons;
+var menubuttons;
+var menuNames;
 
 // updates marker position after searching for business - Akhila
 function updateMarker() {
@@ -229,28 +231,64 @@ function updateMarker() {
   marker.setPosition(latlng);
   updateRadius();
   update(radData);
-  buttonNames = myData.categories;
-  if (buttonNames.indexOf("Ratings Distribution") == -1){
-    buttonNames.push("Ratings Distribution")
-  }
-  buttons = d3.select("#buttons").selectAll(".button")
-      .data(buttonNames, function(d){return d;})    
-  buttons.enter().append("input")
+  myvisbiz = ["Visualize My Business"];
+  comparebiz = ["Compare My Business"];
+
+  myvisbiz = d3.select("#menu").selectAll(".button")
+      .data(myvisbiz, function(d){return d;})
+  myvisbiz.enter().append("input")
       .attr("type","button")
       .attr("class","button")
       .attr("value", function (d){return d;})
       .on("click", function(d){
-        vizCat(d); 
+        vizCat(d);
+        show("no");
       });
-  buttons.exit().remove(); 
+
+  buttonNames = myData.categories;
+
+  comparebiz = d3.select("#menu").selectAll(".button")
+      .data(comparebiz, function(d){return d;})
+  comparebiz.enter().append("input")
+      .attr("type","button")
+      .attr("class","button")
+      .attr("value", function (d){return d;})
+      .on("click", function(d){
+        // visualize first category as default on click
+        vizCat(buttonNames[0]);
+        show("yes");
+      });
+
+  // Category buttons
+  categorybuttons = d3.select("#comparisonbuttons").selectAll(".button")
+      .data(buttonNames, function(d){return d;})    
+  categorybuttons.enter().append("input")
+      .attr("type","button")
+      .attr("class","button")
+      .attr("value", function (d){return d;})
+      .on("click", function(d){
+        vizCat(d);
+      });
+  categorybuttons.exit().remove(); 
+
   d3.select("#vizSpace")
           .remove();
   starDistribution(myData.business_id);
 }
 
+//shows categories only if comparison button pressed
+function show(yesorno) {
+  if (yesorno == "yes") {
+    var newOpacity = 1;
+  } else {
+    var newOpacity = 0;
+  }
+  d3.select("#comparisonbuttons").style("opacity", newOpacity);
+}
+
 var first = true;
 function vizCat(cat){
-  if (cat == "Ratings Distribution"){
+  if (cat == "Visualize My Business"){
     // d3.select("#collisionbox")
     //   .remove();
     var active = false;
@@ -282,7 +320,7 @@ function viz(){
     .attr("id", "collisiondetection")
     .attr("type", "checkbox");
   controls.append("span")
-    .text("Collision detection");
+    .text("Show all dots");
   }
   d3.select("#vizSpace")
     .remove();
