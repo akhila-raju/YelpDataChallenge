@@ -245,12 +245,24 @@ function updateMarker() {
   buttons.exit().remove(); 
 }
 
+var first = true;
 function vizCat(cat){
   updateCategory(cat);
-  viz();
+  if (first){
+      viz();
+  } else{
+      d3.select("#vizSpace")
+          .remove();
+      viz();
+  }
 }
+
+var x;
+var y;
+
 // added from force.html -- Akhila
 function viz(){
+  first = false;
   bizData = vizData.slice(0);
   bizData = bizData.sort(function(a,b){return a.review_count-b.review_count});
 
@@ -269,11 +281,11 @@ var margin = {top: 40, right: 40, bottom: 40, left:40},
 
 
 //Set ranges
-var x = d3.scale.linear()
+x = d3.scale.linear()
     .domain([min, max])
     .rangeRound([0, width - margin.left - margin.right]);
 
-var y = d3.scale.linear()
+y = d3.scale.linear()
     .domain([1, 5])
     .range([height - margin.top - margin.bottom, 0]);
 
@@ -284,6 +296,7 @@ var xAxis = d3.svg.axis()
     .tickValues(x.domain())
     .tickSize(0)
     .tickPadding(8);
+
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient('left')
@@ -297,6 +310,7 @@ var div = d3.select("body").append("div")
 
 //Add the svg canvas
 var svg = d3.select('body').append('svg')
+    .attr('id', 'vizSpace')
     .attr('class', 'chart')
     .attr('width', width)
     .attr('height', height)
@@ -342,7 +356,7 @@ controls.append("span")
 
   // Add dots
   var node = svg.selectAll(".dot")
-      .data(bizData)
+      .data(bizData, function(d){return d;})
     .enter().append("circle")
       .attr("class", "dot")
       .attr("r", radius - .75)
