@@ -521,7 +521,7 @@ svg.append("g")
   .attr("y", -35)
   .attr("dy", ".7em")
   .style("text-anchor", "end")
-  .text("Frequency");
+  .text("# Reviews");
 
 svg.selectAll(".bar")
       .data(starArray)
