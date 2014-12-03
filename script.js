@@ -297,11 +297,13 @@ function vizCat(cat){
   if (cat == "Distribution"){
     // d3.select("#collisionbox")
     //   .remove();
-    var active = false;
+    showcheckbox("no");    
     starDistribution(myData.business_id);
   } else if (cat == "Useful"){
+    showcheckbox("yes");
     usefulVstars(myData.business_id);
   } else if (cat == "Time"){
+    showcheckbox("yes");
     reviewsVtime(myData.business_id);
   }else {
     var active = true;
@@ -311,8 +313,8 @@ function vizCat(cat){
     viz();
   }
   // checkbox
-  var newOpacity = active ? 1 : 0;
-  d3.select("#collisionbox").style("opacity", newOpacity);
+  // var newOpacity = active ? 1 : 0;
+  // d3.select("#collisionbox").style("opacity", newOpacity);
 }
 
 var x;
@@ -490,11 +492,11 @@ svg.append("text")
       .style("fill", function(d) {return d.business_id==myData.business_id?"red": color(cValue(d));})
       // .style("fill", function(d) { return color(cValue(d));}) 
       // .style("opacity", function(d) {return d.business_id==myData.business_id?1:0.7;})
-      .on("click", function(d){starDistribution(d.business_id);
-        var active = false;
-        var newOpacity = active ? 1 : 0;
-        d3.select("#collisionbox").style("opacity", newOpacity);
-      }) //make a graph
+      // .on("click", function(d){starDistribution(d.business_id);
+      //   var active = false;
+      //   var newOpacity = active ? 1 : 0;
+      //   d3.select("#collisionbox").style("opacity", newOpacity);
+      // }) //make a graph
       .on("mouseover", function(d) {   
           div.transition()    
               .duration(200)    
@@ -561,9 +563,8 @@ svg.append("text")
 
 
 function starDistribution(ID){
-    d3.select("#vizSpace")
-          .remove();
-
+  d3.select("#statistics").selectAll("label").remove();
+  d3.select("#vizSpace").remove();
   var thisBiz = data.filter(function(d){return d.business_id == ID});
   bizReviews = reviews[ID]; // need to load reviews
   justStars = bizReviews.map(function(d){return d.stars;});
@@ -651,6 +652,7 @@ function sortByUseful(reviews){
 };
 
 function usefulVstars(ID){
+  d3.select("#statistics").selectAll("label").remove();
   if (first){
   first = false;
   controls = d3.select("#collisionbox").append("label")
@@ -859,6 +861,7 @@ function sortByDate(reviews){
 };
 
 function reviewsVtime(ID){
+  d3.select("#statistics").selectAll("label").remove();
   if (first){
   first = false;
   controls = d3.select("#collisionbox").append("label")
