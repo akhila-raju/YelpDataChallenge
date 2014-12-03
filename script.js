@@ -218,6 +218,7 @@ var menuNames;
 
 // updates marker position after searching for business - Akhila
 function updateMarker() {
+  show("no");
   myBus = document.getElementById("businessTags").value;
   console.log(myBus)
   if (! (myBus.indexOf(':') === -1)) { // handles duplicates
