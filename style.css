@@ -119,3 +119,7 @@ div.tooltip {
   display: block;
   float:left;
 }
+
+#comparisonbuttons {
+  opacity: 0;
+}

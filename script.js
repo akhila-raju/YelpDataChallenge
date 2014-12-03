@@ -231,6 +231,7 @@ function updateMarker() {
   marker.setPosition(latlng);
   updateRadius();
   update(radData);
+  
   myvisbiz = ["Visualize My Business"];
   comparebiz = ["Compare My Business"];
 
