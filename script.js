@@ -306,8 +306,9 @@ function viz(){
 
 
   //Set dimensions of canvas and graph
-var margin = {top: 40, right: 40, bottom: 40, left:40},
+var margin = {top: 150, right: 40, bottom: 40, left:40},
     width = 500,
+    //cecile made a bit higher to fit the text
     height = 500,
     padding = 1, // separation between nodes
   radius = 4;
@@ -376,7 +377,8 @@ svg.append("text")
   .attr("x", width / 2)
   .attr("y", -10)
     .style("text-anchor", "middle")
-    .text("Title of Diagram");
+    .text("Average Rating Over Number of Ratings");
+    //.style("font-size",20);
 
 
   //Add the X axis
@@ -400,7 +402,7 @@ svg.append("text")
   .attr("y", -40)
   .attr("dy", ".7em")
   .style("text-anchor", "end")
-  .text("Frequency");
+  .text("Average Rating");
 
   // Add dots
   var node = svg.selectAll(".dot")
@@ -525,9 +527,12 @@ function starDistribution(ID){
 
 svg.append("text")
   .attr("x", width / 2)
-  .attr("y", -10)
+  //changed y to fit text
+  .attr("y", -5)
     .style("text-anchor", "middle")
-    .text("Title of Diagram");
+    .text("Number of Stars over Number of Reviews")
+    .attr({ "font-size": 16, "font-family": "'Open Sans', sans-serif", "margin-top": 10});
+
 
 svg.append("g")
   .attr("class", "x axis")
