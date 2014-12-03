@@ -140,3 +140,9 @@ position: absolute;
 right: 100px;
 top: 400px;
 }
+
+#credit {
+  position: absolute;
+  width: 400px;
+  top: 600px;
+}
