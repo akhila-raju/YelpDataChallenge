@@ -340,7 +340,7 @@ var svg = d3.select('body').append('svg')
     .gravity(0);
 
   x.domain(d3.extent(bizData, function(d) { return d[xVar]; })).nice();
-  y.domain(d3.extent(bizData, function(d) { return d[yVar]; })).nice();
+  //y.domain(d3.extent(bizData, function(d) { return d[yVar]; })).nice();
 
   // Set initial positions
   bizData.forEach(function(d) {
@@ -370,6 +370,7 @@ var svg = d3.select('body').append('svg')
       .attr("cy", function(d) { return y(d[yVar]); })
       .style("fill", function(d) {return d.business_id==myData.business_id?"red":"steelblue";})
       .style("opacity", function(d) {return d.business_id==myData.business_id?1:0.7;})
+      .on("click", function(d){starDistribution(d.business_id)}) //make a graph
       .on("mouseover", function(d) {   
           div.transition()    
               .duration(200)    
@@ -433,3 +434,15 @@ var svg = d3.select('body').append('svg')
     };
   }
 }
+
+
+function starDistribution(){
+  // var thisBiz = data.filter(function(d){return d.business_id == ID});
+  // bizReviews = reviews[ID]; // need to load reviews
+  // justStars = bizReviews.map(function(d){return d.stars;});
+  justStars = [1,1,2,2,3,3,3,3,3,3,4,4,4,4,4,5];
+  starCounts = count(justStars);
+  min = Math.min.apply(null, d3.entries(starCounts).map(function(d){return d.value}));
+  max = Math.max.apply(null, d3.entries(starCounts).map(function(d){return d.value}));
+  starArray = d3.entries(justStars);
+  }
