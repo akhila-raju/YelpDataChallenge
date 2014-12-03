@@ -344,8 +344,9 @@ function viz(){
 
 
   //Set dimensions of canvas and graph
-var margin = {top: 40, right: 40, bottom: 40, left:40},
+var margin = {top: 30, right: 40, bottom: 40, left:40},
     width = 500,
+    //cecile made a bit higher to fit the text
     height = 500,
     padding = 1, // separation between nodes
   radius = 4;
@@ -414,7 +415,9 @@ svg.append("text")
   .attr("x", width / 2)
   .attr("y", -10)
     .style("text-anchor", "middle")
-    .text("Title of Diagram");
+    .text("Average Rating Over Number of Ratings")
+    .attr({ "font-size": 16, "font-family": "'Open Sans', sans-serif"});
+
 
 
   //Add the X axis
@@ -427,7 +430,8 @@ svg.append("text")
       .attr("x", 150)
       .attr("y", 20)
       //.style("text-anchor", "end")
-      .text("Number Of Ratings");
+      .text("Number Of Ratings")
+      .attr({ "font-size": 10, "font-family": "'Open Sans', sans-serif"});
 
   //Add the Y axis
   svg.append('g')
@@ -438,7 +442,8 @@ svg.append("text")
   .attr("y", -40)
   .attr("dy", ".7em")
   .style("text-anchor", "end")
-  .text("Frequency");
+  .text("Average Rating")
+  .attr({ "font-size": 10, "font-family": "'Open Sans', sans-serif"});
 
   // Add dots
   var node = svg.selectAll(".dot")
@@ -534,9 +539,9 @@ function starDistribution(ID){
   max = Math.max.apply(null, d3.entries(starCounts).map(function(d){return d.value}));
   starArray = d3.entries(starCounts);
 
-  var margin = {top: 20, right: 30, bottom: 30, left: 40},
-    width = 500 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+  var margin = {top: 30, right: 40, bottom: 40, left: 40},
+    width = 500, //- margin.left - margin.right,
+    height = 500;// - margin.top - margin.bottom;
 
   var xScale = d3.scale.ordinal()
                   .rangeRoundBands([0, width], .5);
@@ -563,9 +568,12 @@ function starDistribution(ID){
 
 svg.append("text")
   .attr("x", width / 2)
-  .attr("y", -10)
+  //changed y to fit text
+  .attr("y", -5)
     .style("text-anchor", "middle")
-    .text("Title of Diagram");
+    .text("Number of Stars over Number of Reviews")
+    .attr({ "font-size": 16, "font-family": "'Open Sans', sans-serif"});
+
 
 svg.append("g")
   .attr("class", "x axis")
@@ -576,7 +584,8 @@ svg.append("g")
       .attr("x", width)
       .attr("y", 12)
       .style("text-anchor", "end")
-      .text("Stars");
+      .text("Stars")
+      .attr({ "font-size": 10, "font-family": "'Open Sans', sans-serif"});
 
 svg.append("g")
   .attr("class", "y axis")
@@ -586,7 +595,8 @@ svg.append("g")
   .attr("y", -35)
   .attr("dy", ".7em")
   .style("text-anchor", "end")
-  .text("# Reviews");
+  .text("# Reviews")
+  .attr({ "font-size": 10, "font-family": "'Open Sans', sans-serif"});
 
 svg.selectAll(".bar")
       .data(starArray)
