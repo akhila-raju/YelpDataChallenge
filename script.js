@@ -53,9 +53,6 @@ var duplicates = [];
 var seenSoFar; 
 var nameCounts;
 var myTitle; 
-var myName; 
-var percentGreater;
-
 d3.json("bizMadison.json", function(d) {
  	//d here is the entire list of businesses
  	//bind it to the global variable...
@@ -223,12 +220,8 @@ var menuNames;
 
 // updates marker position after searching for business - Akhila
 function updateMarker() {
-<<<<<<< HEAD
   // show("no");
   showcheckbox("no");
-=======
-  show("no");
->>>>>>> f50f3a2b106bc56277f1f533925f94d76b5c040e
   myBus = document.getElementById("businessTags").value;
   console.log(myBus)
   if (! (myBus.indexOf(':') === -1)) { // handles duplicates
@@ -246,12 +239,8 @@ function updateMarker() {
 
   // My Viz buttons
 
-<<<<<<< HEAD
 //Choices for Individual
   vizbizdata = ["Useful", "Time", "Distribution"];
-=======
-  buttonNames = myData.categories;
->>>>>>> f50f3a2b106bc56277f1f533925f94d76b5c040e
 
   indivButtons = d3.select("#individual").selectAll(".pure-button")
       .data(vizbizdata, function(d){return d;})    
@@ -260,14 +249,7 @@ function updateMarker() {
       .attr("class","pure-button")
       .attr("value", function (d){return d;})
       .on("click", function(d){
-<<<<<<< HEAD
         vizCat(d);
-=======
-        // visualize first category as default on click
-        // vizCat(buttonNames[0]);
-        
-        show("yes");
->>>>>>> f50f3a2b106bc56277f1f533925f94d76b5c040e
       });
   indivButtons.exit().remove(); 
 
@@ -300,14 +282,25 @@ function updateMarker() {
 //   d3.select("#comparisonbuttons").style("opacity", newOpacity);
 // }
 
+function showcheckbox(yesorno) {
+  if (yesorno == "yes") {
+    var newOpacity = 1;
+  } else {
+    var newOpacity = 0;
+  }
+  d3.select("#collisionbox").style("opacity", newOpacity);
+}
+
 var first = true;
 function vizCat(cat){
   myTitle = cat; 
   if (cat == "Visualize My Business"){
-    d3.select("#collisionbox")
-      .remove();
+    // d3.select("#collisionbox")
+    //   .remove();
     var active = false;
     starDistribution(myData.business_id);
+  } else if (cat == "Useful"){
+    usefulVstars(myData.business_id);
   } else {
     var active = true;
     updateCategory(cat);
@@ -329,8 +322,6 @@ var checkbox;
 function viz(){
   if (first){
   first = false;
-
-
   controls = d3.select("#collisionbox").append("label")
     .attr("id", "controls");
   checkbox = controls.append("input")
@@ -339,9 +330,6 @@ function viz(){
   controls.append("span")
     .text("Unclutter dots");
   }
-
-  
-
   d3.select("#vizSpace")
     .remove();
   
@@ -364,23 +352,6 @@ function viz(){
       percentGreater += bizCounts[i].percentage;
     }
   }
-  console.log(percentGreater)
-  var pg = percentGreater.toFixed(2)
-  pg *= 100
-  // if (pg <=50){
-  //   var myText1 = "Your business is doing better than average!"
-  // }else{
-  //   myText1 = "Your business is doing worse than average." 
-  // }
-
-  var myPg = 100 - pg; 
-
-  textbox = d3.select("#statistics").append("label")
-    .append("span")
-    .text("This business has an average rating of " + myData.stars + " stars. " + myPg.toString() + " % of businesses in this category have an equal or lower rating. " )
-    .style("left", 100+ "px");
-
-
   console.log(percentGreater);
   var min = bizData[0].review_count;
   var max = bizData[bizData.length-1].review_count;
@@ -391,6 +362,7 @@ function viz(){
   //Set dimensions of canvas and graph
 var margin = {top: 30, right: 40, bottom: 40, left:40},
     width = 500,
+    //cecile made a bit higher to fit the text
     height = 500,
     padding = 1, // separation between nodes
   radius = 4;
@@ -433,7 +405,7 @@ var div = d3.select("#charts").append("div")
 var svg = d3.select('#charts').append('svg')
     .attr('id', 'vizSpace')
     .attr('class', 'chart')
-    .attr('width', width * 2 )
+    .attr('width', width)
     .attr('height', height)
   .append('g')
     .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
@@ -459,12 +431,10 @@ svg.append("text")
   .attr("x", width / 2)
   .attr("y", -10)
     .style("text-anchor", "middle")
-    .text(myName + " Compared to "+ myTitle)
+    .text("" + myTitle)
     .attr({ "font-size": 16, "font-family": "'Open Sans', sans-serif"});
 
-    //console.log(myTitle)
-
-    
+    console.log(myTitle)
 
 
 
@@ -614,18 +584,12 @@ function starDistribution(ID){
   xScale.domain([1,2,3,4,5]);
   yScale.domain([0, d3.max(starArray, function(d){return d.value;})]);
 
-
- myName = document.getElementById('businessTags').value;
-   if (! (myName.indexOf(':') === -1)) { // handles duplicates
-       myName = myName.substring(0, myBus.indexOf(":"));
-      }
-
 svg.append("text")
   .attr("x", width / 2)
   //changed y to fit text
   .attr("y", -5)
     .style("text-anchor", "middle")
-    .text(myName)
+    .text("Number of Stars over Number of Reviews")
     .attr({ "font-size": 16, "font-family": "'Open Sans', sans-serif"});
 
 
@@ -664,3 +628,210 @@ svg.selectAll(".bar")
 
 }
 
+function sortByUseful(reviews){
+  return reviews.sort(function(a,b){
+      return a.votes.useful - b.votes.useful;
+  });
+};
+
+function usefulVstars(ID){
+  if (first){
+  first = false;
+  controls = d3.select("#collisionbox").append("label")
+    .attr("id", "controls");
+  checkbox = controls.append("input")
+    .attr("id", "collisiondetection")
+    .attr("type", "checkbox");
+  controls.append("span")
+    .text("Unclutter dots");
+  }
+  d3.select("#vizSpace")
+          .remove();
+  var sortedData = sortByUseful(reviews[ID]);
+  var min = sortedData[0].votes.useful;
+  var max= sortedData[sortedData.length-1].votes.useful;
+
+    //Set dimensions of canvas and graph
+  var margin = {top: 30, right: 40, bottom: 40, left:40},
+      width = 500,
+      //cecile made a bit higher to fit the text
+      height = 500,
+      padding = 1, // separation between nodes
+    radius = 4;
+
+  //Set ranges
+  x = d3.scale.linear()
+      .domain([min, max])
+      .rangeRound([0, width - margin.left - margin.right]);
+
+  y = d3.scale.linear()
+      .domain([0.8, 5.2])
+      .range([height - margin.top - margin.bottom, 0]);
+
+//Define the axes
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient('bottom')
+    .tickValues(x.domain())
+    .tickSize(0)
+    .tickPadding(8);
+
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient('left')
+    .tickPadding(8);
+
+// setup fill color
+var cValue = function(d) { return d.stars;};
+var color = d3.scale.ordinal()
+      .domain(["5", "4.5", "4", "3.5", "3", "2.5", "2", "1.5", "1"])
+      .range(["#080226", "#120440", "#090161", "#074187" , "#056ba0", "#0495b8", "#02c0d1", "#01eaea", "#00fff7"]);
+
+
+// Define the div for the tooltip
+var div = d3.select("#charts").append("div") 
+    .attr("class", "tooltip")       
+    .style("opacity", 0);
+
+//Add the svg canvas
+var svg = d3.select('#charts').append('svg')
+    .attr('id', 'vizSpace')
+    .attr('class', 'chart')
+    .attr('width', width)
+    .attr('height', height)
+  .append('g')
+    .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
+
+  // Force for dots
+  var force = d3.layout.force()
+    .nodes(sortedData)
+    .size([width, height])
+    .on("tick", tick)
+    .charge(0.1)
+    .gravity(0);
+
+  x.domain(d3.extent(sortedData, function(d) { return d.votes.useful; })).nice();
+
+  // Set initial positions
+  sortedData.forEach(function(d) {
+    d.x = x(d.votes.useful);
+    d.y = y(d.stars);
+    d.radius = radius;
+  });
+
+svg.append("text")
+  .attr("x", width / 2)
+  .attr("y", -10)
+    .style("text-anchor", "middle")
+    .text("Reviews by Usefulness")
+    .attr({ "font-size": 16, "font-family": "'Open Sans', sans-serif"});
+
+    console.log(myTitle)
+
+
+
+  //Add the X axis
+  svg.append('g')
+      .attr('class', 'x axis')
+      .attr('transform', 'translate(0, ' + (height - margin.top - margin.bottom) + ')')
+      .call(xAxis)
+    .append("text")
+      .attr("class", "label")
+      .attr("x", 150)
+      .attr("y", 20)
+      //.style("text-anchor", "end")
+      .text("Number Of Useful Votes")
+      .attr({ "font-size": 10, "font-family": "'Open Sans', sans-serif"});
+
+  //Add the Y axis
+  svg.append('g')
+    .attr('class', 'y axis')
+    .call(yAxis)
+    .append("text")
+  .attr("transform", "rotate(-90)")
+  .attr("y", -40)
+  .attr("dy", ".7em")
+  .style("text-anchor", "end")
+  .text("Rating")
+  .attr({ "font-size": 10, "font-family": "'Open Sans', sans-serif"});
+
+  // Add dots
+  var node = svg.selectAll(".dot")
+      .data(sortedData, function(d){return d;})
+    .enter().append("circle")
+      .attr("class", "dot")
+      .attr("r", radius - .75)
+      .attr("cx", function(d) { return x(d.votes.useful); })
+      .attr("cy", function(d) { return y(d.stars); })
+      .style("fill", function(d) {return color(cValue(d));})
+      // .style("fill", function(d) { return color(cValue(d));}) 
+      // .style("opacity", function(d) {return d.business_id==myData.business_id?1:0.7;})
+      .on("click", function(d){starDistribution(d.business_id);
+        var active = false;
+        var newOpacity = active ? 1 : 0;
+        d3.select("#collisionbox").style("opacity", newOpacity);
+      }) //make a graph
+      .on("mouseover", function(d) {   
+          div.transition()    
+              .duration(200)    
+              .style("opacity", 1);    
+          div .html(d.name + ": " + d[xVar] + " reviews")  // tool tip message 
+              .style("left", (d3.event.pageX) + "px")   
+              .style("top", (d3.event.pageY - 28) + "px");  
+        })          
+      .on("mouseout", function(d) {   
+          div.transition()    
+              .duration(500)    
+              .style("opacity", 0); 
+      });
+
+  d3.select("#collisiondetection").on("change", function() {
+    force.resume();
+  });
+
+    force.start();
+
+  function tick(e) {
+    node.each(moveTowardDataPosition(e.alpha));
+
+    if (checkbox.node().checked) node.each(collide(e.alpha));
+
+    node.attr("cx", function(d) { return d.x = Math.max(radius, Math.min(width - radius, d.x)); })
+        .attr("cy", function(d) { return d.y = Math.max(radius, Math.min(height - radius, d.y)); });
+  }
+
+  function moveTowardDataPosition(alpha) {
+    return function(d) {
+      d.x += (x(d.votes.useful) - d.x) * 0.1 * alpha;
+      d.y += (y(d.stars) - d.y) * 0.1 * alpha;
+    };
+  }
+
+  // Resolve collisions between nodes.
+  function collide(alpha) {
+    var quadtree = d3.geom.quadtree(sortedData);
+    return function(d) {
+      var r = d.radius + radius + padding,
+          nx1 = d.x - r,
+          nx2 = d.x + r,
+          ny1 = d.y - r,
+          ny2 = d.y + r;
+      quadtree.visit(function(quad, x1, y1, x2, y2) {
+        if (quad.point && (quad.point !== d)) {
+          var x = d.x - quad.point.x,
+              y = d.y - quad.point.y,
+              l = Math.sqrt(x * x + y * y);
+          if (l < r) {
+            l = (l - r) / l * alpha;
+            d.x -= x *= l;
+            d.y -= y *= l;
+            quad.point.x += x;
+            quad.point.y += y;
+          }
+        }
+        return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+      });
+    };
+  }
+
+}
