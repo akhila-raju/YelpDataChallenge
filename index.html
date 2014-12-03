@@ -26,12 +26,14 @@
   <div id="searchbytext"><b>Viz My Biz</b></div>
 
   <br><div>Viz My Biz is an interactive tool that allows users to visualize ratings over time, using Yelp data. The data shown here is from Madison, Wisconsin.</div>
+  <br>
 
 
     <br><div class="sidebar" id="businessSearch">
       <div><b>Visualize <input type="text" id="businessTags" placeholder="Business Name"> and compare to similar businesses within a <input type="number" id="vizradius" min="1" max="20" placeholder="0-20"> mile radius.</b>
         <br><br><button type="button" class="pure-button" onclick="updateMarker();">Visualize</button>
       </div>
+    </div>
 
     <br><div id="credit">Data retrieved from Yelp Dataset Challenge. Visualization created by Akhila Raju, Cecile Basnage, and Jimmy Yin for CS294: Data Visualization, Fall 2014.</div>
 
@@ -48,6 +50,7 @@
       <div id="charts"></div>
     </div>
     <div id="statistics"></div>
+    <div id="explanation">Hover over a dot to see which business it belongs to. A color gradient is used to differentiate y-values. Red corresponds to your business.</div>
   </div>
 
   </body>

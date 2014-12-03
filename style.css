@@ -138,11 +138,18 @@ width: 200px;
 float: right;
 position: absolute;
 right: 100px;
-top: 400px;
+top: 500px;
 }
 
 #credit {
   position: absolute;
   width: 400px;
   top: 600px;
+}
+
+#explanation {
+  width: 200px;
+  position: absolute;
+  right: 100px;
+  top: 300px;
 }
