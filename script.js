@@ -232,7 +232,10 @@ function updateMarker() {
   updateRadius();
   update(radData);
   buttonNames = myData.categories;
-  buttonNames.push("Ratings Distribution")
+  if (buttonNames.indexOf("Ratings Distribution") == -1){
+    buttonNames.push("Ratings Distribution")
+  }
+  //buttonNames.push("Ratings Distribution")
   buttons = d3.select("body").selectAll(".button")
       .data(buttonNames, function(d){return d;})    
   buttons.enter().append("input")
