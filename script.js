@@ -15,7 +15,7 @@ var map = new google.maps.Map(d3.select("#map").node(), {
 var marker = new google.maps.Marker({
   position: center,
   map: map,
-  draggable:true
+  draggable:false
 });
 
 // Event Listeners
