@@ -123,3 +123,8 @@ div.tooltip {
 #comparisonbuttons {
   opacity: 0;
 }
+
+#statistics{
+  margin-left:30px;
+  margin-bottom: 30px;
+}

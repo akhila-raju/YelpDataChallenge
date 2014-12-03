@@ -54,6 +54,8 @@ var seenSoFar;
 var nameCounts;
 var myTitle; 
 var myName; 
+var percentGreater;
+
 d3.json("bizMadison.json", function(d) {
  	//d here is the entire list of businesses
  	//bind it to the global variable...
@@ -320,6 +322,8 @@ var checkbox;
 function viz(){
   if (first){
   first = false;
+
+
   controls = d3.select("#collisionbox").append("label")
     .attr("id", "controls");
   checkbox = controls.append("input")
@@ -328,6 +332,9 @@ function viz(){
   controls.append("span")
     .text("Unclutter dots");
   }
+
+  
+
   d3.select("#vizSpace")
     .remove();
   
@@ -350,6 +357,23 @@ function viz(){
       percentGreater += bizCounts[i].percentage;
     }
   }
+  console.log(percentGreater)
+  var pg = percentGreater.toFixed(2)
+  pg *= 100
+  // if (pg <=50){
+  //   var myText1 = "Your business is doing better than average!"
+  // }else{
+  //   myText1 = "Your business is doing worse than average." 
+  // }
+
+  var myPg = 100 - pg; 
+
+  textbox = d3.select("#statistics").append("label")
+    .append("span")
+    .text("This business has an average rating of " + myData.stars + " stars. " + myPg.toString() + " % of businesses in this category have an equal or lower rating. " )
+    .style("left", 100+ "px");
+
+
   console.log(percentGreater);
   var min = bizData[0].review_count;
   var max = bizData[bizData.length-1].review_count;
@@ -360,7 +384,6 @@ function viz(){
   //Set dimensions of canvas and graph
 var margin = {top: 30, right: 40, bottom: 40, left:40},
     width = 500,
-    //cecile made a bit higher to fit the text
     height = 500,
     padding = 1, // separation between nodes
   radius = 4;
@@ -403,7 +426,7 @@ var div = d3.select("#charts").append("div")
 var svg = d3.select('#charts').append('svg')
     .attr('id', 'vizSpace')
     .attr('class', 'chart')
-    .attr('width', width)
+    .attr('width', width * 2 )
     .attr('height', height)
   .append('g')
     .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
@@ -429,7 +452,7 @@ svg.append("text")
   .attr("x", width / 2)
   .attr("y", -10)
     .style("text-anchor", "middle")
-    .text(myName + " Compared to Businesses in "+ myTitle)
+    .text(myName + " Compared to "+ myTitle)
     .attr({ "font-size": 16, "font-family": "'Open Sans', sans-serif"});
 
     //console.log(myTitle)
