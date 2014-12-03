@@ -453,7 +453,7 @@ function starDistribution(ID){
   min = Math.min.apply(null, d3.entries(starCounts).map(function(d){return d.value}));
   max = Math.max.apply(null, d3.entries(starCounts).map(function(d){return d.value}));
   starArray = d3.entries(starCounts);
-  var margin = {top: 20, right: 30, bottom: 30, left: 40},
+  var margin = {top: 20, right: 30, bottom: 30, left: 50},
     width = 400 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
   var xScale = d3.scale.ordinal()
@@ -487,8 +487,8 @@ svg.append("g")
   .call(yAxis)
 .append("text")
   .attr("transform", "rotate(-90)")
-  .attr("y", 6)
-  .attr("dy", ".71em")
+  .attr("y", -40)
+  .attr("dy", ".7em")
   .style("text-anchor", "end")
   .text("Frequency");
 

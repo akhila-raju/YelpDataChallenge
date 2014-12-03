@@ -1,5 +1,5 @@
       #map {
-        width: 400px;
+        width: 300px;
         height: 200px;
         margin: 0;
         padding: 0;
@@ -90,9 +90,8 @@ body {
 
 #controls {
   font-size: 14px;
-  position: absolute;
-  top: 120px;
-  left: 810px;
+  position: relative;
+  bottom: 370px;
 }
 
 input {
@@ -111,7 +110,7 @@ div.tooltip {
 }
 
 #sidebar {
-  width: 400px;
+  width: 300px;
   text-align: center;
 }
 
