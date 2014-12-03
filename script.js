@@ -218,7 +218,6 @@ var menuNames;
 
 // updates marker position after searching for business - Akhila
 function updateMarker() {
-
   myBus = document.getElementById("businessTags").value;
   console.log(myBus)
   if (! (myBus.indexOf(':') === -1)) { // handles duplicates
@@ -243,8 +242,6 @@ function updateMarker() {
       .attr("class","pure-button")
       .attr("value", function (d){return d;})
       .on("click", function(d){
-        d3.select("#vizSpace")
-          .remove();
         vizCat(d);
         show("no");
       });
@@ -260,9 +257,7 @@ function updateMarker() {
       .on("click", function(d){
         // visualize first category as default on click
         // vizCat(buttonNames[0]);
-        // clear vizspace when compare pressed so user can select 
-        d3.select("#vizSpace")
-          .remove();
+        
         show("yes");
       });
 
@@ -296,8 +291,8 @@ function show(yesorno) {
 var first = true;
 function vizCat(cat){
   if (cat == "Visualize My Business"){
-    d3.select("#collisionbox")
-      .remove();
+    // d3.select("#collisionbox")
+    //   .remove();
     var active = false;
     starDistribution(myData.business_id);
   } else {
@@ -534,8 +529,8 @@ svg.append("text")
 
 
 function starDistribution(ID){
-    // d3.select("#vizSpace")
-    //       .remove();
+    d3.select("#vizSpace")
+          .remove();
 
   var thisBiz = data.filter(function(d){return d.business_id == ID});
   bizReviews = reviews[ID]; // need to load reviews
