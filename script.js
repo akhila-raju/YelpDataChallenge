@@ -282,7 +282,7 @@ function viz(){
     .attr("id", "collisiondetection")
     .attr("type", "checkbox");
   controls.append("span")
-    .text("Collision detection");
+    .text("Show all dots");
   }
   d3.select("#vizSpace")
     .remove();
