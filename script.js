@@ -425,18 +425,6 @@ var svg = d3.select('body').append('svg')
   }
 }
 
-function updateViz(){
-  var n =document.getElementById('vizradius').value;
-  console.log(n);
-    // if there is nothing in the second text box, call the first function 
-    if (n == ""){
-      starDistribution(); 
-      console.log("STARS");
-    }
-    else{
-      updateMarker(); 
-    }
-}
 
 function starDistribution(ID){
   // var thisBiz = data.filter(function(d){return d.business_id == ID});
