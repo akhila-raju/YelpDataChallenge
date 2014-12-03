@@ -371,8 +371,8 @@ var svg = d3.select('#charts').append('svg')
       .attr("r", radius - .75)
       .attr("cx", function(d) { return x(d[xVar]); })
       .attr("cy", function(d) { return y(d[yVar]); })
-      .style("fill", function(d) { return color(cValue(d));}) 
-      // .style("fill", function(d) {return d.business_id==myData.business_id?"red":"steelblue";})
+      .style("fill", function(d) {return d.business_id==myData.business_id?"red": color(cValue(d));})
+      // .style("fill", function(d) { return color(cValue(d));}) 
       // .style("opacity", function(d) {return d.business_id==myData.business_id?1:0.7;})
       .on("click", function(d){starDistribution(d.business_id)}) //make a graph
       .on("mouseover", function(d) {   
