@@ -241,6 +241,7 @@ function updateMarker() {
   buttons.exit().remove(); 
   d3.select("#vizSpace")
           .remove();
+  starDistribution(myData.business_id);
 }
 
 var first = true;
@@ -284,8 +285,8 @@ function viz(){
 
   //Set dimensions of canvas and graph
 var margin = {top: 40, right: 40, bottom: 40, left:40},
-    width = 600,
-    height = 600,
+    width = 400,
+    height = 400,
     padding = 1, // separation between nodes
   radius = 4;
 
@@ -447,8 +448,8 @@ function starDistribution(ID){
   max = Math.max.apply(null, d3.entries(starCounts).map(function(d){return d.value}));
   starArray = d3.entries(starCounts);
   var margin = {top: 20, right: 30, bottom: 30, left: 40},
-    width = 960 - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
+    width = 400 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
   var xScale = d3.scale.ordinal()
                   .rangeRoundBands([0, width], .1);
   var yScale = d3.scale.linear()
