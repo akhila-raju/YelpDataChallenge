@@ -363,10 +363,15 @@ function viz(){
 
   var myPg = 100 - pg; 
   d3.select("#statistics").selectAll("label").remove();
+  d3.select("#explanation").selectAll("label").remove();
   textbox = d3.select("#statistics").append("label")
     .append("span")
     .text("This business has an average rating of " + myData.stars + " stars. " + myPg.toString() + " % of businesses in this category have an equal or lower rating. " )
     .style("left", 100+ "px");
+  textbox = d3.select("#explanation").append("label")
+    .append("span")
+    .text("Hover over a dot to see which business it belongs to. A color gradient is used to differentiate y-values. Red corresponds to your business." )
+
   console.log(percentGreater);
   var min = bizData[0].review_count;
   var max = bizData[bizData.length-1].review_count;
