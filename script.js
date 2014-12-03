@@ -295,8 +295,8 @@ var first = true;
 function vizCat(cat){
   myTitle = cat; 
   if (cat == "Visualize My Business"){
-    // d3.select("#collisionbox")
-    //   .remove();
+    d3.select("#collisionbox")
+      .remove();
     var active = false;
     starDistribution(myData.business_id);
   } else {
@@ -586,12 +586,9 @@ function starDistribution(ID){
 
 
  myName = document.getElementById('businessTags').value;
- myName = myName();
- function myName() {
    if (! (myName.indexOf(':') === -1)) { // handles duplicates
        myName = myName.substring(0, myBus.indexOf(":"));
       }
- };
 
 svg.append("text")
   .attr("x", width / 2)
