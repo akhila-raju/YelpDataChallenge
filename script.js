@@ -480,7 +480,13 @@ function starDistribution(ID){
 svg.append("g")
   .attr("class", "x axis")
   .attr("transform", "translate(0," + height + ")")
-  .call(xAxis);
+  .call(xAxis)
+.append("text")
+      .attr("class", "label")
+      .attr("x", width)
+      .attr("y", 12)
+      .style("text-anchor", "end")
+      .text("Stars");
 
 svg.append("g")
   .attr("class", "y axis")
