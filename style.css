@@ -126,3 +126,17 @@ div.tooltip {
   height: 35px;
 }
 
+#wrapper {
+overflow: auto;
+width: 700px;}
+
+#vizspace {
+display: inline-block;}
+
+#statistics {
+width: 200px;
+float: right;
+position: absolute;
+right: 100px;
+top: 400px;
+}
