@@ -230,8 +230,6 @@ function updateMarker() {
   marker.setPosition(latlng);
   updateRadius();
   update(radData);
-  var id = myData.business_id;
-  starDistribution(id);
   buttonNames = myData.categories;
   buttons = d3.select("body").selectAll(".button")
       .data(buttonNames, function(d){return d;})    
