@@ -262,8 +262,8 @@ function viz(){
 
   //Set dimensions of canvas and graph
 var margin = {top: 40, right: 40, bottom: 40, left:40},
-    width = 400,
-    height = 400,
+    width = 600,
+    height = 600,
     padding = 1, // separation between nodes
   radius = 4;
 
@@ -295,7 +295,6 @@ var div = d3.select("body").append("div")
     .attr("class", "tooltip")       
     .style("opacity", 0);
 
-
 //Add the svg canvas
 var svg = d3.select('body').append('svg')
     .attr('class', 'chart')
@@ -319,7 +318,6 @@ controls.append("span")
     .on("tick", tick)
     .charge(-1)
     .gravity(0);
-    // .chargeDistance(1); throwing an error
 
   x.domain(d3.extent(bizData, function(d) { return d[xVar]; })).nice();
   y.domain(d3.extent(bizData, function(d) { return d[yVar]; })).nice();
@@ -328,7 +326,6 @@ controls.append("span")
   bizData.forEach(function(d) {
     d.x = x(d[xVar]);
     d.y = y(d[yVar]);
-    // d.color = color(d.species);
     d.radius = radius;
   });
 
@@ -343,12 +340,12 @@ controls.append("span")
     .attr('class', 'y axis')
     .call(yAxis);
 
-  // Add dots -
+  // Add dots
   var node = svg.selectAll(".dot")
       .data(bizData)
     .enter().append("circle")
       .attr("class", "dot")
-      .attr("r", radius)
+      .attr("r", radius - .75)
       .attr("cx", function(d) { return x(d[xVar]); })
       .attr("cy", function(d) { return y(d[yVar]); })
       .on("mouseover", function(d) {   
@@ -376,8 +373,8 @@ controls.append("span")
 
     if (checkbox.node().checked) node.each(collide(e.alpha));
 
-    node.attr("cx", function(d) { return d.x; })
-        .attr("cy", function(d) { return d.y; });
+    node.attr("cx", function(d) { return d.x = Math.max(radius, Math.min(width - radius, d.x)); })
+        .attr("cy", function(d) { return d.y = Math.max(radius, Math.min(height - radius, d.y)); });
   }
 
   function moveTowardDataPosition(alpha) {
@@ -401,7 +398,6 @@ controls.append("span")
           var x = d.x - quad.point.x,
               y = d.y - quad.point.y,
               l = Math.sqrt(x * x + y * y);
-              // r = d.radius + quad.point.radius + (d.color !== quad.point.color) * padding;
           if (l < r) {
             l = (l - r) / l * alpha;
             d.x -= x *= l;
