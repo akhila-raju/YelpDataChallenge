@@ -120,6 +120,17 @@ div.tooltip {
   float:left;
 }
 
+<<<<<<< HEAD
 #comparisonbuttons, #individual {
 /*  opacity: 0;
 */}
+=======
+#comparisonbuttons {
+  opacity: 0;
+}
+
+#statistics{
+  margin-left:30px;
+  margin-bottom: 30px;
+}
+>>>>>>> f50f3a2b106bc56277f1f533925f94d76b5c040e
