@@ -234,8 +234,9 @@ function updateMarker() {
 
   myvisbiz = ["Visualize My Business"];
   comparebiz = ["Compare My Business"];
+  myOptions = ["Visualize My Business", "Compare My Business"];
 
-  myvisbiz = d3.select("#menu").selectAll(".button")
+  myvisbiz = d3.select("#menu").selectAll(".pure-button")
       .data(myvisbiz, function(d){return d;})
   myvisbiz.enter().append("input")
       .attr("type","button")
@@ -244,11 +245,11 @@ function updateMarker() {
       .on("click", function(d){
         vizCat(d);
         show("no");
-      });
+  });
 
   buttonNames = myData.categories;
 
-  comparebiz = d3.select("#menu").selectAll(".button")
+  comparebiz = d3.select("#menu").selectAll(".pure-button")
       .data(comparebiz, function(d){return d;})
   comparebiz.enter().append("input")
       .attr("type","button")
@@ -262,7 +263,7 @@ function updateMarker() {
       });
 
   // Category buttons
-  categorybuttons = d3.select("#comparisonbuttons").selectAll(".button")
+  categorybuttons = d3.select("#comparisonbuttons").selectAll(".pure-button")
       .data(buttonNames, function(d){return d;})    
   categorybuttons.enter().append("input")
       .attr("type","button")
