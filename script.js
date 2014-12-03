@@ -327,7 +327,7 @@ var svg = d3.select('body').append('svg')
     .nodes(bizData)
     .size([width, height])
     .on("tick", tick)
-    .charge(-1)
+    .charge(0.1)
     .gravity(0);
 
   x.domain(d3.extent(bizData, function(d) { return d[xVar]; })).nice();
