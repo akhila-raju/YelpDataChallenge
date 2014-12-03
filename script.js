@@ -65,7 +65,6 @@ d3.json("bizMadison.json", function(d) {
   initAutoComplete();
  	initOverlay();
   initSlider();
-  smallMultiples();
 });
 
 count = function(ary, classifier) {
@@ -216,6 +215,8 @@ function updateCategory(){
   update(vizData)
 }
 
+var buttonNames;
+var buttons;
 // updates marker position after searching for business - Akhila
 function updateMarker() {
   myBus = document.getElementById("businessTags").value;
@@ -223,6 +224,7 @@ function updateMarker() {
   if (! (myBus.indexOf(':') === -1)) { // handles duplicates
     myBus = myBus.substring(0, myBus.indexOf(":"));
   }
+  myData = markerData.filter(function(d){return d.name == myBus})[0]
   latitude = markerData.filter(function(d){return d.name == myBus})[0]['latitude']
   longitude = markerData.filter(function(d){return d.name == myBus})[0]['longitude']
   console.log (latitude, longitude)
@@ -230,6 +232,15 @@ function updateMarker() {
   marker.setPosition(latlng);
   updateRadius();
   update(radData);
+  buttonNames = myData.categories;
+  buttons = d3.select("body").selectAll(".button")
+      .data(buttonNames, function(d){return d;})    
+  buttons.enter().append("input")
+      .attr("type","button")
+      .attr("class","button")
+      .attr("value", function (d){return d;})
+      .on("click", doSomething);
+  buttons.exit().remove(); 
 }
 
 // added from force.html -- Akhila
