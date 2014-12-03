@@ -300,7 +300,7 @@ x = d3.scale.linear()
     .rangeRound([0, width - margin.left - margin.right]);
 
 y = d3.scale.linear()
-    .domain([1, 5])
+    .domain([0.8, 5.2])
     .range([height - margin.top - margin.bottom, 0]);
 
 //Define the axes
@@ -314,8 +314,7 @@ var xAxis = d3.svg.axis()
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient('left')
-    .tickPadding(8)
-    .ticks(5);
+    .tickPadding(8);
 
 // Define the div for the tooltip
 var div = d3.select("body").append("div") 
@@ -340,7 +339,7 @@ var svg = d3.select('body').append('svg')
     .gravity(0);
 
   x.domain(d3.extent(bizData, function(d) { return d[xVar]; })).nice();
-  y.domain(d3.extent(bizData, function(d) { return d[yVar]; })).nice();
+  // y.domain(d3.extent(bizData, function(d) { return d[yVar]; })).nice();
 
   // Set initial positions
   bizData.forEach(function(d) {
@@ -368,8 +367,6 @@ var svg = d3.select('body').append('svg')
       .attr("r", radius - .75)
       .attr("cx", function(d) { return x(d[xVar]); })
       .attr("cy", function(d) { return y(d[yVar]); })
-      .style("fill", function(d) {return d.business_id==myData.business_id?"red":"steelblue";})
-      .style("opacity", function(d) {return d.business_id==myData.business_id?1:0.7;})
       .on("mouseover", function(d) {   
           div.transition()    
               .duration(200)    
