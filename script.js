@@ -154,15 +154,17 @@ function toggleAll(){
 // shows circles in radius defined by user
 function updateRadius(){
   if (document.getElementById('vizradius').value.length != 0) {
+    //Gets specified radius input from text
     distanceThreshold = document.getElementById('vizradius').value;
-    console.log(distanceThreshold);
-    if (distanceThreshold >= 20) {
-      useDistance = false;
-    } else {
-      useDistance = true;
-    }
   } else {
+    //Sets radius to 20 if radius isn't specified
     distanceThreshold = 20;
+  }
+  //Removes radius marker if greater than 20
+  if (distanceThreshold >= 20) {
+    useDistance = false;
+  } else {
+    useDistance = true;
   }
   distanceThresholdMeters = MILES_TO_METERS * distanceThreshold;
   radius.setVisible(useDistance);
@@ -195,9 +197,6 @@ function update(d){
           .attr("cy", padding);
 }
 
-  //radius.setVisible(useDistance); // is this line supposed to be here? - Akhila
-
-//this doesn't filter - Akhila - fixed
 function updateCategory(cat){
   //myCat = document.getElementById("categoryTags").value;
   myCat = cat;
@@ -483,5 +482,5 @@ svg.selectAll(".bar")
       .attr("y", function(d) { return yScale(d.value); })
       .attr("height", function(d) { return height - yScale(d.value); });
 
-  }
+}
 
