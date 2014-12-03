@@ -294,8 +294,8 @@ var first = true;
 function vizCat(cat){
   myTitle = cat; 
   if (cat == "Visualize My Business"){
-    d3.select("#collisionbox")
-      .remove();
+    // d3.select("#collisionbox")
+    //   .remove();
     var active = false;
     starDistribution(myData.business_id);
   } else {
