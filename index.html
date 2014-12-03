@@ -20,24 +20,30 @@
   <div id="map"></div>
   <script type="text/javascript" src="script.js"></script>
 
-  <div id="searchbytext"><b><i>Search by...</i></b></div>
+  <div id="searchbytext"><b><i>Viz My Biz</i></b></div>
+
+  <br><div>Viz My Biz is an interactive tool that allows users to visualize ratings over time, bla bla bla, using Yelp data.</div>
 
 
     <br><div class="sidebar" id="businessSearch">
-      <div class="sidebarheader"><b>Name of Business</b></div>
+      <div><b>Visualize <input type="text" id="businessTags"> and compare to similar businesses within <input type="number" id="vizradius" name="quantity" min="1" max="20"> mile radius.</b>
+        <br><br><button type="button" onclick="updateMarker();">Visualize</button>
+      </div>
+
+<!--       <div class="sidebarheader"><b>Name of Business</b></div>
       <br><form>
         <input type="text" id="businessTags">
         <button type="button" onclick="updateMarker();">Search</button>
       </form>
-    </div>
+ -->   <!--  </div> -->
 
 
-    <br><br><div id="distance" class="sidebar">
+<!--     <br><br><div id="distance" class="sidebar">
       <div class="sidebarheader"><b>Distance from Marker</b></div>
       <br><label><input type="checkbox" checked name="checkbox" id="useDistanceCheckbox" onchange = "update(false)">Show all businesses</label>
-      <br><br>Show businesses in radius of:<div id="distanceString">12 Miles</div>
+ --><!--       <br><br>Show businesses in radius of:<div id="distanceString">12 Miles</div>
       <br><div id="radiusSlider"></div>
-    </div>          
+ -->   <!--  </div>           -->
        
 
 <!--     <br><br><div class="sidebar" id="categorySearch">

@@ -63,7 +63,6 @@ d3.json("bizMadison.json", function(d) {
   markerData = d;
   initAutoComplete();
  	initOverlay();
-  initSlider();
 });
 
 count = function(ary, classifier) {
@@ -146,20 +145,6 @@ function transform(d) {
     .style("top", (d.y - padding) + "px");
 }
 
-function initSlider(){
-  $( "#radiusSlider" ).slider({
-      min:  0.5,
-      max: 12,
-      value: 12,
-      step: .5, //steps every 0.5 miles
-      slide: function( event, ui ) {
-        distanceThreshold = ui.value;
-        $("#useDistanceCheckbox").prop("checked", false)
-        updateRadius()
-      }
-  });
-}
-
 
 function toggleAll(){
   //just testing
@@ -168,20 +153,28 @@ function toggleAll(){
 
 // shows circles in radius defined by user
 function updateRadius(){
+  if (document.getElementById('vizradius').value.length != 0) {
+    distanceThreshold = document.getElementById('vizradius').value;
+    console.log(distanceThreshold);
+    if (distanceThreshold == 20) {
+      useDistance = false;
+    } else {
+      useDistance = true;
+    }
+  } else {
+    distanceThreshold = 20;
+  }
   distanceThresholdMeters = MILES_TO_METERS * distanceThreshold;
-  useDistance = ! $("#useDistanceCheckbox").prop("checked");
   radius.setVisible(useDistance);
   radius.setRadius(distanceThresholdMeters);
   //filter data by radius 
   radData = data.filter(function (d){return google.maps.geometry.spherical.computeDistanceBetween(marker.getPosition(), new google.maps.LatLng(d['latitude'], d['longitude'])) <= distanceThresholdMeters});
   //console.log(vizData.length);
-  $("#distanceString").text((useDistance ? distanceThreshold : "12") + " Miles")
   // Update Distance Radius
   updateCategory(myCat);
   update(radData);
    //this needs fixing
 }
-
 function update(d){
   if (!useDistance){
     d = data;
