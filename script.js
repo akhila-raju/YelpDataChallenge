@@ -231,7 +231,7 @@ function updateMarker() {
   marker.setPosition(latlng);
   updateRadius();
   update(radData);
-  
+
   myvisbiz = ["Visualize My Business"];
   comparebiz = ["Compare My Business"];
 
@@ -239,7 +239,7 @@ function updateMarker() {
       .data(myvisbiz, function(d){return d;})
   myvisbiz.enter().append("input")
       .attr("type","button")
-      .attr("class","button")
+      .attr("class","pure-button")
       .attr("value", function (d){return d;})
       .on("click", function(d){
         vizCat(d);
@@ -252,7 +252,7 @@ function updateMarker() {
       .data(comparebiz, function(d){return d;})
   comparebiz.enter().append("input")
       .attr("type","button")
-      .attr("class","button")
+      .attr("class","pure-button")
       .attr("value", function (d){return d;})
       .on("click", function(d){
         // visualize first category as default on click
@@ -265,7 +265,7 @@ function updateMarker() {
       .data(buttonNames, function(d){return d;})    
   categorybuttons.enter().append("input")
       .attr("type","button")
-      .attr("class","button")
+      .attr("class","pure-button")
       .attr("value", function (d){return d;})
       .on("click", function(d){
         vizCat(d);
@@ -321,7 +321,7 @@ function viz(){
     .attr("id", "collisiondetection")
     .attr("type", "checkbox");
   controls.append("span")
-    .text("Show all dots");
+    .text("Unclutter dots");
   }
   d3.select("#vizSpace")
     .remove();
