@@ -397,7 +397,11 @@ var svg = d3.select('#charts').append('svg')
       .style("fill", function(d) {return d.business_id==myData.business_id?"red": color(cValue(d));})
       // .style("fill", function(d) { return color(cValue(d));}) 
       // .style("opacity", function(d) {return d.business_id==myData.business_id?1:0.7;})
-      .on("click", function(d){starDistribution(d.business_id)}) //make a graph
+      .on("click", function(d){starDistribution(d.business_id);
+        var active = false;
+        var newOpacity = active ? 1 : 0;
+        d3.select("#collisionbox").style("opacity", newOpacity);
+      }) //make a graph
       .on("mouseover", function(d) {   
           div.transition()    
               .duration(200)    
@@ -481,7 +485,7 @@ function starDistribution(ID){
     height = 500 - margin.top - margin.bottom;
 
   var xScale = d3.scale.ordinal()
-                  .rangeRoundBands([0, width], .1);
+                  .rangeRoundBands([0, width], .5);
   var yScale = d3.scale.linear()
                   .range([height, 0]);
 
@@ -522,12 +526,13 @@ svg.append("g")
   .attr("y", -35)
   .attr("dy", ".7em")
   .style("text-anchor", "end")
-  .text("Frequency");
+  .text("# Reviews");
 
 svg.selectAll(".bar")
       .data(starArray)
     .enter().append("rect")
       .attr("class", "bar")
+      .attr("fill", "steelblue")
       .attr("x", function(d) { return xScale(+d.key); })
       .attr("width", xScale.rangeBand())
       .attr("y", function(d) { return yScale(d.value); })
