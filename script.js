@@ -354,6 +354,17 @@ function viz(){
       percentGreater += bizCounts[i].percentage;
     }
   }
+
+  var pg = percentGreater.toFixed(2)
+  pg *= 100
+
+
+  var myPg = 100 - pg; 
+
+  textbox = d3.select("#statistics").append("label")
+    .append("span")
+    .text("This business has an average rating of " + myData.stars + " stars. " + myPg.toString() + " % of businesses in this category have an equal or lower rating. " )
+    .style("left", 100+ "px");
   console.log(percentGreater);
   var min = bizData[0].review_count;
   var max = bizData[bizData.length-1].review_count;
