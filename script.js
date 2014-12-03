@@ -219,6 +219,7 @@ var menuNames;
 
 // updates marker position after searching for business - Akhila
 function updateMarker() {
+  show("no");
   myBus = document.getElementById("businessTags").value;
   console.log(myBus)
   if (! (myBus.indexOf(':') === -1)) { // handles duplicates
@@ -235,8 +236,9 @@ function updateMarker() {
 
   myvisbiz = ["Visualize My Business"];
   comparebiz = ["Compare My Business"];
+  myOptions = ["Visualize My Business", "Compare My Business"];
 
-  myvisbiz = d3.select("#menu").selectAll(".button")
+  myvisbiz = d3.select("#menu").selectAll(".pure-button")
       .data(myvisbiz, function(d){return d;})
   myvisbiz.enter().append("input")
       .attr("type","button")
@@ -245,11 +247,11 @@ function updateMarker() {
       .on("click", function(d){
         vizCat(d);
         show("no");
-      });
+  });
 
   buttonNames = myData.categories;
 
-  comparebiz = d3.select("#menu").selectAll(".button")
+  comparebiz = d3.select("#menu").selectAll(".pure-button")
       .data(comparebiz, function(d){return d;})
   comparebiz.enter().append("input")
       .attr("type","button")
@@ -263,7 +265,7 @@ function updateMarker() {
       });
 
   // Category buttons
-  categorybuttons = d3.select("#comparisonbuttons").selectAll(".button")
+  categorybuttons = d3.select("#comparisonbuttons").selectAll(".pure-button")
       .data(buttonNames, function(d){return d;})    
   categorybuttons.enter().append("input")
       .attr("type","button")
@@ -293,8 +295,8 @@ var first = true;
 function vizCat(cat){
   myTitle = cat; 
   if (cat == "Visualize My Business"){
-    // d3.select("#collisionbox")
-    //   .remove();
+    d3.select("#collisionbox")
+      .remove();
     var active = false;
     starDistribution(myData.business_id);
   } else {
