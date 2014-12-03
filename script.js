@@ -212,13 +212,15 @@ function updateCategory(cat){
 }
 
 var buttonNames;
+var indivButtonNames;
 var categorybuttons;
+var indivButtons;
 var menubuttons;
 var menuNames;
 
 // updates marker position after searching for business - Akhila
 function updateMarker() {
-  show("no");
+  // show("no");
   showcheckbox("no");
   myBus = document.getElementById("businessTags").value;
   console.log(myBus)
@@ -234,39 +236,26 @@ function updateMarker() {
   updateRadius();
   update(radData);
 
-  myvisbiz = ["Visualize My Business"];
-  comparebiz = ["Compare My Business"];
-  myOptions = ["Visualize My Business", "Compare My Business"];
 
-  myvisbiz = d3.select("#menu").selectAll(".pure-button")
-      .data(myvisbiz, function(d){return d;})
-  myvisbiz.enter().append("input")
+  // My Viz buttons
+
+//Choices for Individual
+  vizbizdata = ["Useful", "Time", "Distribution"];
+
+  indivButtons = d3.select("#individual").selectAll(".pure-button")
+      .data(vizbizdata, function(d){return d;})    
+  indivButtons.enter().append("input")
       .attr("type","button")
       .attr("class","pure-button")
       .attr("value", function (d){return d;})
       .on("click", function(d){
         vizCat(d);
-        show("no");
-  });
-
-  buttonNames = myData.categories;
-  if (buttonNames.indexOf("Useful") == -1){
-    buttonNames.push("Useful");
-  }
-
-  comparebiz = d3.select("#menu").selectAll(".pure-button")
-      .data(comparebiz, function(d){return d;})
-  comparebiz.enter().append("input")
-      .attr("type","button")
-      .attr("class","pure-button")
-      .attr("value", function (d){return d;})
-      .on("click", function(d){
-        // visualize first category as default on click
-        // vizCat(buttonNames[0]);
-        show("yes");
       });
+  indivButtons.exit().remove(); 
 
-  // Category buttons
+
+  // Categories for comparison
+  buttonNames = myData.categories;
   categorybuttons = d3.select("#comparisonbuttons").selectAll(".pure-button")
       .data(buttonNames, function(d){return d;})    
   categorybuttons.enter().append("input")
@@ -284,14 +273,14 @@ function updateMarker() {
 }
 
 //shows categories only if comparison button pressed
-function show(yesorno) {
-  if (yesorno == "yes") {
-    var newOpacity = 1;
-  } else {
-    var newOpacity = 0;
-  }
-  d3.select("#comparisonbuttons").style("opacity", newOpacity);
-}
+// function show(yesorno) {
+//   if (yesorno == "yes") {
+//     var newOpacity = 1;
+//   } else {
+//     var newOpacity = 0;
+//   }
+//   d3.select("#comparisonbuttons").style("opacity", newOpacity);
+// }
 
 function showcheckbox(yesorno) {
   if (yesorno == "yes") {
