@@ -429,10 +429,12 @@ svg.append("text")
   .attr("x", width / 2)
   .attr("y", -10)
     .style("text-anchor", "middle")
-    .text("" + myTitle)
+    .text(myName + " Compared to Businesses in "+ myTitle)
     .attr({ "font-size": 16, "font-family": "'Open Sans', sans-serif"});
 
     //console.log(myTitle)
+
+    
 
 
 
@@ -582,7 +584,14 @@ function starDistribution(ID){
   xScale.domain([1,2,3,4,5]);
   yScale.domain([0, d3.max(starArray, function(d){return d.value;})]);
 
- myName = document.getElementById('businessTags').value
+
+ myName = document.getElementById('businessTags').value;
+ myName = myName();
+ function myName() {
+   if (! (myName.indexOf(':') === -1)) { // handles duplicates
+       myName = myName.substring(0, myBus.indexOf(":"));
+      }
+ };
 
 svg.append("text")
   .attr("x", width / 2)
