@@ -215,6 +215,7 @@ function updateCategory(cat){
 var buttonNames;
 var buttons;
 
+var first = true;
 // updates marker position after searching for business - Akhila
 function updateMarker() {
   myBus = document.getElementById("businessTags").value;
@@ -231,6 +232,7 @@ function updateMarker() {
   updateRadius();
   update(radData);
   buttonNames = myData.categories;
+  buttonNames.push("Ratings Distribution")
   buttons = d3.select("body").selectAll(".button")
       .data(buttonNames, function(d){return d;})    
   buttons.enter().append("input")
@@ -244,16 +246,16 @@ function updateMarker() {
   starDistribution(myData.business_id);
 }
 
-var first = true;
 function vizCat(cat){
+  if (cat == "Ratings Distribution"){
+    starDistribution(myData.business_id);
+  }else{
   updateCategory(cat);
-  if (first){
-      viz();
-  } else{
-      d3.select("#vizSpace")
-          .remove();
-      viz();
-  }
+  d3.select("#vizSpace")
+      .remove();
+  viz();
+  
+}
 }
 
 var x;
@@ -273,6 +275,8 @@ function viz(){
   controls.append("span")
     .text("Collision detection");
   }
+  d3.select("#vizSpace")
+          .remove();
   
   bizData = vizData.slice(0);
   bizData = bizData.sort(function(a,b){return a.review_count-b.review_count});
@@ -439,6 +443,8 @@ var svg = d3.select('body').append('svg')
 
 
 function starDistribution(ID){
+  d3.select("#vizSpace")
+          .remove();
   var thisBiz = data.filter(function(d){return d.business_id == ID});
   bizReviews = reviews[ID]; // need to load reviews
   justStars = bizReviews.map(function(d){return d.stars;});
@@ -462,6 +468,7 @@ function starDistribution(ID){
       .scale(yScale)
       .orient("left");
   var svg = d3.select("body").append("svg")
+    .attr("id", "vizSpace")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
