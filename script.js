@@ -289,7 +289,16 @@ function viz(){
   
   bizData = vizData.slice(0);
   bizData = bizData.sort(function(a,b){return a.review_count-b.review_count});
-
+  bizCounts = count(bizData, function(d){return d.stars})
+  bizCounts = d3.entries(bizCounts);
+  var total=0;
+   for (var i=bizCounts.length; i--;) {
+     total+=bizCounts[i].value;
+   }
+  bizCounts.forEach(function(d){
+    d.key = +d.key;
+    d.percentage = d.value / total;
+  }) // keys are star values
   var min = bizData[0].review_count;
   var max = bizData[bizData.length-1].review_count;
   var xVar = "review_count",
