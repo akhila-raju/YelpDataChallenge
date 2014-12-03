@@ -215,7 +215,6 @@ function updateCategory(cat){
 var buttonNames;
 var buttons;
 
-var first = true;
 // updates marker position after searching for business - Akhila
 function updateMarker() {
   myBus = document.getElementById("businessTags").value;
@@ -232,8 +231,7 @@ function updateMarker() {
   updateRadius();
   update(radData);
   buttonNames = myData.categories;
-  buttonNames.push("Ratings Distribution")
-  buttons = d3.select("body").selectAll(".button")
+  buttons = d3.select("#buttons").selectAll(".button")
       .data(buttonNames, function(d){return d;})    
   buttons.enter().append("input")
       .attr("type","button")
@@ -246,16 +244,16 @@ function updateMarker() {
   starDistribution(myData.business_id);
 }
 
+var first = true;
 function vizCat(cat){
   if (cat == "Ratings Distribution"){
     starDistribution(myData.business_id);
-  }else{
-  updateCategory(cat);
-  d3.select("#vizSpace")
+  } else {
+    updateCategory(cat);
+    d3.select("#vizSpace")
       .remove();
-  viz();
-  
-}
+    viz();
+  }
 }
 
 var x;
@@ -267,7 +265,7 @@ var checkbox;
 function viz(){
   if (first){
   first = false;
-  controls = d3.select("body").append("label")
+  controls = d3.select("#collisionbox").append("label")
     .attr("id", "controls");
   checkbox = controls.append("input")
     .attr("id", "collisiondetection")
@@ -276,7 +274,7 @@ function viz(){
     .text("Collision detection");
   }
   d3.select("#vizSpace")
-          .remove();
+    .remove();
   
   bizData = vizData.slice(0);
   bizData = bizData.sort(function(a,b){return a.review_count-b.review_count});
@@ -289,8 +287,8 @@ function viz(){
 
   //Set dimensions of canvas and graph
 var margin = {top: 40, right: 40, bottom: 40, left:40},
-    width = 400,
-    height = 400,
+    width = 500,
+    height = 500,
     padding = 1, // separation between nodes
   radius = 4;
 
@@ -324,12 +322,12 @@ var color = d3.scale.ordinal()
 
 
 // Define the div for the tooltip
-var div = d3.select("body").append("div") 
+var div = d3.select("#charts").append("div") 
     .attr("class", "tooltip")       
     .style("opacity", 0);
 
 //Add the svg canvas
-var svg = d3.select('body').append('svg')
+var svg = d3.select('#charts').append('svg')
     .attr('id', 'vizSpace')
     .attr('class', 'chart')
     .attr('width', width)
@@ -443,31 +441,35 @@ var svg = d3.select('body').append('svg')
 
 
 function starDistribution(ID){
-  d3.select("#vizSpace")
+    d3.select("#vizSpace")
           .remove();
+
   var thisBiz = data.filter(function(d){return d.business_id == ID});
   bizReviews = reviews[ID]; // need to load reviews
   justStars = bizReviews.map(function(d){return d.stars;});
-  //justStars = [1,1,2,2,3,3,3,3,3,3,4,4,4,4,4,5];
+
   starCounts = count(justStars);
   min = Math.min.apply(null, d3.entries(starCounts).map(function(d){return d.value}));
   max = Math.max.apply(null, d3.entries(starCounts).map(function(d){return d.value}));
   starArray = d3.entries(starCounts);
-  var margin = {top: 20, right: 30, bottom: 30, left: 50},
-    width = 400 - margin.left - margin.right,
-    height = 400 - margin.top - margin.bottom;
+
+  var margin = {top: 20, right: 30, bottom: 30, left: 40},
+    width = 500 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
   var xScale = d3.scale.ordinal()
                   .rangeRoundBands([0, width], .1);
   var yScale = d3.scale.linear()
                   .range([height, 0]);
+
   var xAxis = d3.svg.axis()
       .scale(xScale)
       .orient("bottom");
-
   var yAxis = d3.svg.axis()
       .scale(yScale)
       .orient("left");
-  var svg = d3.select("body").append("svg")
+
+  var svg = d3.select("#charts").append("svg")
     .attr("id", "vizSpace")
     .attr("width", width + margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -480,21 +482,15 @@ function starDistribution(ID){
 svg.append("g")
   .attr("class", "x axis")
   .attr("transform", "translate(0," + height + ")")
-  .call(xAxis)
-.append("text")
-      .attr("class", "label")
-      .attr("x", width)
-      .attr("y", 12)
-      .style("text-anchor", "end")
-      .text("Stars");
+  .call(xAxis);
 
 svg.append("g")
   .attr("class", "y axis")
   .call(yAxis)
 .append("text")
   .attr("transform", "rotate(-90)")
-  .attr("y", -40)
-  .attr("dy", ".7em")
+  .attr("y", 6)
+  .attr("dy", ".71em")
   .style("text-anchor", "end")
   .text("Frequency");
 

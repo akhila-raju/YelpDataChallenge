@@ -1,5 +1,5 @@
       #map {
-        width: 300px;
+        width: 400px;
         height: 200px;
         margin: 0;
         padding: 0;
@@ -90,8 +90,9 @@ body {
 
 #controls {
   font-size: 14px;
-  position: relative;
-  bottom: 370px;
+  position: absolute;
+  top: 120px;
+  left: 810px;
 }
 
 input {
@@ -110,7 +111,7 @@ div.tooltip {
 }
 
 #sidebar {
-  width: 300px;
+  width: 400px;
   text-align: center;
 }
 
@@ -135,24 +136,4 @@ margin-right: auto !important;
 #vizspace {
   display: block;
   float:left;
-  height:100vh;
-}
-
-.bar {
-  fill: steelblue;
-}
-
-.bar:hover {
-  fill: brown;
-}
-
-.axis {
-  font: 10px sans-serif;
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
 }
