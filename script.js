@@ -344,6 +344,14 @@ function viz(){
     d.key = +d.key;
     d.percentage = d.value / total;
   }) // keys are star values
+  myStars = myData.stars;
+  percentGreater = 0;
+  for (var i = bizCounts.length; i--;){
+    if (bizCounts[i].key >= myStars){
+      percentGreater += bizCounts[i].percentage;
+    }
+  }
+  console.log(percentGreater);
   var min = bizData[0].review_count;
   var max = bizData[bizData.length-1].review_count;
   var xVar = "review_count",
