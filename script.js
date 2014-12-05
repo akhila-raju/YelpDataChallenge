@@ -64,6 +64,7 @@ var x;
 var y;
 var controls;
 var checkbox;
+var first = true;
 
 
 d3.json("bizMadison.json", function(d) {
@@ -94,6 +95,12 @@ count = function(ary, classifier) {
 function sortByUseful(reviews){
   return reviews.sort(function(a,b){
       return a.votes.useful - b.votes.useful;
+  });
+};
+
+function sortByDate(reviews){
+  return reviews.sort(function(a,b){
+      return new Date(a.date) - new Date(b.date);
   });
 };
 
@@ -226,10 +233,8 @@ function updateCategory(cat){
   update(vizData)
 }
 
-
 // updates marker position after searching for business - Akhila
 function updateMarker() {
-  // show("no");
   showcheckbox("no");
   myBus = document.getElementById("businessTags").value;
   console.log(myBus)
@@ -244,13 +249,9 @@ function updateMarker() {
   marker.setPosition(latlng);
   updateRadius();
   update(radData);
-
-
   // My Viz buttons
-
-//Choices for Individual
+  //Choices for Individual
   vizbizdata = ["Useful", "Time", "Distribution"];
-
   indivButtons = d3.select("#individual").selectAll(".pure-button")
       .data(vizbizdata, function(d){return d;})    
   indivButtons.enter().append("input")
@@ -261,7 +262,6 @@ function updateMarker() {
         vizCat(d);
       });
   indivButtons.exit().remove(); 
-
 
   // Categories for comparison
   buttonNames = myData.categories;
@@ -281,17 +281,8 @@ function updateMarker() {
   starDistribution(myData.business_id);
 }
 
-//shows categories only if comparison button pressed
-// function show(yesorno) {
-//   if (yesorno == "yes") {
-//     var newOpacity = 1;
-//   } else {
-//     var newOpacity = 0;
-//   }
-//   d3.select("#comparisonbuttons").style("opacity", newOpacity);
-// }
-
 function showcheckbox(yesorno) {
+  //hides or shows checkbox
   if (yesorno == "yes") {
     var newOpacity = 1;
   } else {
@@ -300,7 +291,6 @@ function showcheckbox(yesorno) {
   d3.select("#collisionbox").style("opacity", newOpacity);
 }
 
-var first = true;
 function vizCat(cat){
   myTitle = cat; 
   if (cat == "Distribution"){
@@ -328,7 +318,8 @@ function vizCat(cat){
 
 
 
-// added from force.html -- Akhila
+// VISUALIZATION FUNCTIONS
+
 function viz(){
   if (first){
   first = false;
@@ -852,12 +843,6 @@ svg.append("text")
   }
 
 }
-
-function sortByDate(reviews){
-  return reviews.sort(function(a,b){
-      return new Date(a.date) - new Date(b.date);
-  });
-};
 
 function reviewsVtime(ID){
   d3.select("#statistics").selectAll("label").remove();
