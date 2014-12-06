@@ -333,7 +333,7 @@ function viz(){
   }
   d3.select("#vizSpace")
     .remove();
-  
+  showcheckbox("yes");
   bizData = vizData.slice(0);
   bizData = bizData.sort(function(a,b){return a.review_count-b.review_count});
   bizCounts = count(bizData, function(d){return d.stars})
