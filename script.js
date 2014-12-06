@@ -65,6 +65,7 @@ var y;
 var controls;
 var checkbox;
 var first = true;
+var brewer = ["#f7fbff","#deebf7","#c6dbef","#9ecae1","#6baed6","#4292c6","#2171b5","#08519c","#08306b"].reverse();
 
 
 d3.json("bizMadison.json", function(d) {
@@ -244,7 +245,6 @@ function updateMarker() {
   myData = markerData.filter(function(d){return d.name == myBus})[0]
   latitude = markerData.filter(function(d){return d.name == myBus})[0]['latitude']
   longitude = markerData.filter(function(d){return d.name == myBus})[0]['longitude']
-  console.log (latitude, longitude)
   latlng = new google.maps.LatLng(latitude, longitude);
   marker.setPosition(latlng);
   updateRadius();
@@ -305,7 +305,6 @@ function vizCat(cat){
     showcheckbox("yes");
     reviewsVtime(myData.business_id);
   }else {
-    var active = true;
     updateCategory(cat);
     d3.select("#vizSpace")
       .remove();
@@ -327,7 +326,8 @@ function viz(){
     .attr("id", "controls");
   checkbox = controls.append("input")
     .attr("id", "collisiondetection")
-    .attr("type", "checkbox");
+    .attr("type", "checkbox")
+    .property("checked", false);
   controls.append("span")
     .text("Unclutter dots");
   }
@@ -368,7 +368,6 @@ function viz(){
     .append("span")
     .text("Hover over a dot to see which business it belongs to. A color gradient is used to differentiate y-values. Red corresponds to your business." )
 
-  console.log(percentGreater);
   var min = bizData[0].review_count;
   var max = bizData[bizData.length-1].review_count;
   var xVar = "review_count",
@@ -408,7 +407,7 @@ function viz(){
   var cValue = function(d) { return d[yVar];};
   var color = d3.scale.ordinal()
         .domain(["5", "4.5", "4", "3.5", "3", "2.5", "2", "1.5", "1"])
-        .range(["#080226", "#120440", "#090161", "#074187" , "#056ba0", "#0495b8", "#02c0d1", "#01eaea", "#00fff7"]);
+        .range(brewer);
 
 
   // Define the div for the tooltip
@@ -561,6 +560,7 @@ function viz(){
 
 
 function starDistribution(ID){
+  d3.select("#explanation").selectAll("label").remove();
   d3.select("#statistics").selectAll("label").remove();
   d3.select("#vizSpace").remove();
   var thisBiz = data.filter(function(d){return d.business_id == ID});
@@ -642,6 +642,7 @@ function starDistribution(ID){
 }
 
 function usefulVstars(ID){
+  d3.select("#explanation").selectAll("label").remove();
   d3.select("#statistics").selectAll("label").remove();
   if (first){
   first = false;
@@ -649,12 +650,12 @@ function usefulVstars(ID){
     .attr("id", "controls");
   checkbox = controls.append("input")
     .attr("id", "collisiondetection")
-    .attr("type", "checkbox");
+    .attr("type", "checkbox")
+    .property("checked", false);
   controls.append("span")
     .text("Unclutter dots");
   }
-  d3.select("#vizSpace")
-          .remove();
+  d3.select("#vizSpace").remove();
   var sortedData = sortByUseful(reviews[ID]);
   var min = sortedData[0].votes.useful;
   var max= sortedData[sortedData.length-1].votes.useful;
@@ -693,7 +694,7 @@ var yAxis = d3.svg.axis()
 var cValue = function(d) { return d.stars;};
 var color = d3.scale.ordinal()
       .domain(["5", "4.5", "4", "3.5", "3", "2.5", "2", "1.5", "1"])
-      .range(["#080226", "#120440", "#090161", "#074187" , "#056ba0", "#0495b8", "#02c0d1", "#01eaea", "#00fff7"]);
+      .range(brewer);
 
 
 // Define the div for the tooltip
@@ -734,10 +735,6 @@ svg.append("text")
     .text("Reviews by Usefulness")
     .attr({ "font-size": 16, "font-family": "'Open Sans', sans-serif"});
 
-    console.log(myTitle)
-
-
-
   //Add the X axis
   svg.append('g')
       .attr('class', 'x axis')
@@ -772,13 +769,6 @@ svg.append("text")
       .attr("cx", function(d) { return x(d.votes.useful); })
       .attr("cy", function(d) { return y(d.stars); })
       .style("fill", function(d) {return color(cValue(d));})
-      // .style("fill", function(d) { return color(cValue(d));}) 
-      // .style("opacity", function(d) {return d.business_id==myData.business_id?1:0.7;})
-      .on("click", function(d){starDistribution(d.business_id);
-        var active = false;
-        var newOpacity = active ? 1 : 0;
-        d3.select("#collisionbox").style("opacity", newOpacity);
-      }) //make a graph
       .on("mouseover", function(d) {   
           div.transition()    
               .duration(200)    
@@ -792,6 +782,7 @@ svg.append("text")
               .duration(500)    
               .style("opacity", 0); 
       });
+
 
   d3.select("#collisiondetection").on("change", function() {
     force.resume();
@@ -841,10 +832,10 @@ svg.append("text")
       });
     };
   }
-
 }
 
 function reviewsVtime(ID){
+  d3.select("#explanation").selectAll("label").remove();
   d3.select("#statistics").selectAll("label").remove();
   if (first){
   first = false;
@@ -852,7 +843,8 @@ function reviewsVtime(ID){
     .attr("id", "controls");
   checkbox = controls.append("input")
     .attr("id", "collisiondetection")
-    .attr("type", "checkbox");
+    .attr("type", "checkbox")
+    .property("checked", false);
   controls.append("span")
     .text("Unclutter dots");
   }
@@ -899,7 +891,7 @@ var yAxis = d3.svg.axis()
 var cValue = function(d) { return d.stars;};
 var color = d3.scale.ordinal()
       .domain(["5", "4.5", "4", "3.5", "3", "2.5", "2", "1.5", "1"])
-      .range(["#080226", "#120440", "#090161", "#074187" , "#056ba0", "#0495b8", "#02c0d1", "#01eaea", "#00fff7"]);
+      .range(brewer);
 
 
 // Define the div for the tooltip
@@ -938,10 +930,6 @@ svg.append("text")
     .text("Reviews over Time")
     .attr({ "font-size": 16, "font-family": "'Open Sans', sans-serif"});
 
-    console.log(myTitle)
-
-
-
   //Add the X axis
   svg.append('g')
       .attr('class', 'x axis')
@@ -976,13 +964,6 @@ svg.append("text")
       .attr("cx", function(d) { return x(parseDate(d.date)); })
       .attr("cy", function(d) { return y(d.stars);})
       .style("fill", function(d) {return color(cValue(d));})
-      // .style("fill", function(d) { return color(cValue(d));}) 
-      // .style("opacity", function(d) {return d.business_id==myData.business_id?1:0.7;})
-      .on("click", function(d){starDistribution(d.business_id);
-        var active = false;
-        var newOpacity = active ? 1 : 0;
-        d3.select("#collisionbox").style("opacity", newOpacity);
-      }) //make a graph
       .on("mouseover", function(d) {   
           div.transition()    
               .duration(200)    
