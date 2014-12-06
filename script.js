@@ -33,12 +33,11 @@ var radius = new google.maps.Circle({
 
 radius.bindTo('center', marker, 'position');
 
-//END GOOGLE MAPS ELEMENTS
-
-//MESS OF VARIABLES
 var data;
 var myCat = 'all';
 var MILES_TO_METERS = 1609.34;
+var resolutionVal; // what does this do 
+var markerPos; // this isn't used anywhere
 var useDistance;
 var distanceThreshold = 12;
 var distanceThresholdMeters;
@@ -54,19 +53,6 @@ var duplicates = [];
 var seenSoFar; 
 var nameCounts;
 var myTitle; 
-var buttonNames;
-var indivButtonNames;
-var categorybuttons;
-var indivButtons;
-var menubuttons;
-var menuNames;
-var x;
-var y;
-var controls;
-var checkbox;
-var first = true;
-
-
 d3.json("bizMadison.json", function(d) {
  	//d here is the entire list of businesses
  	//bind it to the global variable...
@@ -82,35 +68,12 @@ d3.json("madisonReviews.json", function(d){
   reviews = d;
 })
 
-//HELPER FUNCTIONS
-//counts occurrences of objects within an array
 count = function(ary, classifier) {
     return ary.reduce(function(counter, item) {
         var p = (classifier || String)(item);
         counter[p] = counter.hasOwnProperty(p) ? counter[p] + 1 : 1;
         return counter;
     }, {})
-}
-
-function sortByUseful(reviews){
-  return reviews.sort(function(a,b){
-      return a.votes.useful - b.votes.useful;
-  });
-};
-
-function sortByDate(reviews){
-  return reviews.sort(function(a,b){
-      return new Date(a.date) - new Date(b.date);
-  });
-};
-
-function transform(d) {
-  //transforms data for google maps
-  d = new google.maps.LatLng(d.value['latitude'], d.value['longitude']);
-  d = projection.fromLatLngToDivPixel(d);
-  return d3.select(this)
-    .style("left", (d.x - padding) + "px")
-    .style("top", (d.y - padding) + "px");
 }
 
 // INIT FUNCTIONS FOR MAP
@@ -177,6 +140,20 @@ function initOverlay(){
   overlay.setMap(map);
 }
 
+function transform(d) {
+  d = new google.maps.LatLng(d.value['latitude'], d.value['longitude']);
+  d = projection.fromLatLngToDivPixel(d);
+  return d3.select(this)
+    .style("left", (d.x - padding) + "px")
+    .style("top", (d.y - padding) + "px");
+}
+
+
+function toggleAll(){
+  //just testing
+  console.log("hi");
+}
+
 // shows circles in radius defined by user
 function updateRadius(){
   if (document.getElementById('vizradius').value.length != 0) {
@@ -197,11 +174,12 @@ function updateRadius(){
   radius.setRadius(distanceThresholdMeters);
   //filter data by radius 
   radData = data.filter(function (d){return google.maps.geometry.spherical.computeDistanceBetween(marker.getPosition(), new google.maps.LatLng(d['latitude'], d['longitude'])) <= distanceThresholdMeters});
+  //console.log(vizData.length);
   // Update Distance Radius
   updateCategory(myCat);
   update(radData);
- }
-
+   //this needs fixing
+}
 function update(d){
   if (!useDistance){
     d = data;
@@ -233,8 +211,16 @@ function updateCategory(cat){
   update(vizData)
 }
 
+var buttonNames;
+var indivButtonNames;
+var categorybuttons;
+var indivButtons;
+var menubuttons;
+var menuNames;
+
 // updates marker position after searching for business - Akhila
 function updateMarker() {
+  // show("no");
   showcheckbox("no");
   myBus = document.getElementById("businessTags").value;
   console.log(myBus)
@@ -249,9 +235,13 @@ function updateMarker() {
   marker.setPosition(latlng);
   updateRadius();
   update(radData);
+
+
   // My Viz buttons
-  //Choices for Individual
+
+//Choices for Individual
   vizbizdata = ["Useful", "Time", "Distribution"];
+
   indivButtons = d3.select("#individual").selectAll(".pure-button")
       .data(vizbizdata, function(d){return d;})    
   indivButtons.enter().append("input")
@@ -262,6 +252,7 @@ function updateMarker() {
         vizCat(d);
       });
   indivButtons.exit().remove(); 
+
 
   // Categories for comparison
   buttonNames = myData.categories;
@@ -281,8 +272,17 @@ function updateMarker() {
   starDistribution(myData.business_id);
 }
 
+//shows categories only if comparison button pressed
+// function show(yesorno) {
+//   if (yesorno == "yes") {
+//     var newOpacity = 1;
+//   } else {
+//     var newOpacity = 0;
+//   }
+//   d3.select("#comparisonbuttons").style("opacity", newOpacity);
+// }
+
 function showcheckbox(yesorno) {
-  //hides or shows checkbox
   if (yesorno == "yes") {
     var newOpacity = 1;
   } else {
@@ -291,6 +291,7 @@ function showcheckbox(yesorno) {
   d3.select("#collisionbox").style("opacity", newOpacity);
 }
 
+var first = true;
 function vizCat(cat){
   myTitle = cat; 
   if (cat == "Distribution"){
@@ -316,10 +317,12 @@ function vizCat(cat){
   // d3.select("#collisionbox").style("opacity", newOpacity);
 }
 
+var x;
+var y;
+var controls;
+var checkbox;
 
-
-// VISUALIZATION FUNCTIONS
-
+// added from force.html -- Akhila
 function viz(){
   if (first){
   first = false;
@@ -333,7 +336,7 @@ function viz(){
   }
   d3.select("#vizSpace")
     .remove();
-  showcheckbox("yes");
+  
   bizData = vizData.slice(0);
   bizData = bizData.sort(function(a,b){return a.review_count-b.review_count});
   bizCounts = count(bizData, function(d){return d.stars})
@@ -357,6 +360,7 @@ function viz(){
   var pg = percentGreater.toFixed(2)
   pg *= 100
 
+
   var myPg = 100 - pg; 
   d3.select("#statistics").selectAll("label").remove();
   d3.select("#explanation").selectAll("label").remove();
@@ -374,56 +378,57 @@ function viz(){
   var xVar = "review_count",
       yVar = "stars";
 
+
   //Set dimensions of canvas and graph
-  var margin = {top: 30, right: 40, bottom: 40, left:40},
-      width = 500,
-      //cecile made a bit higher to fit the text
-      height = 500,
-      padding = 1, // separation between nodes
-    radius = 4;
+var margin = {top: 30, right: 40, bottom: 40, left:40},
+    width = 500,
+    //cecile made a bit higher to fit the text
+    height = 500,
+    padding = 1, // separation between nodes
+  radius = 4;
 
-  //Set ranges
-  x = d3.scale.linear()
-      .domain([min, max])
-      .rangeRound([0, width - margin.left - margin.right]);
+//Set ranges
+x = d3.scale.linear()
+    .domain([min, max])
+    .rangeRound([0, width - margin.left - margin.right]);
 
-  y = d3.scale.linear()
-      .domain([0.8, 5.2])
-      .range([height - margin.top - margin.bottom, 0]);
+y = d3.scale.linear()
+    .domain([0.8, 5.2])
+    .range([height - margin.top - margin.bottom, 0]);
 
-  //Define the axes
-  var xAxis = d3.svg.axis()
-      .scale(x)
-      .orient('bottom')
-      .tickValues(x.domain())
-      .tickSize(0)
-      .tickPadding(8);
+//Define the axes
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .orient('bottom')
+    .tickValues(x.domain())
+    .tickSize(0)
+    .tickPadding(8);
 
-  var yAxis = d3.svg.axis()
-      .scale(y)
-      .orient('left')
-      .tickPadding(8);
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient('left')
+    .tickPadding(8);
 
-  // setup fill color
-  var cValue = function(d) { return d[yVar];};
-  var color = d3.scale.ordinal()
-        .domain(["5", "4.5", "4", "3.5", "3", "2.5", "2", "1.5", "1"])
-        .range(["#080226", "#120440", "#090161", "#074187" , "#056ba0", "#0495b8", "#02c0d1", "#01eaea", "#00fff7"]);
+// setup fill color
+var cValue = function(d) { return d[yVar];};
+var color = d3.scale.ordinal()
+      .domain(["5", "4.5", "4", "3.5", "3", "2.5", "2", "1.5", "1"])
+      .range(["#080226", "#120440", "#090161", "#074187" , "#056ba0", "#0495b8", "#02c0d1", "#01eaea", "#00fff7"]);
 
 
-  // Define the div for the tooltip
-  var div = d3.select("#charts").append("div") 
-      .attr("class", "tooltip")       
-      .style("opacity", 0);
+// Define the div for the tooltip
+var div = d3.select("#charts").append("div") 
+    .attr("class", "tooltip")       
+    .style("opacity", 0);
 
-  //Add the svg canvas
-  var svg = d3.select('#charts').append('svg')
-      .attr('id', 'vizSpace')
-      .attr('class', 'chart')
-      .attr('width', width)
-      .attr('height', height)
-    .append('g')
-      .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
+//Add the svg canvas
+var svg = d3.select('#charts').append('svg')
+    .attr('id', 'vizSpace')
+    .attr('class', 'chart')
+    .attr('width', width)
+    .attr('height', height)
+  .append('g')
+    .attr('transform', 'translate(' + margin.left + ', ' + margin.top + ')');
 
   // Force for dots
   var force = d3.layout.force()
@@ -441,18 +446,20 @@ function viz(){
     d.y = y(d[yVar]);
     d.radius = radius;
   });
+myName = document.getElementById('businessTags').value;
+if (! (myName.indexOf(':') === -1)) { // handles duplicates
+       myName = myName.substring(0, myBus.indexOf(":"));
+      }
+svg.append("text")
+  .attr("x", width / 2)
+  .attr("y", -10)
+    .style("text-anchor", "middle")
+    .text(myName + " and Businesses in "+ myTitle)
+    .attr({ "font-size": 12, "font-family": "'Open Sans', sans-serif"});
 
-  myName = document.getElementById('businessTags').value;
-  if (! (myName.indexOf(':') === -1)) { // handles duplicates
-         myName = myName.substring(0, myBus.indexOf(":"));
-        }
+    console.log(myTitle)
 
-  svg.append("text")
-    .attr("x", width / 2)
-    .attr("y", -10)
-      .style("text-anchor", "middle")
-      .text(myName + " and Businesses in "+ myTitle)
-      .attr({ "font-size": 12, "font-family": "'Open Sans', sans-serif"});
+
 
   //Add the X axis
   svg.append('g')
@@ -471,13 +478,13 @@ function viz(){
   svg.append('g')
     .attr('class', 'y axis')
     .call(yAxis)
-  .append("text")
-    .attr("transform", "rotate(-90)")
-    .attr("y", -40)
-    .attr("dy", ".7em")
-    .style("text-anchor", "end")
-    .text("Average Rating")
-    .attr({ "font-size": 10, "font-family": "'Open Sans', sans-serif"});
+    .append("text")
+  .attr("transform", "rotate(-90)")
+  .attr("y", -40)
+  .attr("dy", ".7em")
+  .style("text-anchor", "end")
+  .text("Average Rating")
+  .attr({ "font-size": 10, "font-family": "'Open Sans', sans-serif"});
 
   // Add dots
   var node = svg.selectAll(".dot")
@@ -599,38 +606,39 @@ function starDistribution(ID){
   xScale.domain([1,2,3,4,5]);
   yScale.domain([0, d3.max(starArray, function(d){return d.value;})]);
 
-  svg.append("text")
-    .attr("x", width / 2)
-    //changed y to fit text
-    .attr("y", -5)
-      .style("text-anchor", "middle")
-      .text("Frequency of Star Ratings")
-      .attr({ "font-size": 16, "font-family": "'Open Sans', sans-serif"});
+svg.append("text")
+  .attr("x", width / 2)
+  //changed y to fit text
+  .attr("y", -5)
+    .style("text-anchor", "middle")
+    .text("Number of Stars over Number of Reviews")
+    .attr({ "font-size": 16, "font-family": "'Open Sans', sans-serif"});
 
-  svg.append("g")
-    .attr("class", "x axis")
-    .attr("transform", "translate(0," + height + ")")
-    .call(xAxis)
-  .append("text")
-    .attr("class", "label")
-    .attr("x", width)
-    .attr("y", 12)
-    .style("text-anchor", "end")
-    .text("Stars")
-    .attr({ "font-size": 10, "font-family": "'Open Sans', sans-serif"});
 
-  svg.append("g")
-    .attr("class", "y axis")
-    .call(yAxis)
-  .append("text")
-    .attr("transform", "rotate(-90)")
-    .attr("y", -35)
-    .attr("dy", ".7em")
-    .style("text-anchor", "end")
-    .text("# Reviews")
-    .attr({ "font-size": 10, "font-family": "'Open Sans', sans-serif"});
+svg.append("g")
+  .attr("class", "x axis")
+  .attr("transform", "translate(0," + height + ")")
+  .call(xAxis)
+.append("text")
+      .attr("class", "label")
+      .attr("x", width)
+      .attr("y", 12)
+      .style("text-anchor", "end")
+      .text("Stars")
+      .attr({ "font-size": 10, "font-family": "'Open Sans', sans-serif"});
 
-  svg.selectAll(".bar")
+svg.append("g")
+  .attr("class", "y axis")
+  .call(yAxis)
+.append("text")
+  .attr("transform", "rotate(-90)")
+  .attr("y", -35)
+  .attr("dy", ".7em")
+  .style("text-anchor", "end")
+  .text("# Reviews")
+  .attr({ "font-size": 10, "font-family": "'Open Sans', sans-serif"});
+
+svg.selectAll(".bar")
       .data(starArray)
     .enter().append("rect")
       .attr("class", "bar")
@@ -639,7 +647,14 @@ function starDistribution(ID){
       .attr("width", xScale.rangeBand())
       .attr("y", function(d) { return yScale(d.value); })
       .attr("height", function(d) { return height - yScale(d.value); });
+
 }
+
+function sortByUseful(reviews){
+  return reviews.sort(function(a,b){
+      return a.votes.useful - b.votes.useful;
+  });
+};
 
 function usefulVstars(ID){
   d3.select("#statistics").selectAll("label").remove();
@@ -843,6 +858,12 @@ svg.append("text")
   }
 
 }
+
+function sortByDate(reviews){
+  return reviews.sort(function(a,b){
+      return new Date(a.date) - new Date(b.date);
+  });
+};
 
 function reviewsVtime(ID){
   d3.select("#statistics").selectAll("label").remove();
