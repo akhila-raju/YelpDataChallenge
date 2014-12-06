@@ -250,6 +250,7 @@ function updateMarker() {
   updateRadius();
   update(radData);
   // My Viz buttons
+  
   //Choices for Individual
   vizbizdata = ["Useful", "Time", "Distribution"];
   indivButtons = d3.select("#individual").selectAll(".pure-button")
@@ -357,9 +358,13 @@ function viz(){
   var pg = percentGreater.toFixed(2)
   pg *= 100
 
-  var myPg = 100 - pg; 
+  var myPg = 100 - pg;
+  d3.select("#unclutter").selectAll("label").remove();
   d3.select("#statistics").selectAll("label").remove();
   d3.select("#explanation").selectAll("label").remove();
+  textbox = d3.select("#unclutter").append("label")
+    .append("span")
+    .text("Please note: uncluttering dots may imply false data values." )
   textbox = d3.select("#statistics").append("label")
     .append("span")
     .text("This business has an average rating of " + myData.stars + " stars. " + myPg.toString() + " % of businesses in this category have an equal or lower rating. " )
@@ -560,6 +565,7 @@ function viz(){
 
 
 function starDistribution(ID){
+  d3.select("#unclutter").selectAll("label").remove();
   d3.select("#explanation").selectAll("label").remove();
   d3.select("#statistics").selectAll("label").remove();
   d3.select("#vizSpace").remove();
@@ -642,6 +648,7 @@ function starDistribution(ID){
 }
 
 function usefulVstars(ID){
+  d3.select("#unclutter").selectAll("label").remove();
   d3.select("#explanation").selectAll("label").remove();
   d3.select("#statistics").selectAll("label").remove();
   if (first){
@@ -715,7 +722,7 @@ var svg = d3.select('#charts').append('svg')
   var force = d3.layout.force()
     .nodes(sortedData)
     .size([width, height])
-    .on("tick", tick)
+    // .on("tick", tick)
     .charge(0.1)
     .gravity(0);
 
@@ -835,6 +842,7 @@ svg.append("text")
 }
 
 function reviewsVtime(ID){
+  d3.select("#unclutter").selectAll("label").remove();
   d3.select("#explanation").selectAll("label").remove();
   d3.select("#statistics").selectAll("label").remove();
   if (first){
@@ -912,7 +920,7 @@ var svg = d3.select('#charts').append('svg')
   var force = d3.layout.force()
     .nodes(sortedData)
     .size([width, height])
-    .on("tick", tick)
+    // .on("tick", tick)
     .charge(0.1)
     .gravity(0);
 
