@@ -604,7 +604,7 @@ function starDistribution(ID){
     //changed y to fit text
     .attr("y", -5)
       .style("text-anchor", "middle")
-      .text("Number of Stars over Number of Reviews")
+      .text("Frequency of Star Ratings")
       .attr({ "font-size": 16, "font-family": "'Open Sans', sans-serif"});
 
   svg.append("g")
