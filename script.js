@@ -251,7 +251,7 @@ function updateMarker() {
   update(radData);
   // My Viz buttons
   //Choices for Individual
-  vizbizdata = ["Useful", "Time", "Distribution"];
+  vizbizdata = ["Ratings by Useful Votes", "Ratings over Time", "Distribution of Ratings"];
   indivButtons = d3.select("#individual").selectAll(".pure-button")
       .data(vizbizdata, function(d){return d;})    
   indivButtons.enter().append("input")
